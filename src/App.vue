@@ -1,9 +1,10 @@
 <template>
-    <grid :gridObject="puzzleGrid"></grid>
+    <div>
+        <grid :gridObject="puzzleGrid"></grid>
+    </div>
 </template>
 
 <script>
- //import HelloWorld from './components/HelloWorld.vue'
  import puzzle from './examples/circleex.json'
  import grid from './components/grid.vue'
 
@@ -26,5 +27,8 @@
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-}
+ }
+ .grid {
+     border: 3pt solid;
+ }
 </style>

@@ -1,7 +1,8 @@
 <template>
-    <div>
-        <square :x=1 :y=1></square>
-        <square :x=2 :y=1></square>
+    <div class="row" v-for="(row, _, row_index) in gridObject" :key="row_index">
+        <square v-for="(cell, cell_index) in row.Row.split('')"
+                :key="[row_index, cell_index]"
+                :correctLetter="cell"></square>
     </div>
 </template>
 
@@ -14,5 +15,9 @@
          square
      },
      props: ['gridObject'],
+     data() {
+         return {
+         }
+     }
  }
 </script>
