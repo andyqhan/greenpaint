@@ -1,6 +1,8 @@
 <template>
-    <span :id="[x, y]" :tabindex="x" class=square :class="classObject" @click="selectSquare"
-                       @keyup="keyHandler">{{ letter }}</span>
+    <span :id="[x, y]" :tabindex="isBlock ? null : -1" class=square :class="classObject"
+                                    @click="selectSquare"
+                                    @keyup="keyHandler">{{ letter }}</span>
+    <!-- might have to do tabindex = -1, since i'll have to custom-handle tabing -->
 </template>
 
 <script>
@@ -9,22 +11,26 @@
      props: {
          x: Number,
          y: Number,
-         isRebus: Boolean,
-         isCircled: Boolean,
-         isBlock: Boolean,
+         correctLetter: String,
+         
      },
      data() {
          return {
              letter: '',
              isPoint: false,
              
+             isCircled: false,
+             isRebus: false,
+             isBlock: false
          };
      },
      computed: {
          classObject() {
+             this.squareTyper(this.correctLetter);
              return {
                  point: this.isPoint,
-                 // add like checked and incorrect and stuff like that
+                 // add like checked and incorrect classes for styling and
+                 // stuff like that
                  
                  // these two could probably be immutable in data
                  block: this.isBlock,
@@ -33,22 +39,26 @@
          }
      },
      methods: {
+         squareTyper(squareCorrectLetter) {
+             if (squareCorrectLetter == '.') {
+                 this.isBlock = true;
+             } else if (squareCorrectLetter == squareCorrectLetter.toLowerCase()) {
+                 this.isCircled = true;
+             } // add logic for rebus
+         },
+         
          keyHandler(event) {
-             if (!this.isPoint) {
-                 // this should never happen
-                 console.log('not ispoint')
-                 return;
-             }
              if (event.key == event.key.toLowerCase()) {
-                 this.letter = event.key
+                 this.letter = event.key.toUpperCase()
              } // maybe add if it's uppercase do penciling
              console.log(event.key)
              console.log('keyHandler')
          },
+         
          selectSquare() {
              // this is handled much better by the tabindex and focusing,
              // but i still might need it later for the clue highlighting
-             this.isPoint = true;
+             //this.isPoint = true;
              console.log('selected');
          }
      }
@@ -57,21 +67,25 @@
 
 <style scoped>
  .square{
-     width: 50px;
-     height: 50px;
+     width: 25px;
+     height: 25px;
      display: inline-block;
-     font-size: 35px;
-     font-weight: bold;
+     border: 1px solid;
+     font-size: 20px;
+     font-weight: normal;
      text-align: center;
      /* i'm pretty sure that this isn't putting it in the exact middle */
      vertical-align: middle;
-     color: #766;
-     background-color: #A9A9A9;
+     color: #000000;
+     background-color: lightgray;
  }
  span:focus{
      background-color: #eeee00;
      /* wtf is active */
      outline: none
+ }
+ .block{
+     background-color: #000000;
  }
  /* .point{
     background-color: #eeee00;
