@@ -1,16 +1,20 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <grid :gridObject="puzzleGrid"></grid>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+ //import HelloWorld from './components/HelloWorld.vue'
+ import puzzle from './examples/circleex.json'
+ import grid from './components/grid.vue'
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+ export default {
+     name: 'App',
+     components: {
+         grid,
+     },
+     data() {
+         return { puzzleGrid: puzzle.Grid };
+     }
 }
 </script>
 
