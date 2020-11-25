@@ -1,5 +1,5 @@
 <template>
-    <span :id="[x, y]" :tabindex="isBlock ? null : -1" class=square :class="classObject"
+    <span :tabindex="isBlock ? null : -1" class=square :class="classObject"
                                     @click="selectSquare"
                                     @keyup="keyHandler">{{ letter }}</span>
     <!-- might have to do tabindex = -1, since i'll have to custom-handle tabing -->
@@ -17,7 +17,7 @@
      data() {
          return {
              letter: '',
-             isPoint: false,
+             //isPoint: false,
              
              isCircled: false,
              isRebus: false,
@@ -28,13 +28,13 @@
          classObject() {
              this.squareTyper(this.correctLetter);
              return {
-                 point: this.isPoint,
+                 //point: this.isPoint,
                  // add like checked and incorrect classes for styling and
                  // stuff like that
                  
                  // these two could probably be immutable in data
                  block: this.isBlock,
-                 circle: this.isCircle && !this.isBlock
+                 circle: this.isCircled && !this.isBlock
              }
          }
      },
@@ -58,6 +58,7 @@
          selectSquare() {
              // this is handled much better by the tabindex and focusing,
              // but i still might need it later for the clue highlighting
+             // maybe @onclick, i want to switch direction?
              //this.isPoint = true;
              console.log('selected');
          }
@@ -86,6 +87,9 @@
  }
  .block{
      background-color: #000000;
+ }
+ .circle{
+     background-color: darkgray;
  }
  /* .point{
     background-color: #eeee00;
