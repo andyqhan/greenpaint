@@ -111,9 +111,25 @@
              console.log(outputGrid)
              return outputGrid
          },
+
+         clearPrevious() {
+             // clear previous across
+             for (let ai = 1; ai < this.previousSelectAcross.length; ai++) {
+                 this.createdGrid[this.previousSelectAcross[0]][this.previousSelectAcross[ai]]['isPrimarySelect'] = false
+                 this.createdGrid[this.previousSelectAcross[0]][this.previousSelectAcross[ai]]['isSecondarySelect'] = false
+             }
+             for (let di = 1; di < this.previousSelectDown.length; di++) {
+                 this.createdGrid[this.previousSelectDown[di]][this.previousSelectDown[0]]['isPrimarySelect'] = false
+                 this.createdGrid[this.previousSelectDown[di]][this.previousSelectDown[0]]['isSecondarySelect'] = false
+             }
+             // reset
+             this.previousSelectAcross = []
+             this.previousSelectDown = []
+         },
          
          focusEar(event) {
-             console.log(event)
+             this.clearPrevious()
+             //console.log(event)
              //let eventAcrossNum = event.acrossNum
              //let eventDownNum = event.downNum
              //let eventDirection = event.direction
@@ -132,10 +148,10 @@
              this.previousSelectAcross.push(eventY)
              this.previousSelectDown.push(eventX)
 
-             var whileX = eventX
+             var whileX = eventX - 1
              // search backward for across
              while (this.createdGrid[eventY][whileX] && this.createdGrid[eventY][whileX]['isBlock'] != true) {
-                 console.log(whileX)
+                 //console.log(whileX)
                  if (primaryDirection === "across") {
                      this.createdGrid[eventY][whileX]['isPrimarySelect'] = true
                  } else {
@@ -157,7 +173,7 @@
                  whileX++
              }
              
-             var whileY = eventY
+             var whileY = eventY - 1
              // search backwards for down
              while (this.createdGrid[whileY] && this.createdGrid[whileY][eventX]['isBlock'] != true) {
                  if (primaryDirection === "down") {
@@ -165,7 +181,7 @@
                  } else {
                      this.createdGrid[whileY][eventX]['isSecondarySelect'] = true
                  }
-                 this.previousSelectDown.push([whileY, eventY])
+                 this.previousSelectDown.push(whileY)
                  whileY--
              }
              whileY = eventY + 1
@@ -176,11 +192,11 @@
                  } else {
                      this.createdGrid[whileY][eventX]['isSecondarySelect'] = true
                  }
-                 this.previousSelectDown.push([whileY, eventY])
+                 this.previousSelectDown.push(whileY)
                  whileY++
              }
-             console.log(this.previousSelectAcross)
-             console.log(this.previousSelectDown)
+             //console.log(this.previousSelectAcross)
+             //console.log(this.previousSelectDown)
              
              // 
              // console.log(event)
