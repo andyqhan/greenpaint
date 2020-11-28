@@ -1,7 +1,9 @@
 <template>
     <span :tabindex="isBlock ? null : -1" class=square :class="classObject"
-                                    @click="selectSquare"
-                                    @keyup="keyHandler">{{ letter }}</span>
+                                          @click="selectSquare"
+                                          @focus="$emit('square-focus', {acrossNum: this.acrossNum,
+                                              downNum: this.downNum, direction: this.direction, x: this.x, y: this.y})"
+                                          @keyup="keyHandler">{{ letter }}</span>
     <!-- might have to do tabindex = -1, since i'll have to custom-handle tabing -->
 </template>
 
@@ -12,21 +14,31 @@
          x: Number,
          y: Number,
          correctLetter: String,
-         
+         isBlock: Boolean,
+         isCircled: Boolean,
+         isRebus: Boolean,
+
+         isWordStartAcross: Boolean,
+         isWordStartDown: Boolean,
+         acrossNum: Number,
+         downNum: Number,
+
+         direction: String,
+
+         isSecondarySelect: Boolean,
+         isPrimarySelect: Boolean,
      },
      data() {
          return {
              letter: '',
              //isPoint: false,
-             
-             isCircled: false,
-             isRebus: false,
-             isBlock: false
+             // isPrimarySelect: false,
+             // isSecondarySelect: false,
+             // direction: "across",
          };
      },
      computed: {
          classObject() {
-             this.squareTyper(this.correctLetter);
              return {
                  //point: this.isPoint,
                  // add like checked and incorrect classes for styling and
@@ -34,21 +46,17 @@
                  
                  // these two could probably be immutable in data
                  block: this.isBlock,
-                 circle: this.isCircled && !this.isBlock
+                 circled: this.isCircled,
+                 rebus: this.isRebus,
+
+                 primarySelect: this.isPrimarySelect,
+                 secondarySelect: this.isSecondarySelect,
              }
          }
      },
      methods: {
-         squareTyper(squareCorrectLetter) {
-             if (squareCorrectLetter == '.') {
-                 this.isBlock = true;
-             } else if (squareCorrectLetter == squareCorrectLetter.toLowerCase()) {
-                 this.isCircled = true;
-             } // add logic for rebus
-         },
-         
          keyHandler(event) {
-             if (event.key == event.key.toLowerCase()) {
+             if (event.key === event.key.toLowerCase()) {
                  this.letter = event.key.toUpperCase()
              } // maybe add if it's uppercase do penciling
              console.log(event.key)
@@ -61,13 +69,14 @@
              // maybe @onclick, i want to switch direction?
              //this.isPoint = true;
              console.log('selected');
-         }
+         },
+
      }
  }
 </script>
 
 <style scoped>
- .square{
+ .square {
      width: 25px;
      height: 25px;
      display: inline-block;
@@ -80,16 +89,22 @@
      color: #000000;
      background-color: lightgray;
  }
- span:focus{
+ span:focus {
      background-color: #eeee00;
      /* wtf is active */
      outline: none
  }
- .block{
+ .block {
      background-color: #000000;
  }
- .circle{
+ .circle {
      background-color: darkgray;
+ }
+ .primarySelect {
+     background-color: #1874cd;
+ }
+ .secondarySelect {
+     background-color: #6ca6cd;
  }
  /* .point{
     background-color: #eeee00;
