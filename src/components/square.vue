@@ -17,7 +17,7 @@
          isBlock: Boolean,
          isCircled: Boolean,
          isRebus: Boolean,
-
+         
          isWordStartAcross: Boolean,
          isWordStartDown: Boolean,
          acrossNum: Number,
@@ -30,10 +30,8 @@
      },
      data() {
          return {
-             letter: '',
+             letter: '',  // rename to currentLetter
              //isPoint: false,
-             // isPrimarySelect: false,
-             // isSecondarySelect: false,
              // direction: "across",
          };
      },
