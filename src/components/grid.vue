@@ -14,7 +14,8 @@
                     :downNum="cell.downNum"
                     :x="cell.x"
                     :y="cell.y"
-                    :direction="direction"                    
+                    :direction="direction"
+                    :isPoint="dynamicGrid[row_index][cell_index].isPoint"
                     :isPrimarySelect="dynamicGrid[row_index][cell_index].isPrimarySelect"
                     :isSecondarySelect="dynamicGrid[row_index][cell_index].isSecondarySelect"></square>
             <!-- ref="[row_index, cell_index]" :id="[row_index, cell_index]" -->
@@ -128,8 +129,9 @@
                          thisCell['x'] = this.staticGrid[row][char]['x']
                          thisCell['y'] = this.staticGrid[row][char]['y']
                          
-                         thisCell['isPrimarySelect'] = false
-                         thisCell['isSecondarySelect'] = false
+                         thisCell['isPrimarySelect'] = false;
+                         thisCell['isSecondarySelect'] = false;
+                         thisCell['isPoint'] = false;
                          
                          thisCell['currentLetter'] = ''
                      }
@@ -156,22 +158,28 @@
          // },
 
          clearPrevious() {
+             console.log("clearPrevious called")
              // clear previous across
              for (let ai = 1; ai < this.previousSelectAcross.length; ai++) {
-                 this.dynamicGrid[this.previousSelectAcross[0]][this.previousSelectAcross[ai]]['isPrimarySelect'] = false
-                 this.dynamicGrid[this.previousSelectAcross[0]][this.previousSelectAcross[ai]]['isSecondarySelect'] = false
+                 this.dynamicGrid[this.previousSelectAcross[0]][this.previousSelectAcross[ai]]['isPrimarySelect'] = false;
+                 this.dynamicGrid[this.previousSelectAcross[0]][this.previousSelectAcross[ai]]['isSecondarySelect'] = false;
              }
              for (let di = 1; di < this.previousSelectDown.length; di++) {
-                 this.dynamicGrid[this.previousSelectDown[di]][this.previousSelectDown[0]]['isPrimarySelect'] = false
-                 this.dynamicGrid[this.previousSelectDown[di]][this.previousSelectDown[0]]['isSecondarySelect'] = false
+                 this.dynamicGrid[this.previousSelectDown[di]][this.previousSelectDown[0]]['isPrimarySelect'] = false;
+                 this.dynamicGrid[this.previousSelectDown[di]][this.previousSelectDown[0]]['isSecondarySelect'] = false;
              }
+             // clear previous point
+             this.dynamicGrid[this.previousSelectAcross[0]][this.previousSelectDown[0]]['isPoint'] = false;
+             
              // reset
-             this.previousSelectAcross = []
-             this.previousSelectDown = []
+             this.previousSelectAcross = [];
+             this.previousSelectDown = [];
          },
          
          focusEar(event) {
-             this.clearPrevious()
+             if (this.previousSelectAcross.length != 0 && this.previousSelectDown.length != 0) {
+                 this.clearPrevious();
+             }
              console.log('focusEar called')
              //console.log(event)
              //let eventAcrossNum = event.acrossNum
@@ -192,7 +200,7 @@
              this.previousSelectAcross.push(eventY)
              this.previousSelectDown.push(eventX)
 
-             var whileX = eventX - 1
+             var whileX = eventX;
              // search backward for across
              while (this.dynamicGrid[eventY][whileX] && this.dynamicGrid[eventY][whileX]['isBlock'] != true) {
                  //console.log(whileX)
@@ -205,7 +213,7 @@
                  whileX--
              }
              // plus one so we don't search the same block twice
-             whileX = eventX + 1
+             whileX = eventX;
              // search forward for across
              while (this.dynamicGrid[eventY][whileX] && this.dynamicGrid[eventY][whileX]['isBlock'] != true) {
                  if (primaryDirection === "across") {
@@ -217,7 +225,7 @@
                  whileX++
              }
              
-             var whileY = eventY - 1
+             var whileY = eventY;
              // search backwards for down
              while (this.dynamicGrid[whileY] && this.dynamicGrid[whileY][eventX]['isBlock'] != true) {
                  if (primaryDirection === "down") {
@@ -228,7 +236,7 @@
                  this.previousSelectDown.push(whileY)
                  whileY--
              }
-             whileY = eventY + 1
+             whileY = eventY;
              // search forward for across
              while (this.dynamicGrid[whileY] && this.dynamicGrid[whileY][eventX]['isBlock'] != true) {
                  if (primaryDirection === "down") {
@@ -239,6 +247,9 @@
                  this.previousSelectDown.push(whileY)
                  whileY++
              }
+             
+             // set point
+             this.dynamicGrid[eventY][eventX]['isPoint'] = true;
          }
      },
      mounted() {

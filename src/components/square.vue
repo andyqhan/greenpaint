@@ -1,13 +1,14 @@
 <template>
     <span :tabindex="isBlock ? null : -1" class=square :class="classObject"
                                           @click="selectSquare"
-                                          @focus="$emit('square-focus', {acrossNum: this.acrossNum,
-                                              downNum: this.downNum, direction: this.direction, x: this.x, y: this.y})"
-                                          @keyup="keyHandler">{{ letter }}</span>
-    <!-- might have to do tabindex = -1, since i'll have to custom-handle tabing -->
+                                          @keyup="keyHandler">{{ letter }}
+        <span class="cluenum-square">{{ cluenum }}</span>
+    </span>
 </template>
 
 <script>
+ // removed @click="selectSquare" from above
+ 
  export default {
      name: 'square',
      props: {
@@ -27,11 +28,12 @@
 
          isSecondarySelect: Boolean,
          isPrimarySelect: Boolean,
+         isPoint: Boolean,
      },
+     emits: ['square-focus'],
      data() {
          return {
-             letter: '',  // rename to currentLetter
-             //isPoint: false,
+             letter: '',  // TODO rename to currentLetter maybe
              // direction: "across",
          };
      },
@@ -46,9 +48,19 @@
                  block: this.isBlock,
                  circled: this.isCircled,
                  rebus: this.isRebus,
-
+                 
                  primarySelect: this.isPrimarySelect,
                  secondarySelect: this.isSecondarySelect,
+                 isPoint: this.isPoint,
+             }
+         },
+         cluenum() {
+             if (this.isWordStartAcross === true) {
+                 return this.acrossNum;
+             } else if (this.isWordStartDown === true) {
+                 return this.downNum;
+             } else {
+                 return null;
              }
          }
      },
@@ -64,9 +76,17 @@
          selectSquare() {
              // this is handled much better by the tabindex and focusing,
              // but i still might need it later for the clue highlighting
-             // maybe @onclick, i want to switch direction?
-             //this.isPoint = true;
-             console.log('selected');
+             // maybe @click, i want to switch direction?
+             if (this.isBlock != true) {
+                 this.$emit('square-focus', {
+                     acrossNum: this.acrossNum,
+                     downNum: this.downNum,
+                     direction: this.direction,
+                     x: this.x,
+                     y: this.y,
+                 });
+                 console.log('selected');   
+             }
          },
 
      }
@@ -88,14 +108,14 @@
      background-color: lightgray;
  }
  span:focus {
-     background-color: #eeee00;
-     /* wtf is active */
      outline: none
  }
  .block {
      background-color: #000000;
+     border: 1px solid;
+     border-color: background-color;
  }
- .circle {
+ .circled {
      background-color: darkgray;
  }
  .primarySelect {
@@ -104,7 +124,21 @@
  .secondarySelect {
      background-color: #6ca6cd;
  }
- /* .point{
-    background-color: #eeee00;
-    } */
+ .isPoint {
+     background-color: #eeee00;
+     /* wtf is active */
+     outline: none
+ }
+ .cluenum-square {
+     /* this styling is almost certainly not robust and will break */
+     position: relative;
+     left: -6px;
+     top: -10px;
+     font-size: 10px;
+     /* disable text selection */
+     -webkit-user-select: none; /* Safari */        
+     -moz-user-select: none; /* Firefox */
+     -ms-user-select: none; /* IE10+/Edge */
+     user-select: none; /* Standard */
+ }
 </style>
