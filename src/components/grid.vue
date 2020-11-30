@@ -12,6 +12,7 @@
                     :isWordStartDown="cell.isWordStartDown"
                     :acrossNum="cell.acrossNum"
                     :downNum="cell.downNum"
+                    :currentLetter="dynamicGrid[row_index][cell_index].currentLetter"
                     :x="cell.x"
                     :y="cell.y"
                     :direction="direction"
@@ -45,7 +46,7 @@
      },
      created() {
          // need to wait until methods load, which is why this is in created()
-         this.dynamicGrid = this.createDynamicGrid()
+         this.dynamicGrid = this.createDynamicGrid();
          //console.log(this.dynamicGridData)
      },
      computed: {
@@ -133,7 +134,7 @@
                          thisCell['isSecondarySelect'] = false;
                          thisCell['isPoint'] = false;
                          
-                         thisCell['currentLetter'] = ''
+                         thisCell['currentLetter'] = '';
                      }
                      outputGrid[row].push(thisCell)
                  }
@@ -250,11 +251,24 @@
              
              // set point
              this.dynamicGrid[eventY][eventX]['isPoint'] = true;
+         },
+         keyHandler(event) {
+             //console.log(this.previousSelectAcross)
+             let prevY = this.previousSelectAcross[0];
+             let prevX = this.previousSelectDown[0];
+             // TODO add validation to check if it's a letter
+             // TODO fix cluenum CSS geting fucked up with a letter
+             this.dynamicGrid[prevY][prevX]['currentLetter'] = event.key;
          }
      },
      mounted() {
          //this.createGrid(this.gridObject)
          //console.log(this.dynamicGrid)
+         window.addEventListener('keyup', event => {
+             console.log('keyup');
+             console.log(event.key);
+             this.keyHandler(event);
+         });
      }
  }
 </script>

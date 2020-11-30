@@ -1,7 +1,7 @@
 <template>
     <span :tabindex="isBlock ? null : -1" class=square :class="classObject"
-                                          @click="selectSquare"
-                                          @keyup="keyHandler">{{ letter }}
+                                          @click="selectSquare" 
+                                          @keydown="keyHandler">{{ currentLetter }}
         <span class="cluenum-square">{{ cluenum }}</span>
     </span>
 </template>
@@ -23,6 +23,7 @@
          isWordStartDown: Boolean,
          acrossNum: Number,
          downNum: Number,
+         currentLetter: String,
 
          direction: String,
 
@@ -33,7 +34,7 @@
      emits: ['square-focus'],
      data() {
          return {
-             letter: '',  // TODO rename to currentLetter maybe
+             //letter: '',  // TODO rename to currentLetter maybe
              // direction: "across",
          };
      },
@@ -65,7 +66,7 @@
          }
      },
      methods: {
-         keyHandler(event) {
+         keyHandler() {
              if (event.key === event.key.toLowerCase()) {
                  this.letter = event.key.toUpperCase()
              } // maybe add if it's uppercase do penciling
