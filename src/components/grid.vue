@@ -43,7 +43,7 @@
              previousSelectAcross: [],
              previousSelectDown: [],
 
-             currentPoint: {x: 0, y: 0},
+             currentPoint: {y: 0, x: 0},
          }
      },
      created() {
@@ -242,7 +242,7 @@
                  whileY--
              }
              whileY = eventY;
-             // search forward for across
+             // search forward for down
              while (this.dynamicGrid[whileY] && this.dynamicGrid[whileY][eventX]['isBlock'] != true) {
                  if (primaryDirection === "down") {
                      this.dynamicGrid[whileY][eventX]['isPrimarySelect'] = true
@@ -255,8 +255,87 @@
              
              // set point
              this.dynamicGrid[eventY][eventX]['isPoint'] = true;
-             this.currentPoint.x = eventX;
              this.currentPoint.y = eventY;
+             this.currentPoint.x = eventX;
+         },
+
+         movePointNaive(targetY, targetX) {
+             // try to avoid calling this function
+             this.focusEar({y: targetY, x: targetX});
+         },
+
+         movePointSmart(direction) {
+             switch(direction.toLowerCase()) {
+                 case "up":
+                     if (this.currentPoint.y === 0) {
+                         // do nothing at the top of the grid
+                         break;
+                     } else if (this.dynamicGrid[this.currentPoint.y-1][this.currentPoint.x]['isBlock'] === true) {
+                         // look for the closest block that's not a block
+                         let targetY = this.currentPoint.y-1;
+                         while (targetY !== -1 && this.dynamicGrid[targetY][this.currentPoint.x]['isBlock'] === true) {
+                             targetY--;
+                         }
+                         if (targetY !== -1) {
+                             // if target is -1, there's no non-block above point
+                             this.focusEar({y: targetY, x: this.currentPoint.x});
+                         }
+                     } else {
+                         this.focusEar({y: this.currentPoint.y-1, x: this.currentPoint.x});
+                     }
+                     break;
+                 case "down":
+                     if (this.currentPoint.y === this.dynamicGrid.length) {
+                         // do nothing at the top of the grid
+                         break;
+                     } else if (this.dynamicGrid[this.currentPoint.y+1][this.currentPoint.x]['isBlock'] === true) {
+                         // look for the closest block that's not a block
+                         let targetY = this.currentPoint.y+1;
+                         while (targetY <= this.dynamicGrid.length-1 && this.dynamicGrid[targetY][this.currentPoint.x]['isBlock'] === true) {
+                             targetY++;
+                         }
+                         if (targetY <= this.dynamicGrid.length-1) {
+                             this.focusEar({y: targetY, x: this.currentPoint.x});                             
+                         }
+                     } else {
+                         this.focusEar({y: this.currentPoint.y+1, x: this.currentPoint.x});
+                     }
+                     break;
+                 case "left":
+                     if (this.currentPoint.x === 0) {
+                         // do nothing at the left edge of the grid
+                         break;
+                     } else if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x-1]['isBlock'] === true) {
+                         // look for the closest block that's not a block
+                         let targetX = this.currentPoint.x-1;
+                         while (targetX !== -1 && this.dynamicGrid[this.currentPoint.y][targetX]['isBlock'] === true) {
+                             targetX--;
+                         }
+                         if (targetX !== -1) {
+                             this.focusEar({y: this.currentPoint.y, x: targetX});    
+                         }
+                     } else {
+                         this.focusEar({y: this.currentPoint.y, x: this.currentPoint.x-1});
+                     }
+                     break;
+                 case "right":
+                     if (this.currentPoint.x === this.dynamicGrid[0].length-1) {
+                         // do nothing at the right edge of the grid
+                         break;
+                     } else if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x+1]['isBlock'] === true) {
+                         // look for the closest block that's not a block
+                         let targetX = this.currentPoint.x+1;
+                         while (targetX <= this.dynamicGrid[0].length-1 && this.dynamicGrid[this.currentPoint.y][targetX]['isBlock'] === true) {
+                             targetX++;
+                         }
+                         if (targetX <= this.dynamicGrid[0].length-1) {
+                             this.focusEar({y: this.currentPoint.y, x: targetX});                             
+                         }
+                     } else {
+                         this.focusEar({y: this.currentPoint.y, x: this.currentPoint.x+1});
+                     }
+                     break;
+             }
          },
          
          keyHandler(event) {
@@ -265,7 +344,11 @@
              // let prevX = this.previousSelectDown[0];
              // TODO fix cluenum CSS geting fucked up with a letter
              if (/^\w/.test(event.key) && event.key.length === 1) {
+                 // it's a letter to insert into grid
                  this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] = event.key.toUpperCase();
+             } else if (/^Arrow/.test(event.key)) {
+                 // move point
+                 this.movePointSmart(event.key.slice(5))
              }
          }
      },
