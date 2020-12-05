@@ -42,6 +42,8 @@
              // is the row or column; the cdr is the columns or rows
              previousSelectAcross: [],
              previousSelectDown: [],
+
+             currentPoint: {x: 0, y: 0},
          }
      },
      created() {
@@ -198,7 +200,9 @@
              }
 
              // initialize with the constant cars
-             this.previousSelectAcross.push(eventY)
+             // TODO make previousSelect objects, so the code is more readable
+             // and i'm not just refering to indices
+             this.previousSelectAcross.push(eventY)  
              this.previousSelectDown.push(eventX)
 
              var whileX = eventX;
@@ -251,20 +255,25 @@
              
              // set point
              this.dynamicGrid[eventY][eventX]['isPoint'] = true;
+             this.currentPoint.x = eventX;
+             this.currentPoint.y = eventY;
          },
+         
          keyHandler(event) {
              //console.log(this.previousSelectAcross)
-             let prevY = this.previousSelectAcross[0];
-             let prevX = this.previousSelectDown[0];
-             // TODO add validation to check if it's a letter
+             // let prevY = this.previousSelectAcross[0];
+             // let prevX = this.previousSelectDown[0];
              // TODO fix cluenum CSS geting fucked up with a letter
-             this.dynamicGrid[prevY][prevX]['currentLetter'] = event.key;
+             if (/^\w/.test(event.key) && event.key.length === 1) {
+                 this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] = event.key.toUpperCase();
+             }
          }
      },
      mounted() {
          //this.createGrid(this.gridObject)
          //console.log(this.dynamicGrid)
          window.addEventListener('keyup', event => {
+             // i don't get why these are being logged twice?
              console.log('keyup');
              console.log(event.key);
              this.keyHandler(event);
