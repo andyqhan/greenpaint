@@ -1,7 +1,8 @@
 <template>
-    <div class="gridContainer" :style="cssVars">
-        <div class="row" v-for="(row, row_index) in staticGrid" :key="row_index">
+    <div class="gridContainer" :style="cssGridVars">
+        <div class="row" v-for="(row, row_index) in staticGrid" :key="row_index" :style="cssRowVars">
             <square v-for="(cell, cell_index) in row"
+                    :style="{ 'grid-column': cell_index+1 }"
                     @square-focus="focusEar($event)"
                     :key="[row_index, cell_index]"
                     :correctLetter="cell.correctLetter"
@@ -15,7 +16,6 @@
                     :currentLetter="dynamicGrid[row_index][cell_index].currentLetter"
                     :x="cell.x"
                     :y="cell.y"
-                    :direction="direction"
                     :isPoint="dynamicGrid[row_index][cell_index].isPoint"
                     :isPrimarySelect="dynamicGrid[row_index][cell_index].isPrimarySelect"
                     :isSecondarySelect="dynamicGrid[row_index][cell_index].isSecondarySelect"></square>
@@ -35,8 +35,7 @@
      props: ['gridObject'],
      data() {
          return {
-             //staticGrid: this.createStaticGrid(this.gridObject),
-             direction: "across",
+             currentDirection: "across",
              dynamicGrid: [],
              // these two are arrays of the indices of the previously selected words. the car
              // is the row or column; the cdr is the columns or rows
@@ -52,10 +51,16 @@
          //console.log(this.dynamicGridData)
      },
      computed: {
-         cssVars() {
+         cssGridVars() {
              return {
                  'grid-template-columns': 'repeat(' + this.gridObject.length + ', 1fr)',
                  'grid-template-rows': 'repeat(' + this.gridObject[0].length + ', 1fr)'
+             }
+         },
+         cssRowVars() {
+             return {
+                 'grid-column-start': 1,
+                 'grid-column-end': this.dynamicGrid[0].length
              }
          },
          staticGrid() {
@@ -197,12 +202,18 @@
              let eventX = event.x
              let eventY = event.y
              let primaryDirection = ""
-             if (event.direction === "across") {
-                 primaryDirection = "across"
-                 //var secondaryDirection = "down"
-             } else if (event.direction === "down") {
-                 primaryDirection = "down"
-                 //var secondaryDirection = "across"
+             if (!event.direction) {
+                 // the direction param is not passed if it's a mouse click
+                 if (this.currentDirection === "across") {
+                     primaryDirection = "across"
+                     //var secondaryDirection = "down"
+                 } else if (this.currentDirection === "down") {
+                     primaryDirection = "down"
+                     //var secondaryDirection = "across"
+                 }
+             } else {
+                 // the direction param is passed if it's a keyboard movement
+                 primaryDirection = event.direction
              }
 
              // initialize with the constant cars
@@ -271,8 +282,17 @@
          },
 
          movePointSmart(direction) {
+             // direction is a string "up", "down", "left", "right"
+             // TODO maybe rename direction to movementDirection lol
+             // passingDirection is the direction to pass to focusEar 
+             let passingDirection = this.currentDirection;
+             console.log(direction);
+             console.log(this.currentDirection);
              switch(direction.toLowerCase()) {
                  case "up":
+                     if (this.currentDirection === "across") {
+                         passingDirection = "down";
+                     }
                      if (this.currentPoint.y === 0) {
                          // do nothing at the top of the grid
                          break;
@@ -284,13 +304,16 @@
                          }
                          if (targetY !== -1) {
                              // if target is -1, there's no non-block above point
-                             this.focusEar({y: targetY, x: this.currentPoint.x});
+                             this.focusEar({y: targetY, x: this.currentPoint.x, direction: passingDirection});
                          }
                      } else {
-                         this.focusEar({y: this.currentPoint.y-1, x: this.currentPoint.x});
+                         this.focusEar({y: this.currentPoint.y-1, x: this.currentPoint.x, direction: passingDirection});
                      }
                      break;
                  case "down":
+                     if (this.currentDirection === "across") {
+                         passingDirection = "down";
+                     }
                      if (this.currentPoint.y === this.dynamicGrid.length) {
                          // do nothing at the top of the grid
                          break;
@@ -301,13 +324,16 @@
                              targetY++;
                          }
                          if (targetY <= this.dynamicGrid.length-1) {
-                             this.focusEar({y: targetY, x: this.currentPoint.x});                             
+                             this.focusEar({y: targetY, x: this.currentPoint.x, direction: passingDirection});                             
                          }
                      } else {
-                         this.focusEar({y: this.currentPoint.y+1, x: this.currentPoint.x});
+                         this.focusEar({y: this.currentPoint.y+1, x: this.currentPoint.x, direction: passingDirection});
                      }
                      break;
                  case "left":
+                     if (this.currentDirection === "down") {
+                         passingDirection = "across";
+                     }
                      if (this.currentPoint.x === 0) {
                          // do nothing at the left edge of the grid
                          break;
@@ -318,13 +344,16 @@
                              targetX--;
                          }
                          if (targetX !== -1) {
-                             this.focusEar({y: this.currentPoint.y, x: targetX});    
+                             this.focusEar({y: this.currentPoint.y, x: targetX, direction: passingDirection});
                          }
                      } else {
-                         this.focusEar({y: this.currentPoint.y, x: this.currentPoint.x-1});
+                         this.focusEar({y: this.currentPoint.y, x: this.currentPoint.x-1, direction: passingDirection});
                      }
                      break;
                  case "right":
+                     if (this.currentDirection === "down") {
+                         passingDirection = "across";
+                 }
                      if (this.currentPoint.x === this.dynamicGrid[0].length-1) {
                          // do nothing at the right edge of the grid
                          break;
@@ -335,10 +364,10 @@
                              targetX++;
                          }
                          if (targetX <= this.dynamicGrid[0].length-1) {
-                             this.focusEar({y: this.currentPoint.y, x: targetX});                             
+                             this.focusEar({y: this.currentPoint.y, x: targetX, direction: passingDirection});
                          }
                      } else {
-                         this.focusEar({y: this.currentPoint.y, x: this.currentPoint.x+1});
+                         this.focusEar({y: this.currentPoint.y, x: this.currentPoint.x+1, direction: passingDirection});
                      }
                      break;
              }
@@ -360,7 +389,7 @@
      },
      mounted() {
          //this.createGrid(this.gridObject)
-         //console.log(this.dynamicGrid)
+         console.log(this.dynamicGrid)
          window.addEventListener('keyup', event => {
              // i don't get why these are being logged twice?
              console.log('keyup');
