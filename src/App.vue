@@ -1,11 +1,17 @@
 <template>
-    <div>
+    <div class="toolbar">
+        <p>[placeholder for toolbar]</p>
+    </div>
+    <div class="activeClue">
+        <p>[placeholder for active clue]</p>
+    </div>
+    <div class="mainGrid">
         <grid :gridObject="puzzleGrid"></grid>
     </div>
-    <div>
+    <div class="cluesAcross">
         <clueContainer :clues="cluesAcross" :direction="'A'"></clueContainer>
     </div>
-    <div>
+    <div class="cluesDown">
         <clueContainer :clues="cluesDown" :direction="'D'"></clueContainer>
     </div>
 </template>
@@ -38,7 +44,6 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: left;
     color: #2c3e50;
-    margin-top: 60px;
     display: grid;
     grid-template-columns: 2fr 0.5fr 0.5fr;
     grid-template-rows: 1fr 1fr 8fr;
@@ -46,5 +51,23 @@
  }
  .grid {
      border: 3pt solid;
+ }
+ .toolbar {
+     grid-row: 1;
+ }
+ .activeClue {
+     grid-row: 2;
+ }
+ .mainGrid {
+     grid-row: 3;
+     grid-column: 1;
+ }
+ .cluesAcross {
+     grid-row: 3;
+     grid-column: 2;
+ }
+ .cluesDown {
+     grid-row: 3;
+     grid-column: 3;
  }
 </style>
