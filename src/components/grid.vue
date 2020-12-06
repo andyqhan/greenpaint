@@ -1,5 +1,5 @@
 <template>
-    <div class="gridContainer">
+    <div class="gridContainer" :style="cssVars">
         <div class="row" v-for="(row, row_index) in staticGrid" :key="row_index">
             <square v-for="(cell, cell_index) in row"
                     @square-focus="focusEar($event)"
@@ -52,6 +52,12 @@
          //console.log(this.dynamicGridData)
      },
      computed: {
+         cssVars() {
+             return {
+                 'grid-template-columns': 'repeat(' + this.gridObject.length + ', 1fr)',
+                 'grid-template-rows': 'repeat(' + this.gridObject[0].length + ', 1fr)'
+             }
+         },
          staticGrid() {
              console.log("staticGrid called")
              // gridObject is actually an array lol
@@ -364,3 +370,9 @@
      }
  }
 </script>
+
+<style scoped>
+ .gridContainer {
+     display: grid;
+ }
+</style>
