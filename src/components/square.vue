@@ -25,7 +25,7 @@
          downNum: Number,
          currentLetter: String,
 
-         //currentDirection: String,
+         currentDirection: String,
 
          isSecondarySelect: Boolean,
          isPrimarySelect: Boolean,
@@ -82,7 +82,7 @@
                  this.$emit('square-focus', {
                      acrossNum: this.acrossNum,
                      downNum: this.downNum,
-                     //direction: this.currentDirection,
+                     direction: this.currentDirection,
                      x: this.x,
                      y: this.y,
                  });

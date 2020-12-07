@@ -1,6 +1,6 @@
 <template>
     <div class="clueContainer across">
-        <singleClue v-for="clue in clues" :key="clue.Num" :clueObject="clue" :direction="direction">
+        <singleClue v-for="clue in clues" :key="clue.Num" :clueObject="clue" :direction="direction" :clueFocus="clueFocus">
         </singleClue>
     </div>
 </template>
@@ -16,6 +16,7 @@
      props: {
          clues: Array,
          direction: String,
+         clueFocus: Object,
      },
  }
 </script>

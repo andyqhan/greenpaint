@@ -6,13 +6,13 @@
         <p>[placeholder for active clue]</p>
     </div>
     <div class="mainGrid">
-        <grid :gridObject="puzzleGrid"></grid>
+        <grid @square-focus-to-app="squareFocusToAppEar($event)" :gridObject="puzzleGrid"></grid>
     </div>
     <div class="cluesAcross">
-        <clueContainer :clues="cluesAcross" :direction="'A'"></clueContainer>
+        <clueContainer :clueFocus="clueFocus" :clues="cluesAcross" :direction="'A'"></clueContainer>
     </div>
     <div class="cluesDown">
-        <clueContainer :clues="cluesDown" :direction="'D'"></clueContainer>
+        <clueContainer :clueFocus="clueFocus" :clues="cluesDown" :direction="'D'"></clueContainer>
     </div>
 </template>
 
@@ -31,8 +31,25 @@
          return {
              puzzleGrid: puzzle.Grid,
              cluesAcross: puzzle.Across,
-             cluesDown: puzzle.Down
+             cluesDown: puzzle.Down,
+
+             clueFocus: {primary: '1A', secondary: '1D'},
          };
+     },
+     methods: {
+         squareFocusToAppEar(event) {
+             if (event.primaryDirection === 'across') {
+                 this.clueFocus = {
+                     primary: event.squareFocusEvent.acrossNum.toString() + 'A',
+                     secondary: event.squareFocusEvent.downNum.toString() + 'D'
+                 }
+             } else if (event.primaryDirection === 'down') {
+                 this.clueFocus = {
+                     primary: event.squareFocusEvent.downNum.toString() + 'D',
+                     secondary: event.squareFocusEvent.acrossNum.toString() + 'A',
+                 }
+             }
+         }
      }
 }
 </script>

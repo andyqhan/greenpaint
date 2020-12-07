@@ -14,6 +14,7 @@
                     :acrossNum="cell.acrossNum"
                     :downNum="cell.downNum"
                     :currentLetter="dynamicGrid[row_index][cell_index].currentLetter"
+                    :currentDirection="currentDirection"
                     :x="cell.x"
                     :y="cell.y"
                     :isPoint="dynamicGrid[row_index][cell_index].isPoint"
@@ -33,6 +34,7 @@
          square
      },
      props: ['gridObject'],
+     emits: ['square-focus-to-app'],
      data() {
          return {
              currentDirection: "across",
@@ -274,6 +276,12 @@
              this.dynamicGrid[eventY][eventX]['isPoint'] = true;
              this.currentPoint.y = eventY;
              this.currentPoint.x = eventX;
+
+             // pass up to app.vue
+             this.$emit('square-focus-to-app', {
+                 squareFocusEvent: event,
+                 primaryDirection: primaryDirection,
+             })
          },
 
          movePointNaive(targetY, targetX) {
@@ -284,7 +292,8 @@
          movePointSmart(direction) {
              // direction is a string "up", "down", "left", "right"
              // TODO maybe rename direction to movementDirection lol
-             // passingDirection is the direction to pass to focusEar 
+             // passingDirection is the direction to pass to focusEar
+             // TODO add functionality for wrapping around the edge of the grid
              let passingDirection = this.currentDirection;
              console.log(direction);
              console.log(this.currentDirection);
@@ -304,10 +313,22 @@
                          }
                          if (targetY !== -1) {
                              // if target is -1, there's no non-block above point
-                             this.focusEar({y: targetY, x: this.currentPoint.x, direction: passingDirection});
+                             this.focusEar({
+                                 y: targetY,
+                                 x: this.currentPoint.x,
+                                 direction: passingDirection,
+                                 acrossNum: this.staticGrid[targetY][this.currentPoint.x]['acrossNum'],
+                                 downNum: this.staticGrid[targetY][this.currentPoint.x]['downNum']
+                             });
                          }
                      } else {
-                         this.focusEar({y: this.currentPoint.y-1, x: this.currentPoint.x, direction: passingDirection});
+                         this.focusEar({
+                             y: this.currentPoint.y-1,
+                             x: this.currentPoint.x,
+                             direction: passingDirection,
+                             acrossNum: this.staticGrid[this.currentPoint.y-1][this.currentPoint.x]['acrossNum'],
+                             downNum: this.staticGrid[this.currentPoint.y-1][this.currentPoint.x]['downNum']
+                         });
                      }
                      break;
                  case "down":
@@ -324,10 +345,22 @@
                              targetY++;
                          }
                          if (targetY <= this.dynamicGrid.length-1) {
-                             this.focusEar({y: targetY, x: this.currentPoint.x, direction: passingDirection});                             
+                             this.focusEar({
+                                 y: targetY,
+                                 x: this.currentPoint.x,
+                                 direction: passingDirection,
+                                 acrossNum: this.staticGrid[targetY][this.currentPoint.x]['acrossNum'],
+                                 downNum: this.staticGrid[targetY][this.currentPoint.x]['downNum']
+                             });
                          }
                      } else {
-                         this.focusEar({y: this.currentPoint.y+1, x: this.currentPoint.x, direction: passingDirection});
+                         this.focusEar({
+                             y: this.currentPoint.y+1,
+                             x: this.currentPoint.x,
+                             direction: passingDirection,
+                             acrossNum: this.staticGrid[this.currentPoint.y+1][this.currentPoint.x]['acrossNum'],
+                             downNum: this.staticGrid[this.currentPoint.y+1][this.currentPoint.x]['downNum']
+                         });
                      }
                      break;
                  case "left":
@@ -344,10 +377,22 @@
                              targetX--;
                          }
                          if (targetX !== -1) {
-                             this.focusEar({y: this.currentPoint.y, x: targetX, direction: passingDirection});
+                             this.focusEar({
+                                 y: this.currentPoint.y,
+                                 x: targetX,
+                                 direction: passingDirection,
+                                 acrossNum: this.staticGrid[this.currentPoint.y][targetX]['acrossNum'],
+                                 downNum: this.staticGrid[this.currentPoint.y][targetX]['downNum'],
+                             });
                          }
                      } else {
-                         this.focusEar({y: this.currentPoint.y, x: this.currentPoint.x-1, direction: passingDirection});
+                         this.focusEar({
+                             y: this.currentPoint.y,
+                             x: this.currentPoint.x-1,
+                             direction: passingDirection,
+                             acrossNum: this.staticGrid[this.currentPoint.y][this.currentPoint.x-1]['acrossNum'],
+                             downNum: this.staticGrid[this.currentPoint.y][this.currentPoint.x-1]['downNum'],
+                         });
                      }
                      break;
                  case "right":
@@ -364,10 +409,22 @@
                              targetX++;
                          }
                          if (targetX <= this.dynamicGrid[0].length-1) {
-                             this.focusEar({y: this.currentPoint.y, x: targetX, direction: passingDirection});
+                             this.focusEar({
+                                 y: this.currentPoint.y,
+                                 x: targetX,
+                                 direction: passingDirection,
+                                 acrossNum: this.staticGrid[this.currentPoint.y][targetX]['acrossNum'],
+                                 downNum: this.staticGrid[this.currentPoint.y][targetX]['downNum'],
+                             });
                          }
                      } else {
-                         this.focusEar({y: this.currentPoint.y, x: this.currentPoint.x+1, direction: passingDirection});
+                         this.focusEar({
+                             y: this.currentPoint.y,
+                             x: this.currentPoint.x+1,
+                             direction: passingDirection,
+                             acrossNum: this.staticGrid[this.currentPoint.y][this.currentPoint.x+1]['acrossNum'],
+                             downNum: this.staticGrid[this.currentPoint.y][this.currentPoint.x+1]['downNum'],
+                         });
                      }
                      break;
              }
@@ -389,7 +446,8 @@
      },
      mounted() {
          //this.createGrid(this.gridObject)
-         console.log(this.dynamicGrid)
+         //console.log(this.dynamicGrid)
+         //console.log(this.staticGrid)
          window.addEventListener('keyup', event => {
              // i don't get why these are being logged twice?
              console.log('keyup');
