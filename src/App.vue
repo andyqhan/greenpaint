@@ -2,17 +2,19 @@
     <div class="toolbar">
         <p>[placeholder for toolbar]</p>
     </div>
-    <div class="activeClue">
-        <p>[placeholder for active clue]</p>
+    <div class="activeClue" :style="activeClueCSS">
+        <p>{{ activeClue  }}</p>
     </div>
     <div class="mainGrid">
         <grid @square-focus-to-app="squareFocusToAppEar($event)" :gridObject="puzzleGrid"></grid>
     </div>
     <div class="cluesAcross">
-        <clueContainer :clueFocus="clueFocus" :clues="cluesAcross" :direction="'A'"></clueContainer>
+        <clueContainer @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
+         :clueFocus="clueFocus" :clues="cluesAcross" :direction="'A'"></clueContainer>
     </div>
     <div class="cluesDown">
-        <clueContainer :clueFocus="clueFocus" :clues="cluesDown" :direction="'D'"></clueContainer>
+        <clueContainer @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
+        :clueFocus="clueFocus" :clues="cluesDown" :direction="'D'"></clueContainer>
     </div>
 </template>
 
@@ -20,7 +22,7 @@
  import puzzle from './examples/circleex.json'
  import grid from './components/grid.vue'
  import clueContainer from './components/clueContainer.vue'
-
+ 
  export default {
      name: 'App',
      components: {
@@ -34,7 +36,16 @@
              cluesDown: puzzle.Down,
 
              clueFocus: {primary: '1A', secondary: '1D'},
+             activeClue: '',
          };
+     },
+     computed: {
+         activeClueCSS() {
+             return {
+                 'grid-column-start': 1,
+                 'grid-column-end': 3
+             }
+         }
      },
      methods: {
          squareFocusToAppEar(event) {
@@ -49,6 +60,10 @@
                      secondary: event.squareFocusEvent.acrossNum.toString() + 'A',
                  }
              }
+         },
+         primaryClueFocusToAppEar(clueText) {
+             console.log('primaryClueFocusToAppEar')
+             this.activeClue = clueText
          }
      }
 }

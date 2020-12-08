@@ -7,6 +7,7 @@
 <script>
  export default {
      name: 'singleClue',
+     emits: ['primary-clue-focus'],
      props: {
          clueObject: Object,
          direction: String,  // either 'A' or 'D'
@@ -33,6 +34,8 @@
                  //console.log('first branch')
                  if (this.clueNum === primaryFocusNum) {
                      //console.log('returning primary')
+                     // this emit will be heard in the active clue component
+                     this.$emit('primary-clue-focus', this.clueKey + ": " + this.clueObject.Clue);
                      return 'primary'
                  } else {
                      return null
