@@ -294,13 +294,12 @@
              // TODO maybe rename direction to movementDirection lol
              // passingDirection is the direction to pass to focusEar
              // TODO add functionality for wrapping around the edge of the grid
-             let passingDirection = this.currentDirection;
-             console.log(direction);
-             console.log(this.currentDirection);
+             // console.log(direction);
+             // console.log(this.currentDirection);
              switch(direction.toLowerCase()) {
                  case "up":
                      if (this.currentDirection === "across") {
-                         passingDirection = "down";
+                         this.switchDirection();
                      }
                      if (this.currentPoint.y === 0) {
                          // do nothing at the top of the grid
@@ -316,7 +315,7 @@
                              this.focusEar({
                                  y: targetY,
                                  x: this.currentPoint.x,
-                                 direction: passingDirection,
+                                 direction: this.currentDirection,
                                  acrossNum: this.staticGrid[targetY][this.currentPoint.x]['acrossNum'],
                                  downNum: this.staticGrid[targetY][this.currentPoint.x]['downNum']
                              });
@@ -325,7 +324,7 @@
                          this.focusEar({
                              y: this.currentPoint.y-1,
                              x: this.currentPoint.x,
-                             direction: passingDirection,
+                             direction: this.currentDirection,
                              acrossNum: this.staticGrid[this.currentPoint.y-1][this.currentPoint.x]['acrossNum'],
                              downNum: this.staticGrid[this.currentPoint.y-1][this.currentPoint.x]['downNum']
                          });
@@ -333,7 +332,7 @@
                      break;
                  case "down":
                      if (this.currentDirection === "across") {
-                         passingDirection = "down";
+                         this.switchDirection();
                      }
                      if (this.currentPoint.y === this.dynamicGrid.length) {
                          // do nothing at the top of the grid
@@ -348,7 +347,7 @@
                              this.focusEar({
                                  y: targetY,
                                  x: this.currentPoint.x,
-                                 direction: passingDirection,
+                                 direction: this.currentDirection,
                                  acrossNum: this.staticGrid[targetY][this.currentPoint.x]['acrossNum'],
                                  downNum: this.staticGrid[targetY][this.currentPoint.x]['downNum']
                              });
@@ -357,7 +356,7 @@
                          this.focusEar({
                              y: this.currentPoint.y+1,
                              x: this.currentPoint.x,
-                             direction: passingDirection,
+                             direction: this.currentDirection,
                              acrossNum: this.staticGrid[this.currentPoint.y+1][this.currentPoint.x]['acrossNum'],
                              downNum: this.staticGrid[this.currentPoint.y+1][this.currentPoint.x]['downNum']
                          });
@@ -365,7 +364,7 @@
                      break;
                  case "left":
                      if (this.currentDirection === "down") {
-                         passingDirection = "across";
+                         this.switchDirection()
                      }
                      if (this.currentPoint.x === 0) {
                          // do nothing at the left edge of the grid
@@ -380,7 +379,7 @@
                              this.focusEar({
                                  y: this.currentPoint.y,
                                  x: targetX,
-                                 direction: passingDirection,
+                                 direction: this.currentDirection,
                                  acrossNum: this.staticGrid[this.currentPoint.y][targetX]['acrossNum'],
                                  downNum: this.staticGrid[this.currentPoint.y][targetX]['downNum'],
                              });
@@ -389,7 +388,7 @@
                          this.focusEar({
                              y: this.currentPoint.y,
                              x: this.currentPoint.x-1,
-                             direction: passingDirection,
+                             direction: this.currentDirection,
                              acrossNum: this.staticGrid[this.currentPoint.y][this.currentPoint.x-1]['acrossNum'],
                              downNum: this.staticGrid[this.currentPoint.y][this.currentPoint.x-1]['downNum'],
                          });
@@ -397,13 +396,13 @@
                      break;
                  case "right":
                      if (this.currentDirection === "down") {
-                         passingDirection = "across";
+                         this.switchDirection()
                      }
                      if (this.currentPoint.x === this.dynamicGrid[0].length-1) {
                          // do nothing at the right edge of the grid
                          break;
                      } else if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x+1]['isBlock'] === true) {
-                         // look for the closest block that's not a block
+                         // look for the closest square that's not a block
                          let targetX = this.currentPoint.x+1;
                          while (targetX <= this.dynamicGrid[0].length-1 && this.dynamicGrid[this.currentPoint.y][targetX]['isBlock'] === true) {
                              targetX++;
@@ -412,7 +411,7 @@
                              this.focusEar({
                                  y: this.currentPoint.y,
                                  x: targetX,
-                                 direction: passingDirection,
+                                 direction: this.currentDirection,
                                  acrossNum: this.staticGrid[this.currentPoint.y][targetX]['acrossNum'],
                                  downNum: this.staticGrid[this.currentPoint.y][targetX]['downNum'],
                              });
@@ -421,12 +420,40 @@
                          this.focusEar({
                              y: this.currentPoint.y,
                              x: this.currentPoint.x+1,
-                             direction: passingDirection,
+                             direction: this.currentDirection,
                              acrossNum: this.staticGrid[this.currentPoint.y][this.currentPoint.x+1]['acrossNum'],
                              downNum: this.staticGrid[this.currentPoint.y][this.currentPoint.x+1]['downNum'],
                          });
                      }
                      break;
+             }
+         },
+
+         switchDirection() {
+             if (this.currentDirection === "across") {
+                 this.currentDirection = "down"
+             } else if (this.currentDirection === "down") {
+                 this.currentDirection = "across"
+             }
+         },
+
+         clearSquareLetter(y, x) {
+             this.dynamicGrid[y][x]['currentLetter'] = "";
+         },
+
+         moveForwardCurrentDirection() {
+             if (this.currentDirection === "across") {
+                     this.movePointSmart("right");
+                 } else if (this.currentDirection === "down") {
+                     this.movePointSmart("down");
+                 }
+         },
+
+         moveBackwardCurrentDirection() {
+             if (this.currentDirection === "across") {
+                 this.movePointSmart("left");
+             } else if (this.currentDirection === "down") {
+                 this.movePointSmart("up");
              }
          },
          
@@ -438,11 +465,10 @@
              if (/^\w/.test(event.key) && event.key.length === 1) {
                  // it's a letter to insert into grid
                  this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] = event.key.toUpperCase();
-                 if (this.currentDirection === "across") {
-                     this.movePointSmart("right")
-                 } else if (this.currentDirection === "down") {
-                     this.movePointSmart("down")
-                 }
+                 this.moveForwardCurrentDirection();
+             } else if (/^Backspace/.test(event.key)) {
+                 this.clearSquareLetter(this.currentPoint.y, this.currentPoint.x);
+                 this.moveBackwardCurrentDirection();
              } else if (/^Arrow/.test(event.key)) {
                  // move point
                  this.movePointSmart(event.key.slice(5))
