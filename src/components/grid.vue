@@ -298,6 +298,10 @@
              // console.log(this.currentDirection);
              switch(direction.toLowerCase()) {
                  case "up":
+                     // TODO consider implementing normal behavior (when you
+                     // reach a block and currentDirection is down, move to the
+                     // numerically next down clue). right now, it moves to the one
+                     // immediately below, which is not how NYT or PuzzleMe does it
                      if (this.currentDirection === "across") {
                          this.switchDirection();
                      }
@@ -437,6 +441,17 @@
              }
          },
 
+         switchDirectionAndFocus() {
+             this.switchDirection();
+             this.focusEar({
+                 y: this.currentPoint.y,
+                 x: this.currentPoint.x,
+                 direction: this.currentDirection,
+                 acrossNum: this.staticGrid[this.currentPoint.y][this.currentPoint.x]['acrossNum'],
+                 downNum: this.staticGrid[this.currentPoint.y][this.currentPoint.x]['downNum']
+             })
+         },
+
          clearSquareLetter(y, x) {
              this.dynamicGrid[y][x]['currentLetter'] = "";
          },
@@ -467,11 +482,15 @@
                  this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] = event.key.toUpperCase();
                  this.moveForwardCurrentDirection();
              } else if (/^Backspace/.test(event.key)) {
+                 // clear current letter and move back
                  this.clearSquareLetter(this.currentPoint.y, this.currentPoint.x);
                  this.moveBackwardCurrentDirection();
              } else if (/^Arrow/.test(event.key)) {
                  // move point
                  this.movePointSmart(event.key.slice(5))
+             } else if (/^Space/.test(event.code)) {
+                 // it's a space
+                 this.switchDirectionAndFocus();
              }
          }
      },
@@ -482,7 +501,7 @@
          window.addEventListener('keyup', event => {
              // i don't get why these are being logged twice?
              console.log('keyup');
-             console.log(event.key);
+             console.log(event);
              this.keyHandler(event);
          });
      }
