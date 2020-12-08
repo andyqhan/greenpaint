@@ -398,7 +398,7 @@
                  case "right":
                      if (this.currentDirection === "down") {
                          passingDirection = "across";
-                 }
+                     }
                      if (this.currentPoint.x === this.dynamicGrid[0].length-1) {
                          // do nothing at the right edge of the grid
                          break;
@@ -438,6 +438,11 @@
              if (/^\w/.test(event.key) && event.key.length === 1) {
                  // it's a letter to insert into grid
                  this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] = event.key.toUpperCase();
+                 if (this.currentDirection === "across") {
+                     this.movePointSmart("right")
+                 } else if (this.currentDirection === "down") {
+                     this.movePointSmart("down")
+                 }
              } else if (/^Arrow/.test(event.key)) {
                  // move point
                  this.movePointSmart(event.key.slice(5))
