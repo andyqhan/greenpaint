@@ -58,9 +58,9 @@
 
 <style scoped>
  .primary {
-     background-color: blue;
+     background-color: #1874cd;
  }
  .secondary {
-     background-color: red;
+     background-color: #6ca6cd;
  }
 </style>
