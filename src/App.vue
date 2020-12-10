@@ -63,7 +63,7 @@
              }
          },
          primaryClueFocusToAppEar(clueText) {
-             console.log('primaryClueFocusToAppEar')
+             //console.log('primaryClueFocusToAppEar')
              this.activeClue = clueText
          }
      }

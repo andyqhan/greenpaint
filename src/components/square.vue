@@ -70,8 +70,8 @@
              if (event.key === event.key.toLowerCase()) {
                  this.letter = event.key.toUpperCase()
              } // maybe add if it's uppercase do penciling
-             console.log(event.key)
-             console.log('keyHandler')
+             //console.log(event.key)
+             //console.log('keyHandler')
          },
          
          selectSquare() {
@@ -86,7 +86,7 @@
                      x: this.x,
                      y: this.y,
                  });
-                 console.log('selected');   
+                 //console.log('selected');   
              }
          },
 
