@@ -620,21 +620,6 @@
              
          },
 
-         getNextDownWord() {
-             // TODO rewrite all the other tab functions to follow this model
-             let currentDownNum = this.staticGrid[this.currentPoint.y][this.currentPoint.x]['downNum']
-             let x = this.currentPoint.x;
-             for (let y = this.currentPoint.y; y < this.staticGrid.length; y++) {
-                 for (x; x < this.staticGrid[y].length; x++) {
-                     if (this.staticGrid[y][x]['downNum'] > currentDownNum) {
-                         return {y: y, x: x}
-                     }
-                 }
-                 x = 0;
-             }
-             return null
-         },
-
          getDownWordStart(y, x) {
              let currentDownNum = this.staticGrid[y][x]['downNum'];
              let targetY = y;
@@ -646,6 +631,34 @@
              } else {
                  return {y: targetY, x: x}                 
              }
+         },
+
+         getNextDownNum() {
+             let currentDownNum = this.staticGrid[this.currentPoint.y][this.currentPoint.x]['downNum'];
+             if (currentDownNum === this.cluesDown[this.cluesDown.length-1].Num) {
+                 // exit when we're at the last
+                 return null
+             }
+             for (let clueIndex = 0; clueIndex < this.cluesDown.length; clueIndex++) {
+                 if (this.cluesDown[clueIndex].Num === currentDownNum) {
+                     return this.cluesDown[clueIndex+1].Num;
+                 }
+             }
+         },
+
+         getNextDownWord() {
+             // TODO rewrite all the other tab functions to follow this model
+             //let currentDownNum = this.staticGrid[this.currentPoint.y][this.currentPoint.x]['downNum']
+             let x = this.currentPoint.x;
+             for (let y = this.currentPoint.y; y < this.staticGrid.length; y++) {
+                 for (x; x < this.staticGrid[y].length; x++) {
+                     if (this.staticGrid[y][x]['downNum'] === this.getNextDownNum()) {
+                         return this.getDownWordStart(y, x);
+                     }
+                 }
+                 x = 0;
+             }
+             return null
          },
 
          getPreviousDownNum() {
