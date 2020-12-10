@@ -530,104 +530,102 @@
              }
          },
 
-         moveAcrossWordRight() {
-             // i could also do the logic by iterating over staticGrid and checking for when
-             // the acrossNum changes
-             let targetX = this.currentPoint.x;
-             while (targetX <= this.dynamicGrid[0].length-1 && this.dynamicGrid[this.currentPoint.y][targetX]['isBlock'] !== true) {
-                 targetX++;
+         // TODO maybe wrap around to the start of the grid
+         // TODO also i think i've hardcoded in that the [0,0] square is not a block... oops
+         getAcrossWordStart(y, x) {
+             let currentAcrossNum = this.staticGrid[y][x]['acrossNum'];
+             let targetX = x;
+             while (targetX > 0 && this.staticGrid[y][targetX]['acrossNum'] === currentAcrossNum) {
+                 // iterate till we get the start of across word
+                 targetX--;
              }
-             while (targetX <= this.dynamicGrid[0].length-1 && this.dynamicGrid[this.currentPoint.y][targetX]['isBlock'] === true) {
-                 // continue until it's not a block
-                 targetX++;
-             }
-             if (targetX > this.dynamicGrid[0].length-1 && this.currentPoint.y === this.dynamicGrid.length-1) {
-                 // do nothing at bottom right
-                 // TODO maybe wrap around to the start of the grid
-                 // TODO also i think i've hardcoded in that the [0,0] square is not a block... oops
-                 return;
-             }
-             if (targetX > this.dynamicGrid[0].length-1) {
-                 // case when this is the last word of the row
-                 // go to next row
-                 let targetX2 = 0;
-                 while (this.dynamicGrid[this.currentPoint.y+1][targetX2]['isBlock'] === true) {
-                     targetX2++;
-                 }
-                 this.focusEar({
-                     y: this.currentPoint.y+1,
-                     x: targetX2,
-                     direction: this.currentDirection,
-                     acrossNum: this.staticGrid[this.currentPoint.y+1][targetX2]['acrossNum'],
-                     downNum: this.staticGrid[this.currentPoint.y+1][targetX2]['downNum']
-                 })
+             console.log(targetX)
+             if (this.staticGrid[y][targetX]['isBlock'] === true) {
+                 return {y: y, x: targetX+1}
              } else {
-                 this.focusEar({
-                     y: this.currentPoint.y,
-                     x: targetX,
-                     direction: this.currentDirection,
-                     acrossNum: this.staticGrid[this.currentPoint.y][targetX]['acrossNum'],
-                     downNum: this.staticGrid[this.currentPoint.y][targetX]['downNum']
-                 })
+                 return {y: y, x: targetX}
              }
          },
 
-         moveAcrossWordLeft() {
-             let targetX = this.currentPoint.x;
-             while (targetX > -1 && this.dynamicGrid[this.currentPoint.y][targetX]['isBlock'] !== true) {
-                 targetX--;
+         getNextAcrossNum() {
+             let currentAcrossNum = this.staticGrid[this.currentPoint.y][this.currentPoint.x]['acrossNum'];
+             if (currentAcrossNum === this.cluesAcross[this.cluesAcross.length-1].Num) {
+                 return null
              }
-             while (targetX > -1 && this.dynamicGrid[this.currentPoint.y][targetX]['isBlock'] === true) {
-                 // continue until it's not a block
-                 targetX--;
-             }
-             if (targetX < 0 && this.currentPoint.y === 0) {
-                 // do nothing at top left
-                 return;
-             }
-             if (targetX < 0) {
-                 // case when this is the first word of the row
-                 let targetX2 = this.dynamicGrid[0].length-1;
-                 while (this.dynamicGrid[this.currentPoint.y-1][targetX2]['isBlock'] === true) {
-                     targetX2--;
+             for (let clueIndex = 0; clueIndex < this.cluesAcross.length; clueIndex++) {
+                 if (this.cluesAcross[clueIndex].Num === currentAcrossNum) {
+                     return this.cluesAcross[clueIndex+1].Num;
                  }
-                 while (targetX2 !== -1 && this.dynamicGrid[this.currentPoint.y-1][targetX2]['isBlock'] !== true) {
-                     // continue to the beginning of the word
-                     targetX2--;
-                 }
-                 targetX2 += 1;
-                 this.focusEar({
-                     y: this.currentPoint.y-1,
-                     x: targetX2,
-                     direction: this.currentDirection,
-                     acrossNum: this.staticGrid[this.currentPoint.y-1][targetX2]['acrossNum'],
-                     downNum: this.staticGrid[this.currentPoint.y-1][targetX2]['downNum']
-                 })
-             } else {
-                 while (targetX > -1 && this.dynamicGrid[this.currentPoint.y][targetX]['isBlock'] !== true) {
-                     // continue to beginning of word
-                     targetX--;
-                 }
-                 targetX += 1;
-                 this.focusEar({
-                     y: this.currentPoint.y,
-                     x: targetX,
-                     direction: this.currentDirection,
-                     acrossNum: this.staticGrid[this.currentPoint.y][targetX]['acrossNum'],
-                     downNum: this.staticGrid[this.currentPoint.y][targetX]['downNum']
-                 })
              }
-             
+         },
+
+         getNextAcrossWord() {
+             let x = this.currentPoint.x;
+             for (let y = this.currentPoint.y; y < this.staticGrid.length; y++) {
+                 for (x; x < this.staticGrid[y].length; x++) {
+                     if (this.staticGrid[y][x]['acrossNum'] === this.getNextAcrossNum()) {
+                         return this.getAcrossWordStart(y, x);
+                     }
+                 }
+                 x = 0;
+             }
+             return null
+         },
+
+         getPreviousAcrossNum() {
+             let currentAcrossNum = this.staticGrid[this.currentPoint.y][this.currentPoint.x]['acrossNum'];
+             if (currentAcrossNum === 1) {
+                 // exit when we're at first
+                 return null
+             }
+             for (let clueIndex = 0; clueIndex < this.cluesAcross.length; clueIndex++) {
+                 if (this.cluesAcross[clueIndex].Num === currentAcrossNum) {
+                     return this.cluesAcross[clueIndex-1].Num;
+                 }
+             }
+         },
+
+         getPreviousAcrossWord() {
+             let x = this.currentPoint.x;
+             for (let y = this.currentPoint.y; y >= 0; y--) {
+                 for (x; x >= 0; x--) {
+                     if (this.staticGrid[y][x]['acrossNum'] === this.getPreviousAcrossNum()) {
+                         return this.getAcrossWordStart(y, x)
+                     }
+                 }
+                 x = this.staticGrid[y].length-1;
+             }
+             return null
+         },
+
+         moveAcrossWord(direction) {
+             let nextWordStart;
+             if (direction === "right") {
+                 nextWordStart = this.getNextAcrossWord();
+             } else if (direction === "left") {
+                 nextWordStart = this.getPreviousAcrossWord();
+             }
+             if (!nextWordStart) {
+                 return
+             }
+             this.focusEar({
+                 y: nextWordStart.y,
+                 x: nextWordStart.x,
+                 direction: this.currentDirection,
+                 acrossNum: this.staticGrid[nextWordStart.y][nextWordStart.x]['acrossNum'],
+                 downNum: this.staticGrid[nextWordStart.y][nextWordStart.x]['downNum']
+             })
          },
 
          getDownWordStart(y, x) {
              let currentDownNum = this.staticGrid[y][x]['downNum'];
              let targetY = y;
              while (targetY > 0 && this.staticGrid[targetY][x]['downNum'] === currentDownNum) {
+                 // iterate till we get the next down word
                  targetY--;
              }
              if (this.staticGrid[targetY][x]['isBlock'] === true) {
-                 return {y: targetY+1, x:x}
+                 return {y: targetY+1, x: x}
              } else {
                  return {y: targetY, x: x}                 
              }
@@ -718,13 +716,13 @@
          moveWordHandler(event) {
              if (event.shiftKey === false) {
                  if (this.currentDirection === "across") {
-                     this.moveAcrossWordRight();
+                     this.moveAcrossWord("right");
                  } else if (this.currentDirection === "down") {
                      this.moveDownWordRight();
                  }
              } else if (event.shiftKey === true) {
                  if (this.currentDirection === "across") {
-                     this.moveAcrossWordLeft();
+                     this.moveAcrossWord("left");
                  } else if (this.currentDirection === "down") {
                      this.moveDownWordLeft();
                  }
