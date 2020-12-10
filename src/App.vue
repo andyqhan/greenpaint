@@ -6,7 +6,8 @@
         <p>{{ activeClue  }}</p>
     </div>
     <div class="mainGrid">
-        <grid @square-focus-to-app="squareFocusToAppEar($event)" :gridObject="puzzleGrid"></grid>
+        <grid @square-focus-to-app="squareFocusToAppEar($event)" :gridObject="puzzleGrid"
+         :cluesAcross="cluesAcross" :cluesDown="cluesDown"></grid>
     </div>
     <div class="cluesAcross">
         <clueContainer @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
@@ -45,7 +46,7 @@
                  'grid-column-start': 1,
                  'grid-column-end': 3
              }
-         }
+         },
      },
      methods: {
          squareFocusToAppEar(event) {

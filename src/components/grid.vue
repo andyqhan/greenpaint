@@ -33,7 +33,11 @@
      components: {
          square
      },
-     props: ['gridObject'],
+     props: {
+         gridObject: Array,
+         cluesDown: Array,
+         cluesAcross: Array,
+     },
      emits: ['square-focus-to-app'],
      data() {
          return {
@@ -525,12 +529,152 @@
                  this.movePointSmart("up");
              }
          },
+
+         moveAcrossWordRight() {
+             // i could also do the logic by iterating over staticGrid and checking for when
+             // the acrossNum changes
+             let targetX = this.currentPoint.x;
+             while (targetX <= this.dynamicGrid[0].length-1 && this.dynamicGrid[this.currentPoint.y][targetX]['isBlock'] !== true) {
+                 targetX++;
+             }
+             while (targetX <= this.dynamicGrid[0].length-1 && this.dynamicGrid[this.currentPoint.y][targetX]['isBlock'] === true) {
+                 // continue until it's not a block
+                 targetX++;
+             }
+             if (targetX > this.dynamicGrid[0].length-1 && this.currentPoint.y === this.dynamicGrid.length-1) {
+                 // do nothing at bottom right
+                 // TODO maybe wrap around to the start of the grid
+                 // TODO also i think i've hardcoded in that the [0,0] square is not a block... oops
+                 return;
+             }
+             if (targetX > this.dynamicGrid[0].length-1) {
+                 // case when this is the last word of the row
+                 // go to next row
+                 let targetX2 = 0;
+                 while (this.dynamicGrid[this.currentPoint.y+1][targetX2]['isBlock'] === true) {
+                     targetX2++;
+                 }
+                 this.focusEar({
+                     y: this.currentPoint.y+1,
+                     x: targetX2,
+                     direction: this.currentDirection,
+                     acrossNum: this.staticGrid[this.currentPoint.y+1][targetX2]['acrossNum'],
+                     downNum: this.staticGrid[this.currentPoint.y+1][targetX2]['downNum']
+                 })
+             } else {
+                 this.focusEar({
+                     y: this.currentPoint.y,
+                     x: targetX,
+                     direction: this.currentDirection,
+                     acrossNum: this.staticGrid[this.currentPoint.y][targetX]['acrossNum'],
+                     downNum: this.staticGrid[this.currentPoint.y][targetX]['downNum']
+                 })
+             }
+         },
+
+         moveAcrossWordLeft() {
+             let targetX = this.currentPoint.x;
+             while (targetX > -1 && this.dynamicGrid[this.currentPoint.y][targetX]['isBlock'] !== true) {
+                 targetX--;
+             }
+             while (targetX > -1 && this.dynamicGrid[this.currentPoint.y][targetX]['isBlock'] === true) {
+                 // continue until it's not a block
+                 targetX--;
+             }
+             if (targetX < 0 && this.currentPoint.y === 0) {
+                 // do nothing at top left
+                 return;
+             }
+             if (targetX < 0) {
+                 // case when this is the first word of the row
+                 let targetX2 = this.dynamicGrid[0].length-1;
+                 while (this.dynamicGrid[this.currentPoint.y-1][targetX2]['isBlock'] === true) {
+                     targetX2--;
+                 }
+                 while (targetX2 !== -1 && this.dynamicGrid[this.currentPoint.y-1][targetX2]['isBlock'] !== true) {
+                     // continue to the beginning of the word
+                     targetX2--;
+                 }
+                 targetX2 += 1;
+                 this.focusEar({
+                     y: this.currentPoint.y-1,
+                     x: targetX2,
+                     direction: this.currentDirection,
+                     acrossNum: this.staticGrid[this.currentPoint.y-1][targetX2]['acrossNum'],
+                     downNum: this.staticGrid[this.currentPoint.y-1][targetX2]['downNum']
+                 })
+             } else {
+                 while (targetX > -1 && this.dynamicGrid[this.currentPoint.y][targetX]['isBlock'] !== true) {
+                     // continue to beginning of word
+                     targetX--;
+                 }
+                 targetX += 1;
+                 this.focusEar({
+                     y: this.currentPoint.y,
+                     x: targetX,
+                     direction: this.currentDirection,
+                     acrossNum: this.staticGrid[this.currentPoint.y][targetX]['acrossNum'],
+                     downNum: this.staticGrid[this.currentPoint.y][targetX]['downNum']
+                 })
+             }
+             
+         },
+
+         getNextDownWord() {
+             // TODO rewrite all the other tab functions to follow this model
+             let currentDownNum = this.staticGrid[this.currentPoint.y][this.currentPoint.x]['downNum']
+             let x = this.currentPoint.x;
+             for (let y = this.currentPoint.y; y < this.staticGrid.length; y++) {
+                 for (x; x < this.staticGrid[0].length; x++) {
+                     if (this.staticGrid[y][x]['downNum'] > currentDownNum) {
+                         return {y: y, x: x}
+                     }
+                 }
+                 x = 0;
+             }
+             return null
+         },
+
+         moveDownWordRight() {
+             let nextWordStart = this.getNextDownWord();
+             if (!nextWordStart) {
+                 return
+             }
+             this.focusEar({
+                 y: nextWordStart.y,
+                 x: nextWordStart.x,
+                 direction: this.currentDirection,
+                 acrossNum: this.staticGrid[nextWordStart.y][nextWordStart.x]['acrossNum'],
+                 downNum: this.staticGrid[nextWordStart.y][nextWordStart.x]['downNum']
+             })
+         },
+
+         moveWordHandler(event) {
+             if (event.shiftKey === false) {
+                 if (this.currentDirection === "across") {
+                     this.moveAcrossWordRight();
+                 } else if (this.currentDirection === "down") {
+                     this.moveDownWordRight();
+                 }
+             } else if (event.shiftKey === true) {
+                 if (this.currentDirection === "across") {
+                     this.moveAcrossWordLeft();
+                 } else if (this.currentDirection === "down") {
+                     //this.moveDownWordLeft();
+                 }
+             }
+         },
+
+         // TODO write moveBeginningWord method
+
          
          keyHandler(event) {
              //console.log(this.previousSelectAcross)
              // let prevY = this.previousSelectAcross[0];
              // let prevX = this.previousSelectDown[0];
              // TODO fix cluenum CSS geting fucked up with a letter
+             console.log('keyup');
+             console.log(event);
              if (/^\w/.test(event.key) && event.key.length === 1) {
                  // it's a letter to insert into grid
                  this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] = event.key.toUpperCase();
@@ -545,6 +689,8 @@
              } else if (/^Space/.test(event.code)) {
                  // it's a space
                  this.switchDirectionAndFocus();
+             } else if (event.keyCode === 9) {
+                 this.moveWordHandler(event);
              }
          }
      },
@@ -552,10 +698,12 @@
          //this.createGrid(this.gridObject)
          //console.log(this.dynamicGrid)
          //console.log(this.staticGrid)
-         window.addEventListener('keyup', event => {
+         window.addEventListener('keydown', event => {
              // i don't get why these are being logged twice?
-             console.log('keyup');
-             console.log(event);
+             if (event.keyCode === 9) {
+                 event.preventDefault();                 
+             }
+             console.log('keydown');
              this.keyHandler(event);
          });
      }
