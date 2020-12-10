@@ -70,7 +70,7 @@
              }
          },
          staticGrid() {
-             console.log("staticGrid called")
+             //console.log("staticGrid called")
              // gridObject is actually an array lol
              // for each cell in the grid, create on object with keys:
              // isBlock: it's a block / black square
@@ -137,7 +137,7 @@
      },
      methods: {
          createDynamicGrid() {
-             console.log('createDynamicGrid called')
+             //console.log('createDynamicGrid called')
              // i wonder if it's a problem that this is reading static data (rather than a param)
              var outputGrid = []
              for (let row in this.staticGrid) {
@@ -178,7 +178,7 @@
          // },
 
          clearPrevious() {
-             console.log("clearPrevious called")
+             //console.log("clearPrevious called")
              // clear previous across
              for (let ai = 1; ai < this.previousSelectAcross.length; ai++) {
                  this.dynamicGrid[this.previousSelectAcross[0]][this.previousSelectAcross[ai]]['isPrimarySelect'] = false;
@@ -200,7 +200,7 @@
              if (this.previousSelectAcross.length != 0 && this.previousSelectDown.length != 0) {
                  this.clearPrevious();
              }
-             console.log('focusEar called')
+             //console.log('focusEar called')
              //console.log(event)
              //let eventAcrossNum = event.acrossNum
              //let eventDownNum = event.downNum
@@ -625,12 +625,51 @@
              let currentDownNum = this.staticGrid[this.currentPoint.y][this.currentPoint.x]['downNum']
              let x = this.currentPoint.x;
              for (let y = this.currentPoint.y; y < this.staticGrid.length; y++) {
-                 for (x; x < this.staticGrid[0].length; x++) {
+                 for (x; x < this.staticGrid[y].length; x++) {
                      if (this.staticGrid[y][x]['downNum'] > currentDownNum) {
                          return {y: y, x: x}
                      }
                  }
                  x = 0;
+             }
+             return null
+         },
+
+         getDownWordStart(y, x) {
+             let currentDownNum = this.staticGrid[y][x]['downNum'];
+             let targetY = y;
+             while (targetY > 0 && this.staticGrid[targetY][x]['downNum'] === currentDownNum) {
+                 targetY--;
+             }
+             if (this.staticGrid[targetY][x]['isBlock'] === true) {
+                 return {y: targetY+1, x:x}
+             } else {
+                 return {y: targetY, x: x}                 
+             }
+         },
+
+         getPreviousDownNum() {
+             let currentDownNum = this.staticGrid[this.currentPoint.y][this.currentPoint.x]['downNum'];
+             if (currentDownNum === 1) {
+                 // exit when we're at the first
+                 return null
+             }
+             for (let clueIndex = 0; clueIndex < this.cluesDown.length; clueIndex++) {
+                 if (this.cluesDown[clueIndex].Num === currentDownNum) {
+                     return this.cluesDown[clueIndex-1].Num;
+                 }
+             }
+         },
+
+         getPreviousDownWord() {
+             let x = this.currentPoint.x;
+             for (let y = this.currentPoint.y; y >= 0; y--) {
+                 for (x; x >= 0; x--) {
+                     if (this.staticGrid[y][x]['downNum'] === this.getPreviousDownNum()) {
+                         return this.getDownWordStart(y, x)
+                     }
+                 }
+                 x = this.staticGrid[y].length-1;
              }
              return null
          },
@@ -649,6 +688,20 @@
              })
          },
 
+         moveDownWordLeft() {
+             let previousWordStart = this.getPreviousDownWord();
+             if (!previousWordStart) {
+                 return
+             }
+             this.focusEar({
+                 y: previousWordStart.y,
+                 x: previousWordStart.x,
+                 direction: this.currentDirection,
+                 acrossNum: this.staticGrid[previousWordStart.y][previousWordStart.x]['acrossNum'],
+                 downNum: this.staticGrid[previousWordStart.y][previousWordStart.x]['downNum']
+             })
+         },
+
          moveWordHandler(event) {
              if (event.shiftKey === false) {
                  if (this.currentDirection === "across") {
@@ -660,7 +713,7 @@
                  if (this.currentDirection === "across") {
                      this.moveAcrossWordLeft();
                  } else if (this.currentDirection === "down") {
-                     //this.moveDownWordLeft();
+                     this.moveDownWordLeft();
                  }
              }
          },
@@ -673,8 +726,8 @@
              // let prevY = this.previousSelectAcross[0];
              // let prevX = this.previousSelectDown[0];
              // TODO fix cluenum CSS geting fucked up with a letter
-             console.log('keyup');
-             console.log(event);
+             //console.log('keyup');
+             //console.log(event);
              if (/^\w/.test(event.key) && event.key.length === 1) {
                  // it's a letter to insert into grid
                  this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] = event.key.toUpperCase();
@@ -703,7 +756,7 @@
              if (event.keyCode === 9) {
                  event.preventDefault();                 
              }
-             console.log('keydown');
+             //console.log('keydown');
              this.keyHandler(event);
          });
      }
