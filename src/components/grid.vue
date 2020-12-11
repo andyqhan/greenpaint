@@ -297,7 +297,6 @@
              // direction is a string "up", "down", "left", "right"
              // TODO maybe rename direction to movementDirection lol
              // passingDirection is the direction to pass to focusEar
-             // TODO add functionality for wrapping around the edge of the grid
              // console.log(direction);
              // console.log(this.currentDirection);
              switch(direction.toLowerCase()) {
@@ -347,19 +346,20 @@
                          break;
                      } else if (this.dynamicGrid[this.currentPoint.y+1][this.currentPoint.x]['isBlock'] === true) {
                          // look for the closest block that's not a block
-                         let targetY = this.currentPoint.y+1;
-                         while (targetY <= this.dynamicGrid.length-1 && this.dynamicGrid[targetY][this.currentPoint.x]['isBlock'] === true) {
-                             targetY++;
-                         }
-                         if (targetY <= this.dynamicGrid.length-1) {
-                             this.focusEar({
-                                 y: targetY,
-                                 x: this.currentPoint.x,
-                                 direction: this.currentDirection,
-                                 acrossNum: this.staticGrid[targetY][this.currentPoint.x]['acrossNum'],
-                                 downNum: this.staticGrid[targetY][this.currentPoint.x]['downNum']
-                             });
-                         }
+                         // let targetY = this.currentPoint.y+1;
+                         // while (targetY <= this.dynamicGrid.length-1 && this.dynamicGrid[targetY][this.currentPoint.x]['isBlock'] === true) {
+                         //     targetY++;
+                         // }
+                         // if (targetY <= this.dynamicGrid.length-1) {
+                         //     this.focusEar({
+                         //         y: targetY,
+                         //         x: this.currentPoint.x,
+                         //         direction: this.currentDirection,
+                         //         acrossNum: this.staticGrid[targetY][this.currentPoint.x]['acrossNum'],
+                         //         downNum: this.staticGrid[targetY][this.currentPoint.x]['downNum']
+                         //     });
+                         // }
+                         this.moveDownWordRight();
                      } else {
                          this.focusEar({
                              y: this.currentPoint.y+1,
@@ -618,6 +618,7 @@
          },
 
          getDownWordStart(y, x) {
+             console.log('computing getDownWordStart')
              let currentDownNum = this.staticGrid[y][x]['downNum'];
              let targetY = y;
              while (targetY > 0 && this.staticGrid[targetY][x]['downNum'] === currentDownNum) {
@@ -625,8 +626,10 @@
                  targetY--;
              }
              if (this.staticGrid[targetY][x]['isBlock'] === true) {
+                 console.log('getDownWordStart returning plus one since block ' + (targetY+1).toString() + ", " + x.toString())
                  return {y: targetY+1, x: x}
              } else {
+                 console.log('getDownWordStart returning ' + targetY.toString() + ", " + x.toString())
                  return {y: targetY, x: x}                 
              }
          },
@@ -639,18 +642,21 @@
              }
              for (let clueIndex = 0; clueIndex < this.cluesDown.length; clueIndex++) {
                  if (this.cluesDown[clueIndex].Num === currentDownNum) {
+                     console.log("nextDownNum: " + this.cluesDown[clueIndex+1].Num.toString())
                      return this.cluesDown[clueIndex+1].Num;
                  }
              }
          },
 
          getNextDownWord() {
-             // TODO rewrite all the other tab functions to follow this model
-             //let currentDownNum = this.staticGrid[this.currentPoint.y][this.currentPoint.x]['downNum']
-             let x = this.currentPoint.x;
-             for (let y = this.currentPoint.y; y < this.staticGrid.length; y++) {
+             let currentDownStart = this.getDownWordStart(this.currentPoint.y, this.currentPoint.x);
+             let x = currentDownStart.x;
+             let y = currentDownStart.y;
+             for (y; y < this.staticGrid.length; y++) {
                  for (x; x < this.staticGrid[y].length; x++) {
+                     //console.log("iterating downNum: " + this.staticGrid[y][x]['downNum'].toString());
                      if (this.staticGrid[y][x]['downNum'] === this.getNextDownNum()) {
+                         console.log('returning getDownWordStart')
                          return this.getDownWordStart(y, x);
                      }
                  }
@@ -688,6 +694,7 @@
          moveDownWordRight() {
              let nextWordStart = this.getNextDownWord();
              if (!nextWordStart) {
+                 console.log('no NextDownWord')
                  return
              }
              this.focusEar({
