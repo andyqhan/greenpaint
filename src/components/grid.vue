@@ -308,25 +308,9 @@
                      if (this.currentDirection === "across") {
                          this.switchDirection();
                      }
-                     if (this.currentPoint.y === 0) {
-                         // do nothing at the top of the grid
-                         break;
-                     } else if (this.dynamicGrid[this.currentPoint.y-1][this.currentPoint.x]['isBlock'] === true) {
-                         // look for the closest block that's not a block
-                         let targetY = this.currentPoint.y-1;
-                         while (targetY !== -1 && this.dynamicGrid[targetY][this.currentPoint.x]['isBlock'] === true) {
-                             targetY--;
-                         }
-                         if (targetY !== -1) {
-                             // if target is -1, there's no non-block above point
-                             this.focusEar({
-                                 y: targetY,
-                                 x: this.currentPoint.x,
-                                 direction: this.currentDirection,
-                                 acrossNum: this.staticGrid[targetY][this.currentPoint.x]['acrossNum'],
-                                 downNum: this.staticGrid[targetY][this.currentPoint.x]['downNum']
-                             });
-                         }
+                     if (this.currentPoint.y === 0 || this.staticGrid[this.currentPoint.y-1][this.currentPoint.x]['isBlock'] === true) {
+                         // if we're at top of grid or the immediate above is a block
+                         this.moveDownWordLeft()
                      } else {
                          this.focusEar({
                              y: this.currentPoint.y-1,
@@ -341,10 +325,8 @@
                      if (this.currentDirection === "across") {
                          this.switchDirection();
                      }
-                     if (this.currentPoint.y === this.dynamicGrid.length) {
-                         // do nothing at the top of the grid
-                         break;
-                     } else if (this.currentPoint.y+1 >= this.staticGrid.length || this.staticGrid[this.currentPoint.y+1][this.currentPoint.x]['isBlock'] === true) {
+                     if (this.currentPoint.y+1 >= this.staticGrid.length || this.staticGrid[this.currentPoint.y+1][this.currentPoint.x]['isBlock'] === true) {
+                         // if we're at bottom of grid or the immediate below is a block
                          this.moveDownWordRight();
                      } else {
                          this.focusEar({
@@ -385,6 +367,7 @@
                          if (targetX === -1) {
                              // case when the left edge is a block
                              // TODO this is a dirty hack refactor this code to be more efficient
+                             // can't simply use moveAcrossWord('left') because then it skips to the beginning of the word
                              let targetX2 = this.dynamicGrid[0].length-1;
                              while (this.dynamicGrid[this.currentPoint.y-1][targetX2]['isBlock'] === true) {
                                  targetX2--;
@@ -422,48 +405,8 @@
                      if (this.currentPoint.x === this.dynamicGrid[0].length-1 && this.currentPoint.y === this.dynamicGrid.length-1) {
                          // do nothing at the bottom right corner
                          break;
-                     } else if (this.currentPoint.x === this.dynamicGrid[0].length-1 && this.currentPoint.y !== this.dynamicGrid.length-1) {
-                         // wrap around if we're at the right edge
-                         let targetX = 0;
-                         while (this.dynamicGrid[this.currentPoint.y+1][targetX]['isBlock'] === true) {
-                             targetX++;
-                         }
-                         this.focusEar({
-                             y: this.currentPoint.y+1,
-                             x: targetX,
-                             direction: this.currentDirection,
-                             acrossNum: this.staticGrid[this.currentPoint.y+1][targetX]['acrossNum'],
-                             downNum: this.staticGrid[this.currentPoint.y+1][targetX]['downNum']
-                         })
-                     } else if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x+1]['isBlock'] === true) {
-                         // look for the closest square that's not a block
-                         let targetX = this.currentPoint.x+1;
-                         while (targetX <= this.dynamicGrid[0].length-1 && this.dynamicGrid[this.currentPoint.y][targetX]['isBlock'] === true) {
-                             targetX++;
-                         }
-                         if (targetX > this.dynamicGrid[0].length-1) {
-                             // case when the right edge is a block
-                             // TODO this is a dirty hack refactor this code to be more efficient
-                             let targetX2 = 0;
-                             while (this.dynamicGrid[this.currentPoint.y+1][targetX2]['isBlock'] === true) {
-                                 targetX2++;
-                             }
-                             this.focusEar({
-                                 y: this.currentPoint.y+1,
-                                 x: targetX2,
-                                 direction: this.currentDirection,
-                                 acrossNum: this.staticGrid[this.currentPoint.y+1][targetX2]['acrossNum'],
-                                 downNum: this.staticGrid[this.currentPoint.y+1][targetX2]['downNum']
-                             })
-                         } else if (targetX <= this.dynamicGrid[0].length-1) {
-                             this.focusEar({
-                                 y: this.currentPoint.y,
-                                 x: targetX,
-                                 direction: this.currentDirection,
-                                 acrossNum: this.staticGrid[this.currentPoint.y][targetX]['acrossNum'],
-                                 downNum: this.staticGrid[this.currentPoint.y][targetX]['downNum'],
-                             });
-                         }
+                     } else if (this.currentPoint.x === this.dynamicGrid[0].length-1 || this.staticGrid[this.currentPoint.y][this.currentPoint.x+1]['isBlock'] === true) {
+                         this.moveAcrossWord("right");
                      } else {
                          this.focusEar({
                              y: this.currentPoint.y,
@@ -678,6 +621,7 @@
          },
 
          moveDownWordRight() {
+             // TODO combine this and moveDownWordLeft() into one function, like the thing above
              let nextWordStart = this.getNextDownWord();
              if (!nextWordStart) {
                  console.log('no NextDownWord')
