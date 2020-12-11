@@ -344,21 +344,7 @@
                      if (this.currentPoint.y === this.dynamicGrid.length) {
                          // do nothing at the top of the grid
                          break;
-                     } else if (this.dynamicGrid[this.currentPoint.y+1][this.currentPoint.x]['isBlock'] === true) {
-                         // look for the closest block that's not a block
-                         // let targetY = this.currentPoint.y+1;
-                         // while (targetY <= this.dynamicGrid.length-1 && this.dynamicGrid[targetY][this.currentPoint.x]['isBlock'] === true) {
-                         //     targetY++;
-                         // }
-                         // if (targetY <= this.dynamicGrid.length-1) {
-                         //     this.focusEar({
-                         //         y: targetY,
-                         //         x: this.currentPoint.x,
-                         //         direction: this.currentDirection,
-                         //         acrossNum: this.staticGrid[targetY][this.currentPoint.x]['acrossNum'],
-                         //         downNum: this.staticGrid[targetY][this.currentPoint.x]['downNum']
-                         //     });
-                         // }
+                     } else if (this.currentPoint.y+1 >= this.staticGrid.length || this.staticGrid[this.currentPoint.y+1][this.currentPoint.x]['isBlock'] === true) {
                          this.moveDownWordRight();
                      } else {
                          this.focusEar({
