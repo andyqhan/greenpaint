@@ -3,6 +3,7 @@
         <toolbar :currentPoint="currentPoint"
          @check-square="this.$refs.grid.checkSquare()"
          @check-word="this.$refs.grid.checkWord()"
+         @check-grid="this.$refs.grid.checkGrid()"
         ></toolbar>
     </div>
     <div class="activeClue" :style="activeClueCSS">

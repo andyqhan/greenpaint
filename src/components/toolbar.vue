@@ -4,7 +4,7 @@
         <div class="dropcontent" v-if="checkActive">
             <div class="menuitem" @click="this.$emit('check-square')">Square</div>
             <div class="menuitem" @click="this.$emit('check-word')">Word</div>
-            <div class="menuitem">Grid</div>
+            <div class="menuitem" @click="this.$emit('check-grid')">Grid</div>
         </div>
     </div>
 </template>
@@ -17,7 +17,7 @@
      props: {
          currentPoint: Object
      },
-     emits: ['check-square', 'check-word'],
+     emits: ['check-square', 'check-word', 'check-grid'],
 
      data() {
          return {

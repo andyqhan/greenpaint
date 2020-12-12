@@ -712,11 +712,9 @@
          
          checkSquare(y=this.currentPoint.y, x=this.currentPoint.x) {
              if (this.dynamicGrid[y][x]['currentLetter'] === this.staticGrid[y][x]['correctLetter']) {
-                 console.log('is correct')
                  this.dynamicGrid[y][x]['isIncorrect'] = false;
                  this.dynamicGrid[y][x]['isCorrect'] = true;
              } else {
-                 console.log('is incorrect')
                  this.dynamicGrid[y][x]['isIncorrect'] = true;
                  this.dynamicGrid[y][x]['isCorrect'] = false;
              }
@@ -741,6 +739,18 @@
                  }
              }
          },
+
+         checkGrid() {
+             for (let iY = 0; iY < this.staticGrid.length; iY++) {
+                 for (let iX = 0; iX < this.staticGrid[iY].length; iX++) {
+                     if (this.staticGrid[iY][iX].isBlock === true) {
+                         continue;
+                     } else {
+                         this.checkSquare(iY, iX);
+                     }
+                 }
+             }
+         },
          
          keyHandler(event) {
              //console.log(this.previousSelectAcross)
@@ -751,6 +761,7 @@
              //console.log(event);
              if (/^\w/.test(event.key) && event.key.length === 1) {
                  // it's a letter to insert into grid
+                 this.clearCheckSquare(this.currentPoint.y, this.currentPoint.x);
                  this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] = event.key.toUpperCase();
                  this.moveForwardCurrentDirection();
              } else if (/^Backspace/.test(event.key)) {
