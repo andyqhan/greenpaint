@@ -17,6 +17,7 @@
      props: {
          currentPoint: Object
      },
+     emits: ['check-square'],
 
      data() {
          return {
@@ -52,7 +53,8 @@
 
  /* Dropdown button on hover & focus */
  .dropbtn:hover, .dropbtn:focus {
-     background-color: #2980B9;
+     /* background-color: #2980B9; */
+     outline: none;
  }
 
  /* The container <div> - needed to position the dropdown content */
@@ -76,5 +78,6 @@
      background-color: lightgrey;
      border-radius: 5px;
      padding-left: 1px;
+     cursor: pointer;
  }
 </style>

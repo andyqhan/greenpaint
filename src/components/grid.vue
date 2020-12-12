@@ -19,8 +19,10 @@
                     :y="cell.y"
                     :isPoint="dynamicGrid[row_index][cell_index].isPoint"
                     :isPrimarySelect="dynamicGrid[row_index][cell_index].isPrimarySelect"
-                    :isSecondarySelect="dynamicGrid[row_index][cell_index].isSecondarySelect">
-                    :ref="[row_index, cell_index]"</square>
+                    :isSecondarySelect="dynamicGrid[row_index][cell_index].isSecondarySelect"
+                    :isCorrect="dynamicGrid[row_index][cell_index].isCorrect"
+                    :isIncorrect="dynamicGrid[row_index][cell_index].isIncorrect"
+                    ></square>
         </div>
     </div>
 </template>
@@ -154,6 +156,8 @@
                          thisCell['isPoint'] = false;
                          
                          thisCell['currentLetter'] = '';
+                         thisCell['isCorrect'] = false;
+                         thisCell['isIncorrect'] = false;
                      }
                      outputGrid[row].push(thisCell)
                  }
@@ -670,8 +674,21 @@
 
          // TODO write moveBeginningWord method
 
+         clearCheckSquare(y, x) {
+             this.dynamicGrid[y][x]['isIncorrect'] = false;
+             this.dynamicGrid[y][x]['isCorrect'] = false;
+         },
+         
          checkSquare() {
-             console.log(this.currentPoint);
+             if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] === this.staticGrid[this.currentPoint.y][this.currentPoint.x]['correctLetter']) {
+                 console.log('is correct')
+                 this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isIncorrect'] = false;
+                 this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isCorrect'] = true;
+             } else {
+                 console.log('is incorrect')
+                 this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isIncorrect'] = true;
+                 this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isCorrect'] = false;
+             }
          },
          
          keyHandler(event) {
@@ -688,6 +705,7 @@
              } else if (/^Backspace/.test(event.key)) {
                  // clear current letter and move back
                  this.clearSquareLetter(this.currentPoint.y, this.currentPoint.x);
+                 this.clearCheckSquare(this.currentPoint.y, this.currentPoint.x);
                  this.moveBackwardCurrentDirection();
              } else if (/^Arrow/.test(event.key)) {
                  // move point
@@ -701,9 +719,8 @@
          }
      },
      mounted() {
-         //this.createGrid(this.gridObject)
-         //console.log(this.dynamicGrid)
-         //console.log(this.staticGrid)
+         // console.log(this.dynamicGrid)
+         // console.log(this.staticGrid)
          window.addEventListener('keydown', event => {
              // i don't get why these are being logged twice?
              if (event.keyCode === 9) {
@@ -712,6 +729,14 @@
              //console.log('keydown');
              this.keyHandler(event);
          });
+
+         this.focusEar({
+             y: this.currentPoint.y,
+             x: this.currentPoint.x,
+             direction: this.currentDirection,
+             acrossNum: this.staticGrid[this.currentPoint.y][this.currentPoint.x]['acrossNum'],
+             downNum: this.staticGrid[this.currentPoint.y][this.currentPoint.x]['downNum'],
+         })
      }
  }
 </script>

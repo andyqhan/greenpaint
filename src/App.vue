@@ -65,7 +65,6 @@
                  }
              }
              this.currentPoint = event.currentPoint;
-             console.log(this.currentPoint)
          },
          primaryClueFocusToAppEar(clueText) {
              //console.log('primaryClueFocusToAppEar')

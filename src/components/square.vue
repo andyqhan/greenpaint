@@ -12,24 +12,26 @@
  export default {
      name: 'square',
      props: {
+         // static
          x: Number,
          y: Number,
          correctLetter: String,
          isBlock: Boolean,
          isCircled: Boolean,
-         isRebus: Boolean,
-         
+         isRebus: Boolean,         
          isWordStartAcross: Boolean,
          isWordStartDown: Boolean,
          acrossNum: Number,
          downNum: Number,
+
+         // dynamic
          currentLetter: String,
-
          currentDirection: String,
-
          isSecondarySelect: Boolean,
          isPrimarySelect: Boolean,
          isPoint: Boolean,
+         isCorrect: Boolean,
+         isIncorrect: Boolean
      },
      emits: ['square-focus'],
      data() {
@@ -53,6 +55,8 @@
                  primarySelect: this.isPrimarySelect,
                  secondarySelect: this.isSecondarySelect,
                  isPoint: this.isPoint,
+                 isCorrect: this.isCorrect,
+                 isIncorrect: this.isIncorrect
              }
          },
          cluenum() {
@@ -107,6 +111,7 @@
      vertical-align: middle;
      color: #000000;
      background-color: lightgray;
+     cursor: default;
  }
  span:focus {
      outline: none
@@ -129,6 +134,13 @@
      background-color: #eeee00;
      /* wtf is active */
      outline: none
+ }
+ .isCorrect {
+     /* TODO this is also coloring the borders */
+     color: blue;
+ }
+ .isIncorrect {
+     color: red;
  }
  .cluenum-square {
      /* this styling is almost certainly not robust and will break */
