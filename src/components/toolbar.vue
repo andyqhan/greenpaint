@@ -2,8 +2,8 @@
     <div class="dropdown">
         <button class="dropbtn" @click="toggleCheck">Check</button>
         <div class="dropcontent" v-if="checkActive">
-            <div class="menuitem" @click="checkSquare">Square</div>
-            <div class="menuitem">Word</div>
+            <div class="menuitem" @click="this.$emit('check-square')">Square</div>
+            <div class="menuitem" @click="this.$emit('check-word')">Word</div>
             <div class="menuitem">Grid</div>
         </div>
     </div>
@@ -17,7 +17,7 @@
      props: {
          currentPoint: Object
      },
-     emits: ['check-square'],
+     emits: ['check-square', 'check-word'],
 
      data() {
          return {
@@ -29,13 +29,6 @@
          toggleCheck() {
              this.checkActive = !this.checkActive;
          },
-
-         checkSquare() {
-             /**
-              * Check the square at point's letter
-              */
-             this.$emit('check-square')
-         }
      },
  }
 </script>

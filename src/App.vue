@@ -1,6 +1,9 @@
 <template>
     <div class="toolbar" :style="activeClueCSS">
-        <toolbar :currentPoint="currentPoint" @check-square="checkSquareEar"></toolbar>
+        <toolbar :currentPoint="currentPoint"
+         @check-square="this.$refs.grid.checkSquare()"
+         @check-word="this.$refs.grid.checkWord()"
+        ></toolbar>
     </div>
     <div class="activeClue" :style="activeClueCSS">
         <p>{{ activeClue  }}</p>
@@ -66,13 +69,11 @@
              }
              this.currentPoint = event.currentPoint;
          },
+         
          primaryClueFocusToAppEar(clueText) {
              //console.log('primaryClueFocusToAppEar')
              this.activeClue = clueText
          },
-         checkSquareEar() {
-             this.$refs.grid.checkSquare();
-         }
      }
 }
 </script>

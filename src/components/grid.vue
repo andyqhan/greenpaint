@@ -480,6 +480,23 @@
                  return {y: y, x: targetX}
              }
          },
+         
+         getAcrossWordEnd(y, x) {
+             let currentAcrossNum = this.staticGrid[y][x]['acrossNum'];
+             let targetX = x;
+             console.log("current across num: " + currentAcrossNum.toString())
+             while (targetX < this.staticGrid[y].length && this.staticGrid[y][targetX]['acrossNum'] === currentAcrossNum) {
+                 targetX++;
+             }
+             console.log("targetX: " + targetX.toString())
+             if (targetX >= this.staticGrid[y].length || this.staticGrid[y][targetX]['isBlock'] === true) {
+                 console.log('was a block')
+                 return {y: y, x: targetX-1}
+             } else {
+                 console.log('was not a block')
+                 return {y: y, x: targetX}
+             }
+         },
 
          getNextAcrossNum() {
              let currentAcrossNum = this.staticGrid[this.currentPoint.y][this.currentPoint.x]['acrossNum'];
@@ -565,6 +582,20 @@
                  return {y: targetY+1, x: x}
              } else {
                  //console.log('getDownWordStart returning ' + targetY.toString() + ", " + x.toString())
+                 return {y: targetY, x: x}                 
+             }
+         },
+
+         getDownWordEnd(y, x) {
+             let currentDownNum = this.staticGrid[y][x]['downNum'];
+             let targetY = y;
+             while (targetY < this.staticGrid.length && this.staticGrid[targetY][x]['downNum'] === currentDownNum) {
+                 // iterate till we get the next down word
+                 targetY++;
+             }
+             if (targetY >= this.staticGrid.length || this.staticGrid[targetY][x]['isBlock'] === true) {
+                 return {y: targetY-1, x: x}
+             } else {
                  return {y: targetY, x: x}                 
              }
          },
@@ -679,15 +710,35 @@
              this.dynamicGrid[y][x]['isCorrect'] = false;
          },
          
-         checkSquare() {
-             if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] === this.staticGrid[this.currentPoint.y][this.currentPoint.x]['correctLetter']) {
+         checkSquare(y=this.currentPoint.y, x=this.currentPoint.x) {
+             if (this.dynamicGrid[y][x]['currentLetter'] === this.staticGrid[y][x]['correctLetter']) {
                  console.log('is correct')
-                 this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isIncorrect'] = false;
-                 this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isCorrect'] = true;
+                 this.dynamicGrid[y][x]['isIncorrect'] = false;
+                 this.dynamicGrid[y][x]['isCorrect'] = true;
              } else {
                  console.log('is incorrect')
-                 this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isIncorrect'] = true;
-                 this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isCorrect'] = false;
+                 this.dynamicGrid[y][x]['isIncorrect'] = true;
+                 this.dynamicGrid[y][x]['isCorrect'] = false;
+             }
+         },
+
+         checkWord(y=this.currentPoint.y, x=this.currentPoint.x) {
+             let wordStart;
+             let wordEnd;
+             if (this.currentDirection === "across") {
+                 wordStart = this.getAcrossWordStart(y, x).x;
+                 wordEnd = this.getAcrossWordEnd(y, x).x;
+                 console.log("across start: " + wordStart.toString());
+                 console.log("across end: " + wordEnd.toString())
+                 for (let iX = wordStart; iX <= wordEnd; iX++) {
+                     this.checkSquare(y, iX);
+                 }
+             } else if (this.currentDirection === "down") {
+                 wordStart = this.getDownWordStart(y, x).y;
+                 wordEnd = this.getDownWordEnd(y, x).y;
+                 for (let iY = wordStart; iY <= wordEnd; iY++) {
+                     this.checkSquare(iY, x);
+                 }
              }
          },
          
