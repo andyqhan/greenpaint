@@ -19,8 +19,8 @@
                     :y="cell.y"
                     :isPoint="dynamicGrid[row_index][cell_index].isPoint"
                     :isPrimarySelect="dynamicGrid[row_index][cell_index].isPrimarySelect"
-                    :isSecondarySelect="dynamicGrid[row_index][cell_index].isSecondarySelect"></square>
-            <!-- ref="[row_index, cell_index]" :id="[row_index, cell_index]" -->
+                    :isSecondarySelect="dynamicGrid[row_index][cell_index].isSecondarySelect">
+                    :ref="[row_index, cell_index]"</square>
         </div>
     </div>
 </template>
@@ -285,6 +285,7 @@
              this.$emit('square-focus-to-app', {
                  squareFocusEvent: event,
                  primaryDirection: primaryDirection,
+                 currentPoint: this.currentPoint,
              })
          },
 
@@ -669,6 +670,9 @@
 
          // TODO write moveBeginningWord method
 
+         checkSquare() {
+             console.log(this.currentPoint);
+         },
          
          keyHandler(event) {
              //console.log(this.previousSelectAcross)

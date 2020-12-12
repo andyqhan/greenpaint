@@ -1,13 +1,13 @@
 <template>
     <div class="toolbar" :style="activeClueCSS">
-        <toolbar></toolbar>
+        <toolbar :currentPoint="currentPoint" @check-square="checkSquareEar"></toolbar>
     </div>
     <div class="activeClue" :style="activeClueCSS">
         <p>{{ activeClue  }}</p>
     </div>
     <div class="mainGrid">
         <grid @square-focus-to-app="squareFocusToAppEar($event)" :gridObject="puzzleGrid"
-         :cluesAcross="cluesAcross" :cluesDown="cluesDown"></grid>
+         :cluesAcross="cluesAcross" :cluesDown="cluesDown" ref="grid"></grid>
     </div>
     <div class="cluesAcross">
         <clueContainer @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
@@ -40,6 +40,7 @@
 
              clueFocus: {primary: '1A', secondary: '1D'},
              activeClue: '',
+             currentPoint: {y: 0, x: 0}
          };
      },
      computed: {
@@ -63,10 +64,15 @@
                      secondary: event.squareFocusEvent.acrossNum.toString() + 'A',
                  }
              }
+             this.currentPoint = event.currentPoint;
+             console.log(this.currentPoint)
          },
          primaryClueFocusToAppEar(clueText) {
              //console.log('primaryClueFocusToAppEar')
              this.activeClue = clueText
+         },
+         checkSquareEar() {
+             this.$refs.grid.checkSquare();
          }
      }
 }
