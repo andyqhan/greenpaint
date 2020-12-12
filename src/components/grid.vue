@@ -468,7 +468,7 @@
                  // iterate till we get the start of across word
                  targetX--;
              }
-             console.log(targetX)
+             //console.log(targetX)
              if (this.staticGrid[y][targetX]['isBlock'] === true) {
                  return {y: y, x: targetX+1}
              } else {
@@ -481,6 +481,7 @@
              if (currentAcrossNum === this.cluesAcross[this.cluesAcross.length-1].Num) {
                  return null
              }
+             // TODO binary search to make this faster?
              for (let clueIndex = 0; clueIndex < this.cluesAcross.length; clueIndex++) {
                  if (this.cluesAcross[clueIndex].Num === currentAcrossNum) {
                      return this.cluesAcross[clueIndex+1].Num;
@@ -547,7 +548,7 @@
          },
 
          getDownWordStart(y, x) {
-             console.log('computing getDownWordStart')
+             //console.log('computing getDownWordStart')
              let currentDownNum = this.staticGrid[y][x]['downNum'];
              let targetY = y;
              while (targetY > 0 && this.staticGrid[targetY][x]['downNum'] === currentDownNum) {
@@ -555,10 +556,10 @@
                  targetY--;
              }
              if (this.staticGrid[targetY][x]['isBlock'] === true) {
-                 console.log('getDownWordStart returning plus one since block ' + (targetY+1).toString() + ", " + x.toString())
+                 //console.log('getDownWordStart returning plus one since block ' + (targetY+1).toString() + ", " + x.toString())
                  return {y: targetY+1, x: x}
              } else {
-                 console.log('getDownWordStart returning ' + targetY.toString() + ", " + x.toString())
+                 //console.log('getDownWordStart returning ' + targetY.toString() + ", " + x.toString())
                  return {y: targetY, x: x}                 
              }
          },
@@ -571,7 +572,7 @@
              }
              for (let clueIndex = 0; clueIndex < this.cluesDown.length; clueIndex++) {
                  if (this.cluesDown[clueIndex].Num === currentDownNum) {
-                     console.log("nextDownNum: " + this.cluesDown[clueIndex+1].Num.toString())
+                     //console.log("nextDownNum: " + this.cluesDown[clueIndex+1].Num.toString())
                      return this.cluesDown[clueIndex+1].Num;
                  }
              }
@@ -585,7 +586,7 @@
                  for (x; x < this.staticGrid[y].length; x++) {
                      //console.log("iterating downNum: " + this.staticGrid[y][x]['downNum'].toString());
                      if (this.staticGrid[y][x]['downNum'] === this.getNextDownNum()) {
-                         console.log('returning getDownWordStart')
+                         //console.log('returning getDownWordStart')
                          return this.getDownWordStart(y, x);
                      }
                  }

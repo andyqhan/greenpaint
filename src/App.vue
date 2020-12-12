@@ -1,6 +1,6 @@
 <template>
-    <div class="toolbar">
-        <p>[placeholder for toolbar]</p>
+    <div class="toolbar" :style="activeClueCSS">
+        <toolbar></toolbar>
     </div>
     <div class="activeClue" :style="activeClueCSS">
         <p>{{ activeClue  }}</p>
@@ -23,12 +23,14 @@
  import puzzle from './examples/circleex.json'
  import grid from './components/grid.vue'
  import clueContainer from './components/clueContainer.vue'
+ import toolbar from './components/toolbar.vue'
  
  export default {
      name: 'App',
      components: {
          grid,
-         clueContainer
+         clueContainer,
+         toolbar
      },
      data() {
          return {
