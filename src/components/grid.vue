@@ -726,8 +726,8 @@
              if (this.currentDirection === "across") {
                  wordStart = this.getAcrossWordStart(y, x).x;
                  wordEnd = this.getAcrossWordEnd(y, x).x;
-                 console.log("across start: " + wordStart.toString());
-                 console.log("across end: " + wordEnd.toString())
+                 //console.log("across start: " + wordStart.toString());
+                 //console.log("across end: " + wordEnd.toString())
                  for (let iX = wordStart; iX <= wordEnd; iX++) {
                      this.checkSquare(y, iX);
                  }
@@ -747,6 +747,42 @@
                          continue;
                      } else {
                          this.checkSquare(iY, iX);
+                     }
+                 }
+             }
+         },
+
+         revealSquare(y=this.currentPoint.y, x=this.currentPoint.x) {
+             this.dynamicGrid[y][x]['currentLetter'] = this.staticGrid[y][x]['correctLetter'];
+             this.dynamicGrid[y][x]['isIncorrect'] = false;
+             this.dynamicGrid[y][x]['isCorrect'] = true;
+         },
+
+         revealWord(y=this.currentPoint.y, x=this.currentPoint.x) {
+             let wordStart;
+             let wordEnd;
+             if (this.currentDirection === "across") {
+                 wordStart = this.getAcrossWordStart(y, x).x;
+                 wordEnd = this.getAcrossWordEnd(y, x).x;
+                 for (let iX = wordStart; iX <= wordEnd; iX++) {
+                     this.revealSquare(y, iX);
+                 }
+             } else if (this.currentDirection === "down") {
+                 wordStart = this.getDownWordStart(y, x).y;
+                 wordEnd = this.getDownWordEnd(y, x).y;
+                 for (let iY = wordStart; iY <= wordEnd; iY++) {
+                     this.revealSquare(iY, x);
+                 }
+             }
+         },
+
+         revealGrid() {
+             for (let iY = 0; iY < this.staticGrid.length; iY++) {
+                 for (let iX = 0; iX < this.staticGrid[iY].length; iX++) {
+                     if (this.staticGrid[iY][iX].isBlock === true) {
+                         continue;
+                     } else {
+                         this.revealSquare(iY, iX);
                      }
                  }
              }

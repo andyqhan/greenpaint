@@ -4,6 +4,9 @@
          @check-square="this.$refs.grid.checkSquare()"
          @check-word="this.$refs.grid.checkWord()"
          @check-grid="this.$refs.grid.checkGrid()"
+         @reveal-square="this.$refs.grid.revealSquare()"
+         @reveal-word="this.$refs.grid.revealWord()"
+         @reveal-grid="this.$refs.grid.revealGrid()"
         ></toolbar>
     </div>
     <div class="activeClue" :style="activeClueCSS">

@@ -7,6 +7,14 @@
             <div class="menuitem" @click="this.$emit('check-grid')">Grid</div>
         </div>
     </div>
+    <div class="dropdown">
+        <button class="dropbtn" @click="toggleReveal">Reveal</button>
+        <div class="dropcontent" v-if="revealActive">
+            <div class="menuitem" @click="this.$emit('reveal-square')">Square</div>
+            <div class="menuitem" @click="this.$emit('reveal-word')">Word</div>
+            <div class="menuitem" @click="this.$emit('reveal-grid')">Grid</div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -17,11 +25,17 @@
      props: {
          currentPoint: Object
      },
-     emits: ['check-square', 'check-word', 'check-grid'],
+     emits: ['check-square',
+             'check-word',
+             'check-grid',
+             'reveal-square',
+             'reveal-word',
+             'reveal-grid'],
 
      data() {
          return {
              checkActive: false,
+             revealActive: false
          }
      },
 
@@ -29,6 +43,10 @@
          toggleCheck() {
              this.checkActive = !this.checkActive;
          },
+         
+         toggleReveal() {
+             this.revealActive = !this.revealActive;
+         }
      },
  }
 </script>
