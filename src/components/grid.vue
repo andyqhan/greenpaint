@@ -766,8 +766,12 @@
                  this.moveForwardCurrentDirection();
              } else if (/^Backspace/.test(event.key)) {
                  // clear current letter and move back
-                 this.clearSquareLetter(this.currentPoint.y, this.currentPoint.x);
-                 this.clearCheckSquare(this.currentPoint.y, this.currentPoint.x);
+                 if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isCorrect']) {
+                     // don't delete the letter if we know it's correct
+                 } else {
+                     this.clearSquareLetter(this.currentPoint.y, this.currentPoint.x);
+                     this.clearCheckSquare(this.currentPoint.y, this.currentPoint.x);
+                 }
                  this.moveBackwardCurrentDirection();
              } else if (/^Arrow/.test(event.key)) {
                  // move point
