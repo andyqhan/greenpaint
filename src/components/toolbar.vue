@@ -15,6 +15,12 @@
             <div class="menuitem" @click="this.$emit('reveal-grid')">Grid</div>
         </div>
     </div>
+    <div class="dropdown">
+        <button class="dropbtn" @click="toggleClear">Clear</button>
+        <div class="dropcontent" v-if="revealClear">
+            <div class="menuitem" @click="this.$emit('clear-grid')">Grid</div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -30,12 +36,15 @@
              'check-grid',
              'reveal-square',
              'reveal-word',
-             'reveal-grid'],
+             'reveal-grid',
+             'clear-grid'
+     ],
 
      data() {
          return {
              checkActive: false,
-             revealActive: false
+             revealActive: false,
+             revealClear: false,
          }
      },
 
@@ -46,6 +55,10 @@
          
          toggleReveal() {
              this.revealActive = !this.revealActive;
+         },
+
+         toggleClear() {
+             this.revealClear = !this.revealClear;
          }
      },
  }
@@ -71,6 +84,8 @@
  /* The container <div> - needed to position the dropdown content */
  .dropdown {
      position: relative;
+     display: inline-block;
+     padding-right: 5px;
  }
 
  /* Dropdown Content (Hidden by Default) */

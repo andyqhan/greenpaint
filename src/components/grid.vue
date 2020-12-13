@@ -807,6 +807,15 @@
                  }
              }
          },
+
+         clearGrid() {
+             for (let iY = 0; iY < this.staticGrid.length; iY++) {
+                 for (let iX = 0; iX < this.staticGrid[iY].length; iX++) {
+                     this.clearCheckSquare(iY, iX);
+                     this.clearSquareLetter(iY, iX);
+                 }
+             }
+         },
          
          keyHandler(event) {
              //console.log(this.previousSelectAcross)

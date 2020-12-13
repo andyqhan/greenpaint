@@ -7,10 +7,11 @@
          @reveal-square="this.$refs.grid.revealSquare()"
          @reveal-word="this.$refs.grid.revealWord()"
          @reveal-grid="this.$refs.grid.revealGrid()"
+         @clear-grid="this.$refs.grid.clearGrid()"
         ></toolbar>
     </div>
     <div class="activeClue" :style="activeClueCSS">
-        <p>{{ activeClue  }}</p>
+        <p>{{ activeClue }}</p>
     </div>
     <div class="mainGrid">
         <grid @square-focus-to-app="squareFocusToAppEar($event)" :gridObject="puzzleGrid"
