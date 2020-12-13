@@ -1,4 +1,7 @@
 <template>
+    <div v-if="currentSquaresFilled === squareCount">
+        {{ gridFullCheck() }}
+    </div>
     <div class="gridContainer" :style="cssGridVars">
         <div class="row" v-for="(row, row_index) in staticGrid" :key="row_index" :style="cssRowVars">
             <square v-for="(cell, cell_index) in row"
@@ -51,6 +54,7 @@
              previousSelectDown: [],
 
              currentPoint: {y: 0, x: 0},
+             currentSquaresFilled: 0,
          }
      },
      created() {
@@ -65,12 +69,14 @@
                  'grid-template-rows': 'repeat(' + this.gridObject[0].length + ', 1fr)'
              }
          },
+         
          cssRowVars() {
              return {
                  'grid-column-start': 1,
                  'grid-column-end': this.dynamicGrid[0].length
              }
          },
+         
          staticGrid() {
              //console.log("staticGrid called")
              // gridObject is actually an array lol
@@ -136,6 +142,20 @@
              //console.log(outputGrid)
              return outputGrid
          },
+
+         squareCount() {
+             let count = 0;
+             for (let iY = 0; iY < this.staticGrid.length; iY++) {
+                 for (let iX = 0; iX < this.staticGrid[iY].length; iX++) {
+                     if (this.staticGrid[iY][iX].isBlock === true) {
+                         continue;
+                     } else {
+                         count += 1;
+                     }
+                 }
+             }
+             return count
+         }
      },
      methods: {
          createDynamicGrid() {
@@ -798,6 +818,9 @@
              if (/^\w/.test(event.key) && event.key.length === 1) {
                  // it's a letter to insert into grid
                  this.clearCheckSquare(this.currentPoint.y, this.currentPoint.x);
+                 if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] === "") {
+                     this.currentSquaresFilled += 1;
+                 }
                  this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] = event.key.toUpperCase();
                  this.moveForwardCurrentDirection();
              } else if (/^Backspace/.test(event.key)) {
@@ -805,6 +828,7 @@
                  if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isCorrect']) {
                      // don't delete the letter if we know it's correct
                  } else {
+                     this.currentSquaresFilled -= 1;
                      this.clearSquareLetter(this.currentPoint.y, this.currentPoint.x);
                      this.clearCheckSquare(this.currentPoint.y, this.currentPoint.x);
                  }
@@ -818,6 +842,17 @@
              } else if (event.keyCode === 9) {
                  this.moveWordHandler(event);
              }
+         },
+
+         gridFullCheck() {
+             for (let iY = 0; iY < this.staticGrid.length; iY++) {
+                 for (let iX = 0; iX < this.staticGrid[iY].length; iX++) {
+                     if (this.dynamicGrid[iY][iX]['currentLetter'] !== this.staticGrid[iY][iX]['correctLetter']) {
+                         return "One or more letters are incorrect 😟"
+                     }
+                 }
+             }
+             return "Congratulations! 🎉"
          }
      },
      mounted() {
