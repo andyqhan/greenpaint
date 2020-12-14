@@ -322,16 +322,28 @@
              // console.log(this.currentDirection);
              switch(direction.toLowerCase()) {
                  case "up":
-                     // TODO consider implementing normal behavior (when you
-                     // reach a block and currentDirection is down, move to the
-                     // numerically next down clue). right now, it moves to the one
-                     // immediately below, which is not how NYT or PuzzleMe does it
                      if (this.currentDirection === "across") {
                          this.switchDirection();
                      }
-                     if (this.currentPoint.y === 0 || this.staticGrid[this.currentPoint.y-1][this.currentPoint.x]['isBlock'] === true) {
-                         // if we're at top of grid or the immediate above is a block
-                         this.moveDownWordLeft()
+                     if (this.currentPoint.y === 0) {
+                         // do nothing at the top of the grid
+                         break;
+                     } else if (this.dynamicGrid[this.currentPoint.y-1][this.currentPoint.x]['isBlock'] === true) {
+                         // look for the closest block that's not a block
+                         let targetY = this.currentPoint.y-1;
+                         while (targetY !== -1 && this.dynamicGrid[targetY][this.currentPoint.x]['isBlock'] === true) {
+                             targetY--;
+                         }
+                         if (targetY !== -1) {
+                             // if target is -1, there's no non-block above point
+                             this.focusEar({
+                                 y: targetY,
+                                 x: this.currentPoint.x,
+                                 direction: this.currentDirection,
+                                 acrossNum: this.staticGrid[targetY][this.currentPoint.x]['acrossNum'],
+                                 downNum: this.staticGrid[targetY][this.currentPoint.x]['downNum']
+                             });
+                         }
                      } else {
                          this.focusEar({
                              y: this.currentPoint.y-1,
@@ -346,9 +358,24 @@
                      if (this.currentDirection === "across") {
                          this.switchDirection();
                      }
-                     if (this.currentPoint.y+1 >= this.staticGrid.length || this.staticGrid[this.currentPoint.y+1][this.currentPoint.x]['isBlock'] === true) {
-                         // if we're at bottom of grid or the immediate below is a block
-                         this.moveDownWordRight();
+                     if (this.currentPoint.y === this.dynamicGrid.length) {
+                         // do nothing at the top of the grid
+                         break;
+                     } else if (this.dynamicGrid[this.currentPoint.y+1][this.currentPoint.x]['isBlock'] === true) {
+                         // look for the closest block that's not a block
+                         let targetY = this.currentPoint.y+1;
+                         while (targetY <= this.dynamicGrid.length-1 && this.dynamicGrid[targetY][this.currentPoint.x]['isBlock'] === true) {
+                             targetY++;
+                         }
+                         if (targetY <= this.dynamicGrid.length-1) {
+                             this.focusEar({
+                                 y: targetY,
+                                 x: this.currentPoint.x,
+                                 direction: this.currentDirection,
+                                 acrossNum: this.staticGrid[targetY][this.currentPoint.x]['acrossNum'],
+                                 downNum: this.staticGrid[targetY][this.currentPoint.x]['downNum']
+                             });
+                         }
                      } else {
                          this.focusEar({
                              y: this.currentPoint.y+1,
@@ -639,7 +666,7 @@
          },
 
          getNextDownWord(y=this.currentPoint.y, x=this.currentPoint.x) {
-             // return coordinates of the next down word
+             // return coordinates of the next down word, wrapping around to the first
              let currentDownStart = this.getDownWordStart(y, x);
              let cx = currentDownStart.x;
              let cy = currentDownStart.y;
