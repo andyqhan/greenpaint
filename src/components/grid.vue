@@ -155,6 +155,17 @@
                  }
              }
              return count
+         },
+
+         firstSquareCoor() {
+             // return the x-coord of the first non-block square on the first row
+             // i'm hardcoding in that the 0th row is the first non-block row, but i
+             // think this is a safe assumption
+             let iX = 0;
+             while (this.staticGrid[0][iX].isBlock === true) {
+                 iX++;
+             }
+             return {y: 0, x: iX}
          }
      },
      methods: {
@@ -606,8 +617,15 @@
              }
          },
 
-         getNextDownNum() {
-             let currentDownNum = this.staticGrid[this.currentPoint.y][this.currentPoint.x]['downNum'];
+         isDownWordEnd(y, x) {
+             // utility function that returns a boolean saying if the square at y, x is an end
+             // of a down word
+             return (y === this.getDownWordEnd(y, x).y) && (x === this.getDownWordEnd(y, x).x);
+         },
+
+         getNextDownNum(y=this.currentPoint.y, x=this.currentPoint.y) {
+             // returns the next down word's clue number
+             let currentDownNum = this.staticGrid[y][x]['downNum'];
              if (currentDownNum === this.cluesDown[this.cluesDown.length-1].Num) {
                  // exit when we're at the last
                  return null
@@ -620,21 +638,25 @@
              }
          },
 
-         getNextDownWord() {
-             let currentDownStart = this.getDownWordStart(this.currentPoint.y, this.currentPoint.x);
-             let x = currentDownStart.x;
-             let y = currentDownStart.y;
-             for (y; y < this.staticGrid.length; y++) {
-                 for (x; x < this.staticGrid[y].length; x++) {
+         getNextDownWord(y=this.currentPoint.y, x=this.currentPoint.x) {
+             // return coordinates of the next down word
+             let currentDownStart = this.getDownWordStart(y, x);
+             let cx = currentDownStart.x;
+             let cy = currentDownStart.y;
+             for (cy; cy < this.staticGrid.length; cy++) {
+                 for (cx; cx < this.staticGrid[cy].length; cx++) {
                      //console.log("iterating downNum: " + this.staticGrid[y][x]['downNum'].toString());
-                     if (this.staticGrid[y][x]['downNum'] === this.getNextDownNum()) {
+                     if (this.staticGrid[cy][cx]['downNum'] === this.getNextDownNum(y, x)) {
                          //console.log('returning getDownWordStart')
-                         return this.getDownWordStart(y, x);
+                         return this.getDownWordStart(cy, cx);
                      }
                  }
-                 x = 0;
+                 cx = 0;
              }
-             return null
+             // if we're at the last word, then return the first square's coordinates
+             // i could probably do an early-exit by checking the current down num
+             // with the last down num
+             return this.firstSquareCoor
          },
 
          getPreviousDownNum() {
@@ -734,15 +756,66 @@
              return null
          },
 
-         moveNextEmptyAcross() {
-             let nextEmpty = this.getNextEmptyAcross();
+         getNextEmptyDown() {
+             let iX = this.currentPoint.x;
+             let iY = this.currentPoint.y;
+             //let alreadySearchedFull = false;
+             if (this.currentSquaresFilled === this.squareCount) {
+                 console.log("getNextEmptyDown: grid full!")
+                 return;
+             }
+             while (this.dynamicGrid[iY][iX].isBlock === true || this.dynamicGrid[iY][iX].currentLetter !== "") {
+                 if (this.isDownWordEnd(iY, iX)) {
+                     // if this is the end of the word, start over from the beginning of the next word
+                     let nextDown = this.getNextDownWord(iY, iX);
+                     if (nextDown) {
+                         iX = nextDown.x;
+                         iY = nextDown.y;
+                     }
+                 } else if (!this.isDownWordEnd(iY, iX)) {
+                     iY += 1;
+                 }
+             }
+             return {y: iY, x: iX}
+             // while (this.currentSquaresFilled < this.squareCount) {
+             //     console.log("running with iY: " + iY.toString() + " iX : " + iX.toString())
+             //     if (this.dynamicGrid[iY][iX].isBlock !== true && this.dynamicGrid[iY][iX].currentLetter === "") {
+             //         console.log("iY: " + iY.toString())
+             //         return {y: iY, x: iX}
+             //     }
+             //     if (this.isDownWordEnd(iY, iX)) {
+             //         console.log("is a downWordEnd")
+             //         if (!this.getNextDownWord(iY, iX)) {
+             //                 // if there's no empty square starting from point,
+             //                 // look from the origin
+             //                 console.log("no next down word")
+             //                 iX = 0;
+             //                 iY = 0;
+             //         } else {
+             //             iX = this.getNextDownWord(iY, iX).x;
+             //             iY = this.getNextDownWord(iY, iX).y;
+             //         }
+             //     } else {
+             //         iY += 1;
+             //     }
+             // }
+         },
+
+         moveNextEmpty() {
+             let nextEmpty;
+             if (this.currentDirection === "across") {
+                 nextEmpty = this.getNextEmptyAcross();
+             } else if (this.currentDirection === "down") {
+                 nextEmpty = this.getNextEmptyDown();
+                 console.log(nextEmpty);
+             }
              this.focusEar({
                  y: nextEmpty.y,
                  x: nextEmpty.x,
                  direction: this.currentDirection,
                  acrossNum: this.staticGrid[nextEmpty.y][nextEmpty.x]['acrossNum'],
                  downNum: this.staticGrid[nextEmpty.y][nextEmpty.x]['downNum']
-             })
+             });
          },
 
          clearCheckSquare(y, x) {
@@ -851,12 +924,7 @@
                      this.currentSquaresFilled += 1;
                  }
                  this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] = event.key.toUpperCase();
-                 if (this.currentDirection === "across") {
-                     // TODO combine moveNextEmptyAcross and Down
-                     this.moveNextEmptyAcross();
-                 } else {
-                     this.moveForwardCurrentDirection();                     
-                 }
+                 this.moveNextEmpty();
              } else if (/^Backspace/.test(event.key)) {
                  // clear current letter and move back
                  if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isCorrect']) {
