@@ -21,6 +21,7 @@
             <div class="menuitem" @click="this.$emit('clear-grid')">Grid</div>
         </div>
     </div>
+    <button class="dropbtn" @click="this.$emit('rebus')">Rebus</button>
 </template>
 
 <script>
@@ -37,7 +38,8 @@
              'reveal-square',
              'reveal-word',
              'reveal-grid',
-             'clear-grid'
+             'clear-grid',
+             'rebus'
      ],
 
      data() {

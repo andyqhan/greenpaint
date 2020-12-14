@@ -1,5 +1,8 @@
 <template>
-    <span :tabindex="isBlock ? null : -1" class=square :class="classObject"
+    <span v-if="isRebusActive" class="rebusContainer">
+        <input>
+    </span>
+    <span v-else :tabindex="isBlock ? null : -1" class=square :class="classObject"
                                           @click="selectSquare" 
                                           @keydown="keyHandler">{{ currentLetter }}
         <span class="cluenum-square">{{ cluenum }}</span>
@@ -31,7 +34,8 @@
          isPrimarySelect: Boolean,
          isPoint: Boolean,
          isCorrect: Boolean,
-         isIncorrect: Boolean
+         isIncorrect: Boolean,
+         isRebusActive: Boolean,
      },
      emits: ['square-focus'],
      data() {

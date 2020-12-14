@@ -25,6 +25,7 @@
                     :isSecondarySelect="dynamicGrid[row_index][cell_index].isSecondarySelect"
                     :isCorrect="dynamicGrid[row_index][cell_index].isCorrect"
                     :isIncorrect="dynamicGrid[row_index][cell_index].isIncorrect"
+                    :isRebusActive="dynamicGrid[row_index][cell_index].isRebusActive"
                     ></square>
         </div>
     </div>
@@ -189,6 +190,7 @@
                          thisCell['currentLetter'] = '';
                          thisCell['isCorrect'] = false;
                          thisCell['isIncorrect'] = false;
+                         thisCell['isRebusActive'] = false;
                      }
                      outputGrid[row].push(thisCell)
                  }
@@ -214,6 +216,10 @@
              // reset
              this.previousSelectAcross = [];
              this.previousSelectDown = [];
+         },
+
+         activateRebus() {
+             this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive = !this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive;
          },
          
          focusEar(event) {
@@ -804,28 +810,6 @@
                  }
              }
              return {y: iY, x: iX}
-             // while (this.currentSquaresFilled < this.squareCount) {
-             //     console.log("running with iY: " + iY.toString() + " iX : " + iX.toString())
-             //     if (this.dynamicGrid[iY][iX].isBlock !== true && this.dynamicGrid[iY][iX].currentLetter === "") {
-             //         console.log("iY: " + iY.toString())
-             //         return {y: iY, x: iX}
-             //     }
-             //     if (this.isDownWordEnd(iY, iX)) {
-             //         console.log("is a downWordEnd")
-             //         if (!this.getNextDownWord(iY, iX)) {
-             //                 // if there's no empty square starting from point,
-             //                 // look from the origin
-             //                 console.log("no next down word")
-             //                 iX = 0;
-             //                 iY = 0;
-             //         } else {
-             //             iX = this.getNextDownWord(iY, iX).x;
-             //             iY = this.getNextDownWord(iY, iX).y;
-             //         }
-             //     } else {
-             //         iY += 1;
-             //     }
-             // }
          },
 
          moveNextEmpty() {

@@ -1,13 +1,14 @@
 <template>
     <div class="toolbar" :style="activeClueCSS">
         <toolbar :currentPoint="currentPoint"
-         @check-square="this.$refs.grid.checkSquare()"
-         @check-word="this.$refs.grid.checkWord()"
-         @check-grid="this.$refs.grid.checkGrid()"
+         @check-square="checkEar('square')"
+         @check-word="checkEar('word')"
+         @check-grid="checkEar('grid')"
          @reveal-square="this.$refs.grid.revealSquare()"
          @reveal-word="this.$refs.grid.revealWord()"
          @reveal-grid="this.$refs.grid.revealGrid()"
          @clear-grid="this.$refs.grid.clearGrid()"
+         @rebus="this.$refs.grid.activateRebus()"
         ></toolbar>
     </div>
     <div class="activeClue" :style="activeClueCSS">
@@ -79,8 +80,24 @@
              //console.log('primaryClueFocusToAppEar')
              this.activeClue = clueText
          },
+         
+         checkEar(scope) {
+             // this is to try to avoid the warnings but they're still there
+             // idk if it's the right way to do it though lol
+             switch(scope) {
+                 case "square":
+                     this.$refs.grid.checkSquare();
+                     break;
+                 case "word":
+                     this.$refs.grid.checkWord();
+                     break;
+                 case "grid":
+                     this.$refs.grid.checkGrid();
+                     break;
+             }
+         },
      }
-}
+ }
 </script>
 
 <style>
