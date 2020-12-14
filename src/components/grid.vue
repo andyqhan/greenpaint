@@ -185,21 +185,6 @@
              //console.log(outputGrid)
              return outputGrid
          },
-         /// yeah i tried to organize my props and it broke stuff lol
-         // getStaticProps(cell) {
-         //     return {
-         //         correctLetter: cell.correctLetter,
-         //         isBlock: cell.isBlock,
-         //         isCircled: cell.isCircled,
-         //         isRebus: cell.isRebus,
-         //         isWordStartAcross: cell.isWordStartAcross,
-         //         isWordStartDown: cell.isWordStartDown,
-         //         acrossNum: cell.acrossNum,
-         //         downNum: cell.downNum,
-         //         x: cell.x,
-         //         y: cell.y,
-         //     }
-         // },
 
          clearPrevious() {
              //console.log("clearPrevious called")
@@ -469,6 +454,7 @@
          },
 
          moveForwardCurrentDirection() {
+             // TODO gotta skip any squares that are already filled
              if (this.currentDirection === "across") {
                      this.movePointSmart("right");
                  } else if (this.currentDirection === "down") {
@@ -708,6 +694,7 @@
          },
 
          moveWordHandler(event) {
+             // TODO write moveBeginningWord method
              if (event.shiftKey === false) {
                  if (this.currentDirection === "across") {
                      this.moveAcrossWord("right");
@@ -723,7 +710,40 @@
              }
          },
 
-         // TODO write moveBeginningWord method
+         getNextEmptyAcross(y=this.currentPoint.y, x=this.currentPoint.x) {
+             let iX = x;
+             for (let iY = y; iY < this.staticGrid.length; iY++) {
+                 for (iX; iX < this.staticGrid[iY].length; iX++) {
+                     if (this.dynamicGrid[iY][iX].isBlock !== true && this.dynamicGrid[iY][iX].currentLetter === "") {
+                         return {y: iY, x: iX}
+                     }
+                 }
+                 iX = 0;
+             }
+             // if there's no empty square starting from point, look for it before point
+             // the reason we're not doing a recursive call is because i'm afraid of infinite loop
+             for (let iY = 0; iY < this.staticGrid.length; iY++) {
+                 for (let iX = 0; iX < this.staticGrid[iY].length; iX++) {
+                     if (this.dynamicGrid[iY][iX].isBlock !== true && this.dynamicGrid[iY][iX].currentLetter === "") {
+                         return {y: iY, x: iX}
+                     }
+                 }
+             }
+             // if we can't find one still
+             console.log("getNextEmptyAcross: can't find empty square");
+             return null
+         },
+
+         moveNextEmptyAcross() {
+             let nextEmpty = this.getNextEmptyAcross();
+             this.focusEar({
+                 y: nextEmpty.y,
+                 x: nextEmpty.x,
+                 direction: this.currentDirection,
+                 acrossNum: this.staticGrid[nextEmpty.y][nextEmpty.x]['acrossNum'],
+                 downNum: this.staticGrid[nextEmpty.y][nextEmpty.x]['downNum']
+             })
+         },
 
          clearCheckSquare(y, x) {
              this.dynamicGrid[y][x]['isIncorrect'] = false;
@@ -831,7 +851,12 @@
                      this.currentSquaresFilled += 1;
                  }
                  this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] = event.key.toUpperCase();
-                 this.moveForwardCurrentDirection();
+                 if (this.currentDirection === "across") {
+                     // TODO combine moveNextEmptyAcross and Down
+                     this.moveNextEmptyAcross();
+                 } else {
+                     this.moveForwardCurrentDirection();                     
+                 }
              } else if (/^Backspace/.test(event.key)) {
                  // clear current letter and move back
                  if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isCorrect']) {
@@ -877,8 +902,8 @@
          });
 
          this.focusEar({
-             y: this.currentPoint.y,
-             x: this.currentPoint.x,
+             y: 0,
+             x: 0,
              direction: this.currentDirection,
              acrossNum: this.staticGrid[this.currentPoint.y][this.currentPoint.x]['acrossNum'],
              downNum: this.staticGrid[this.currentPoint.y][this.currentPoint.x]['downNum'],
