@@ -1,6 +1,6 @@
 <template>
     <div class="clueContainer across">
-        <singleClue v-for="clue in clues" :key="clue.Num"
+        <singleClue v-for="clue in clues" :key="clue.Num" :ref="clue.Num.toString()+direction"
                     @primary-clue-focus="primaryClueFocusEar($event)"
                     :clueObject="clue" :direction="direction" :clueFocus="clueFocus">
         </singleClue>
@@ -24,9 +24,21 @@
      },
 
      methods: {
-         primaryClueFocusEar(clueText) {
-             this.$emit('primary-clue-focus-to-app', clueText)
+         primaryClueFocusEar(clueEvent) {
+             this.$emit('primary-clue-focus-to-app', clueEvent)
+         },
+     },
+     
+     updated() {
+         // not all that elegant but ok
+         let scrollClue;
+         if (this.clueFocus.primary[this.clueFocus.primary.length-1] === this.direction) {
+             // if the primary focus's direction is the same as current direction
+             scrollClue = this.clueFocus.primary;
+         } else if (this.clueFocus.secondary[this.clueFocus.secondary.length-1] === this.direction) {
+             scrollClue = this.clueFocus.secondary;
          }
+         this.$refs[scrollClue].$el.scrollIntoView();
      }
  }
 </script>

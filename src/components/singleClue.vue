@@ -7,7 +7,7 @@
 <script>
  export default {
      name: 'singleClue',
-     emits: ['primary-clue-focus'],
+     emits: ['primary-clue-focus', 'secondary-clue-focus'],
      props: {
          clueObject: Object,
          direction: String,  // either 'A' or 'D'
@@ -29,19 +29,24 @@
              let primaryFocusNum = Number(this.clueFocus.primary.slice(0, -1));
              let secondaryFocusDirection = this.clueFocus.secondary.slice(-1);
              let secondaryFocusNum = Number(this.clueFocus.secondary.slice(0, -1));
-             
+
              if (this.direction === primaryFocusDirection) {
                  //console.log('first branch')
                  if (this.clueNum === primaryFocusNum) {
                      //console.log('returning primary')
                      // this emit will be heard in the active clue component
-                     this.$emit('primary-clue-focus', this.clueKey + ": " + this.clueObject.Clue);
+                     //this.$refs[scrollNum].scrollIntoView()
+                     this.$emit('primary-clue-focus',
+                                {composed: this.clueKey + ": " + this.clueObject.Clue,
+                                 clueNum: this.clueNum});
                      return 'primary'
                  } else {
                      return null
                  }
              } else if (this.direction === secondaryFocusDirection) {
                  if (this.clueNum === secondaryFocusNum) {
+                     this.$emit('secondary-clue-focus',
+                                {clueNum: this.clueNum});
                      return 'secondary'
                  } else {
                      return null

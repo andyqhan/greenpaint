@@ -77,9 +77,9 @@
              this.currentPoint = event.currentPoint;
          },
          
-         primaryClueFocusToAppEar(clueText) {
+         primaryClueFocusToAppEar(clueEvent) {
              //console.log('primaryClueFocusToAppEar')
-             this.activeClue = clueText
+             this.activeClue = clueEvent.composed
          },
          
          checkEar(scope) {
