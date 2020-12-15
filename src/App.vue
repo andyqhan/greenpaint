@@ -16,7 +16,7 @@
     </div>
     <div class="mainGrid">
         <grid @square-focus-to-app="squareFocusToAppEar($event)" :gridObject="puzzleGrid"
-         :cluesAcross="cluesAcross" :cluesDown="cluesDown" ref="grid"></grid>
+         :cluesAcross="cluesAcross" :cluesDown="cluesDown" :rebusObj="rebusObj" ref="grid"></grid>
     </div>
     <div class="cluesAcross">
         <clueContainer @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
@@ -29,7 +29,7 @@
 </template>
 
 <script>
- import puzzle from './examples/circleex.json'
+ import puzzle from './examples/rebusex.json'
  import grid from './components/grid.vue'
  import clueContainer from './components/clueContainer.vue'
  import toolbar from './components/toolbar.vue'
@@ -44,6 +44,7 @@
      data() {
          return {
              puzzleGrid: puzzle.Grid,
+             rebusObj: puzzle.IsRebus,
              cluesAcross: puzzle.Across,
              cluesDown: puzzle.Down,
 

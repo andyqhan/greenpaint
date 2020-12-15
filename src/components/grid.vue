@@ -44,6 +44,7 @@
          gridObject: Array,
          cluesDown: Array,
          cluesAcross: Array,
+         rebusObj: Object,
      },
      emits: ['square-focus-to-app'],
      data() {
@@ -78,6 +79,16 @@
                  'grid-column-end': this.dynamicGrid[0].length
              }
          },
+
+         createRebusObj() {
+             let codeList = this.rebusObj.Codes.split(';');
+             let codeObj = {};
+             for (let codeIn = 0; codeIn < codeList.length; codeIn++) {
+                 let thisCode = codeList[codeIn].split(':');
+                 codeObj[thisCode[0]] = thisCode[1];
+             }
+             return codeObj;
+         },
          
          staticGrid() {
              //console.log("staticGrid called")
@@ -104,8 +115,15 @@
                          // why the hell are char and row strings??
                          thisCell['x'] = Number(char)
                          thisCell['y'] = Number(row)
-                         
-                         thisCell['correctLetter'] = thisRowArray[char]
+
+                         if (isNaN(thisRowArray[char])) {
+                             // if it's not a number (that is, not a rebus)
+                             thisCell['correctLetter'] = thisRowArray[char];
+                         } else {
+                             // else, it's a rebus. ask createRebusObj for the rebus corresponding to
+                             // the (numerical) code in thisRowArray
+                             thisCell['correctLetter'] = this.createRebusObj[thisRowArray[char].toString()];
+                         }
                          thisCell['isCircled'] = thisRowArray[char] === thisRowArray[char].toLowerCase()
                          thisCell['isRebus'] = !isNaN(parseInt(thisRowArray[char]), 10)
                          thisCell['isBlock'] = false
@@ -979,7 +997,7 @@
      },
      mounted() {
          // console.log(this.dynamicGrid)
-         // console.log(this.staticGrid)
+         console.log(this.staticGrid)
          window.addEventListener('keydown', event => {
              // i don't get why these are being logged twice?
              if (event.keyCode === 9) {
