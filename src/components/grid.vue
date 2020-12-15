@@ -975,7 +975,16 @@
                  this.moveBackwardCurrentDirection();
              } else if (/^Arrow/.test(event.key)) {
                  // move point
-                 this.movePointSmart(event.key.slice(5))
+                 if ((event.key === "ArrowDown" || event.key === "ArrowUp") && this.currentDirection === "down") {
+                     // if the movement direction is the same as currentdirection
+                     this.movePointSmart(event.key.slice(5));
+                 } else if ((event.key === "ArrowLeft" || event.key === "ArrowRight") && this.currentDirection === "across") {
+                     this.movePointSmart(event.key.slice(5));
+                 } else {
+                     // if the movement direction is different
+                     this.switchDirectionAndFocus();
+                 }
+
              } else if (/^Space/.test(event.code)) {
                  // it's a space
                  this.switchDirectionAndFocus();
