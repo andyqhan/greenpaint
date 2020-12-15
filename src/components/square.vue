@@ -1,6 +1,8 @@
 <template>
-    <span v-if="isRebusActive" class="rebusContainer">
-        <input>
+    <span v-if="isRebusActive" class="square rebusContainer">
+        <input v-model="rebusInput"
+               style="text-transform: uppercase;"
+               @keydown.enter="this.$emit('rebus-enter', rebusInput)">
     </span>
     <span v-else :tabindex="isBlock ? null : -1" class=square :class="classObject"
                                           @click="selectSquare" 
@@ -37,7 +39,7 @@
          isIncorrect: Boolean,
          isRebusActive: Boolean,
      },
-     emits: ['square-focus'],
+     emits: ['square-focus', 'rebus-enter'],
      data() {
          return {
              //letter: '',  // TODO rename to currentLetter maybe
@@ -157,5 +159,10 @@
      -moz-user-select: none; /* Firefox */
      -ms-user-select: none; /* IE10+/Edge */
      user-select: none; /* Standard */
+ }
+ .rebusContainer {
+     width: 25px;
+     height: 30px;
+     z-index: 1;
  }
 </style>

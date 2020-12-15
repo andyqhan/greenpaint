@@ -7,6 +7,7 @@
             <square v-for="(cell, cell_index) in row"
                     :style="{ 'grid-column': cell_index+1 }"
                     @square-focus="focusEar($event)"
+                    @rebus-enter="rebusEnter($event)"
                     :key="[row_index, cell_index]"
                     :correctLetter="cell.correctLetter"
                     :isBlock="cell.isBlock"
@@ -219,7 +220,13 @@
          },
 
          activateRebus() {
+             // TODO add clickaway
              this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive = !this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive;
+         },
+
+         rebusEnter(event) {
+             this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].currentLetter = event.toUpperCase();
+             this.activateRebus();
          },
          
          focusEar(event) {
@@ -931,11 +938,13 @@
              if (/^\w/.test(event.key) && event.key.length === 1) {
                  // it's a letter to insert into grid
                  this.clearCheckSquare(this.currentPoint.y, this.currentPoint.x);
-                 if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] === "") {
-                     this.currentSquaresFilled += 1;
+                 if (!this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive) {
+                     if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] === "") {
+                         this.currentSquaresFilled += 1;
+                     }
+                     this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] = event.key.toUpperCase();
+                     this.moveNextEmpty();
                  }
-                 this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] = event.key.toUpperCase();
-                 this.moveNextEmpty();
              } else if (/^Backspace/.test(event.key)) {
                  // clear current letter and move back
                  if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isCorrect']) {
