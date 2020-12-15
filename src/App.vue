@@ -39,7 +39,7 @@
      components: {
          grid,
          clueContainer,
-         toolbar
+         toolbar,
      },
      data() {
          return {

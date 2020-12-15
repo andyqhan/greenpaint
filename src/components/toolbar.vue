@@ -18,16 +18,23 @@
     <div class="dropdown">
         <button class="dropbtn" @click="toggleClear">Clear</button>
         <div class="dropcontent" v-if="revealClear">
+            <div class="menuitem" @click="clearStopwatch">Time</div>
             <div class="menuitem" @click="this.$emit('clear-grid')">Grid</div>
         </div>
     </div>
     <button class="dropbtn" @click="this.$emit('rebus')">Rebus</button>
+    <div class="dropdown">
+        <stopwatch ref="stopwatch"></stopwatch>
+    </div>
 </template>
 
 <script>
  //import check from './check.vue'
- 
+ import stopwatch from './stopwatch.vue'
  export default {
+     components: {
+         stopwatch
+     },
      name: 'toolbar',
      props: {
          currentPoint: Object
@@ -38,6 +45,7 @@
              'reveal-square',
              'reveal-word',
              'reveal-grid',
+             'clear-timer',
              'clear-grid',
              'rebus'
      ],
@@ -61,6 +69,10 @@
 
          toggleClear() {
              this.revealClear = !this.revealClear;
+         },
+
+         clearStopwatch() {
+             this.$refs.stopwatch.resetStopwatch();
          }
      },
  }
