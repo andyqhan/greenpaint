@@ -163,8 +163,8 @@
      outline: none
  }
  .square {
-     width: 25px;
-     height: 25px;
+     width: 27px;
+     height: 27px;
      display: inline-block;
      border: 1px solid;
      font-size: 20px;

@@ -42,7 +42,12 @@
             @mouseleave="rebusMouse = false"
             @click="this.$emit('rebus')">Rebus</button>
     <div class="dropdown">
-        <stopwatch ref="stopwatch"></stopwatch>
+        <button class="dropbtn"
+                :style="styleToolbar('dropbtntime')"
+                @mouseover="timeMouse = true"
+                @mouseleave="timeMouse = false">
+            <stopwatch ref="stopwatch"></stopwatch>
+        </button>
     </div>
 </template>
 
@@ -77,7 +82,8 @@
              revealClear: false,
              revealMouse: false,
              clearMouse: false,
-             rebusMouse: false
+             rebusMouse: false,
+             timeMouse: false
          }
      },
 
@@ -103,50 +109,61 @@
                  case "dropbtncheck":
                      if (this.checkMouse) {
                          return {
-                             backgroundColor: colors.base3
+                             backgroundColor: colors.base1
                          }
                      } else {
                          return {
                              backgroundColor: colors.bg,
-                             color: colors.fgAlt,
+                             color: colors.fg,
                          }
                      }
                  case "dropbtnreveal":
                      if (this.revealMouse) {
                          return {
-                             backgroundColor: colors.base3
+                             backgroundColor: colors.base1
                          }
                      } else {
                          return {
                              backgroundColor: colors.bg,
-                             color: colors.fgAlt,
+                             color: colors.fg,
                          }
                      }
                  case "dropbtnclear":
                      if (this.clearMouse) {
                          return {
-                             backgroundColor: colors.base3
+                             backgroundColor: colors.base1
                          }
                      } else {
                          return {
                              backgroundColor: colors.bg,
-                             color: colors.fgAlt,
+                             color: colors.fg,
                          }
                      }
                  case "dropbtnrebus":
                      if (this.rebusMouse) {
                          return {
-                             backgroundColor: colors.base3
+                             backgroundColor: colors.base1
                          }
                      } else {
                          return {
                              backgroundColor: colors.bg,
-                             color: colors.fgAlt,
+                             color: colors.fg,
+                         }
+                     }
+                 case "dropbtntime":
+                     if (this.timeMouse) {
+                         return {
+                             backgroundColor: colors.base1
+                         }
+                     } else {
+                         return {
+                             backgroundColor: colors.bg,
+                             color: colors.fg,
                          }
                      }
                  case "dropcontent":
                      return {
-                         backgroundColor: colors.base4
+                         backgroundColor: colors.base1
                      }
              }
              return null;
@@ -162,6 +179,7 @@
      border: none;
      cursor: pointer;
      border-radius: 10px;
+     outline: none;
  }
 
  /* Dropdown button on hover & focus */

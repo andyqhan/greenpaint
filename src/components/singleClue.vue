@@ -1,10 +1,11 @@
 <template>
-    <p class="singleClue" :class="whichFocus">
+    <p class="singleClue" :style="whichFocus">
         {{ clueKey + ": " + clueObject.Clue }}
     </p>
 </template>
 
 <script>
+ import colors from '../assets/doom-one.js'
  export default {
      name: 'singleClue',
      emits: ['primary-clue-focus', 'secondary-clue-focus'],
@@ -39,7 +40,11 @@
                      this.$emit('primary-clue-focus',
                                 {composed: this.clueKey + ": " + this.clueObject.Clue,
                                  clueNum: this.clueNum});
-                     return 'primary'
+                     return {
+                         backgroundColor: colors.darkBlue,
+                         padding: "0.3em",
+                         borderRadius: "5px"
+                     }
                  } else {
                      return null
                  }
@@ -47,7 +52,11 @@
                  if (this.clueNum === secondaryFocusNum) {
                      this.$emit('secondary-clue-focus',
                                 {clueNum: this.clueNum});
-                     return 'secondary'
+                     return {
+                         backgroundColor: colors.base2,
+                         padding: "0.3em",
+                         borderRadius: "5px"
+                     }
                  } else {
                      return null
                  }
@@ -60,12 +69,3 @@
      }
  }
 </script>
-
-<style scoped>
- .primary {
-     background-color: #1874cd;
- }
- .secondary {
-     background-color: #6ca6cd;
- }
-</style>
