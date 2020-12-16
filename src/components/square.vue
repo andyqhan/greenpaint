@@ -2,18 +2,20 @@
     <span v-if="isRebusActive" class="square rebusContainer">
         <input v-model="rebusInput"
                style="text-transform: uppercase;"
+               :style="selectSquare"
                @keydown.enter="this.$emit('rebus-enter', rebusInput)">
     </span>
-    <span v-else :tabindex="isBlock ? null : -1" class=square :class="classObject"
-                                          @click="selectSquare" 
-                                          @keydown="keyHandler">{{ currentLetter }}
+    <span v-else :tabindex="isBlock ? null : -1" 
+          class="square" :class="classObject"
+          :style="squareStyle"
+          @click="selectSquare" 
+          @keydown="keyHandler">{{ currentLetter }}
         <span class="cluenum-square">{{ cluenum }}</span>
     </span>
 </template>
 
 <script>
- // removed @click="selectSquare" from above
- 
+ import colors from '../assets/doom-one.js'
  export default {
      name: 'square',
      props: {
@@ -65,6 +67,7 @@
                  isIncorrect: this.isIncorrect
              }
          },
+         
          cluenum() {
              if (this.isWordStartAcross === true) {
                  return this.acrossNum;
@@ -73,6 +76,41 @@
              } else {
                  return null;
              }
+         },
+
+         squareStyle() {
+             if (this.isBlock) {
+                 return {
+                     backgroundColor: colors.fg,
+                     color: colors.fg
+                 }
+             }
+             if (this.isPoint) {
+                 return {
+                     backgroundColor: colors.green,
+                 }
+             }
+             if (this.isPrimarySelect) {
+                 return {
+                     backgroundColor: colors.darkBlue
+                 }
+             }
+             if (this.isSecondarySelect) {
+                 return {
+                     backgroundColor: colors.base2,
+                 }
+             }
+             if (this.isCorrect) {
+                 return {
+                     color: colors.darkCyan
+                 }
+             }
+             if (this.isIncorrect) {
+                 return {
+                     color: colors.red
+                 }
+             }
+             return null
          }
      },
      methods: {
@@ -99,55 +137,11 @@
                  //console.log('selected');   
              }
          },
-
-     }
+     },
  }
 </script>
 
 <style scoped>
- .square {
-     width: 25px;
-     height: 25px;
-     display: inline-block;
-     border: 1px solid;
-     font-size: 20px;
-     font-weight: normal;
-     text-align: center;
-     /* i'm pretty sure that this isn't putting it in the exact middle */
-     vertical-align: middle;
-     color: #000000;
-     background-color: lightgray;
-     cursor: default;
- }
- span:focus {
-     outline: none
- }
- .block {
-     background-color: #000000;
-     border: 1px solid;
-     border-color: background-color;
- }
- .circled {
-     background-color: darkgray;
- }
- .primarySelect {
-     background-color: #1874cd;
- }
- .secondarySelect {
-     background-color: #6ca6cd;
- }
- .isPoint {
-     background-color: #eeee00;
-     /* wtf is active */
-     outline: none
- }
- .isCorrect {
-     /* TODO this is also coloring the borders */
-     color: blue;
- }
- .isIncorrect {
-     color: red;
- }
  .cluenum-square {
      /* this styling is almost certainly not robust and will break */
      position: relative;
@@ -164,5 +158,26 @@
      width: 25px;
      height: 30px;
      z-index: 1;
+ }
+ span:focus {
+     outline: none
+ }
+ .square {
+     width: 25px;
+     height: 25px;
+     display: inline-block;
+     border: 1px solid;
+     font-size: 20px;
+     font-weight: normal;
+     text-align: center;
+     /* i'm pretty sure that this isn't putting it in the exact middle */
+     vertical-align: middle;
+     cursor: default;
+ }
+ .block {
+     border: 1px solid;
+ }
+ .isPoint {
+     outline: none;
  }
 </style>

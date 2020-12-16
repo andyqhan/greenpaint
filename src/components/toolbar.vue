@@ -1,28 +1,46 @@
 <template>
     <div class="dropdown">
-        <button class="dropbtn" @click="toggleCheck">Check</button>
-        <div class="dropcontent" v-if="checkActive">
-            <div class="menuitem" @click="this.$emit('check-square')">Square</div>
+        <button class="dropbtn"
+                :style="styleToolbar('dropbtncheck')"
+                @mouseover="checkMouse = true"
+                @mouseleave="checkMouse = false"
+                @click="toggleCheck">Check</button>
+        <div class="dropcontent" :style="styleToolbar('dropcontent')" v-if="checkActive">
+            <div class="menuitem"
+                 @mouseover="styleToolbar('menuitemhover')"
+                 @mouseleave="styleToolbar('menuitemleave')"
+                 @click="this.$emit('check-square')">Square</div>
             <div class="menuitem" @click="this.$emit('check-word')">Word</div>
             <div class="menuitem" @click="this.$emit('check-grid')">Grid</div>
         </div>
     </div>
     <div class="dropdown">
-        <button class="dropbtn" @click="toggleReveal">Reveal</button>
-        <div class="dropcontent" v-if="revealActive">
+        <button class="dropbtn" :style="styleToolbar('dropbtnreveal')"
+                @mouseover="revealMouse = true"
+                @mouseleave="revealMouse = false"
+                @click="toggleReveal">Reveal</button>
+        <div class="dropcontent" :style="styleToolbar('dropcontent')" v-if="revealActive">
             <div class="menuitem" @click="this.$emit('reveal-square')">Square</div>
             <div class="menuitem" @click="this.$emit('reveal-word')">Word</div>
             <div class="menuitem" @click="this.$emit('reveal-grid')">Grid</div>
         </div>
     </div>
     <div class="dropdown">
-        <button class="dropbtn" @click="toggleClear">Clear</button>
-        <div class="dropcontent" v-if="revealClear">
+        <button class="dropbtn"
+                :style="styleToolbar('dropbtnclear')"
+                @mouseover="clearMouse = true"
+                @mouseleave="clearMouse = false"
+                @click="toggleClear">Clear</button>
+        <div class="dropcontent" :style="styleToolbar('dropcontent')" v-if="revealClear">
             <div class="menuitem" @click="clearStopwatch">Time</div>
             <div class="menuitem" @click="this.$emit('clear-grid')">Grid</div>
         </div>
     </div>
-    <button class="dropbtn" @click="this.$emit('rebus')">Rebus</button>
+    <button class="dropbtn"
+            :style="styleToolbar('dropbtnrebus')"
+            @mouseover="rebusMouse = true"
+            @mouseleave="rebusMouse = false"
+            @click="this.$emit('rebus')">Rebus</button>
     <div class="dropdown">
         <stopwatch ref="stopwatch"></stopwatch>
     </div>
@@ -31,6 +49,7 @@
 <script>
  //import check from './check.vue'
  import stopwatch from './stopwatch.vue'
+ import colors from '../assets/doom-one.js'
  export default {
      components: {
          stopwatch
@@ -53,8 +72,12 @@
      data() {
          return {
              checkActive: false,
+             checkMouse: false,
              revealActive: false,
              revealClear: false,
+             revealMouse: false,
+             clearMouse: false,
+             rebusMouse: false
          }
      },
 
@@ -73,6 +96,60 @@
 
          clearStopwatch() {
              this.$refs.stopwatch.resetStopwatch();
+         },
+
+         styleToolbar(cl) {
+             switch(cl) {
+                 case "dropbtncheck":
+                     if (this.checkMouse) {
+                         return {
+                             backgroundColor: colors.base3
+                         }
+                     } else {
+                         return {
+                             backgroundColor: colors.bg,
+                             color: colors.fgAlt,
+                         }
+                     }
+                 case "dropbtnreveal":
+                     if (this.revealMouse) {
+                         return {
+                             backgroundColor: colors.base3
+                         }
+                     } else {
+                         return {
+                             backgroundColor: colors.bg,
+                             color: colors.fgAlt,
+                         }
+                     }
+                 case "dropbtnclear":
+                     if (this.clearMouse) {
+                         return {
+                             backgroundColor: colors.base3
+                         }
+                     } else {
+                         return {
+                             backgroundColor: colors.bg,
+                             color: colors.fgAlt,
+                         }
+                     }
+                 case "dropbtnrebus":
+                     if (this.rebusMouse) {
+                         return {
+                             backgroundColor: colors.base3
+                         }
+                     } else {
+                         return {
+                             backgroundColor: colors.bg,
+                             color: colors.fgAlt,
+                         }
+                     }
+                 case "dropcontent":
+                     return {
+                         backgroundColor: colors.base4
+                     }
+             }
+             return null;
          }
      },
  }
@@ -80,8 +157,6 @@
 
 <style scoped>
  .dropbtn {
-     background-color: #3498DB;
-     color: white;
      padding: 10px;
      font-size: 16px;
      border: none;
@@ -90,8 +165,7 @@
  }
 
  /* Dropdown button on hover & focus */
- .dropbtn:hover, .dropbtn:focus {
-     /* background-color: #2980B9; */
+ .dropbtn:hover {
      outline: none;
  }
 
@@ -105,7 +179,6 @@
  /* Dropdown Content (Hidden by Default) */
  .dropcontent {
      position: absolute;
-     background-color: #f1f1f1;
      width: 60px;
      padding: 5px;
      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
@@ -115,7 +188,6 @@
  }
 
  .menuitem:hover {
-     background-color: lightgrey;
      border-radius: 5px;
      padding-left: 1px;
      cursor: pointer;
