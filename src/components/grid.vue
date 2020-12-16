@@ -5,7 +5,7 @@
     <div class="gridContainer" :style="cssGridVars">
         <div class="row" v-for="(row, row_index) in staticGrid" :key="row_index" :style="cssRowVars">
             <square v-for="(cell, cell_index) in row"
-                    :style="{ 'grid-column': cell_index+1, 'grid-row': row_index+1 }"
+                    style="{ 'grid-column': cell_index+1, 'grid-row': row_index+1 }"
                     @square-focus="clickHandler($event)"
                     @rebus-enter="rebusEnter($event)"
                     :key="[row_index, cell_index]"

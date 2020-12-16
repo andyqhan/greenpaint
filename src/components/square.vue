@@ -145,8 +145,9 @@
  .cluenum-square {
      /* this styling is almost certainly not robust and will break */
      position: relative;
-     left: -6px;
-     top: -10px;
+     left: 1px;
+     top: -1px;
+     float: left;
      font-size: 10px;
      /* disable text selection */
      -webkit-user-select: none; /* Safari */        
@@ -171,7 +172,7 @@
      font-weight: normal;
      text-align: center;
      /* i'm pretty sure that this isn't putting it in the exact middle */
-     vertical-align: middle;
+     vertical-align: text-top;
      cursor: default;
  }
  .block {
