@@ -143,9 +143,10 @@
  .app-container {
      display: grid;
      grid-template-columns: 2fr 0.5fr 0.5fr;
-     grid-template-rows: 1fr 1fr 8fr;
+     grid-template-rows: 1fr 1fr 10fr;
      column-gap: 1em;
      max-width: 850px;
+     max-height: 700px;
      justify-items: start;
      padding: 1em;
      border-radius: 5px;
@@ -161,14 +162,14 @@
  .activeClue {
      grid-row: 2;
      align-self: center;
-     width: fill;
+     width: stretch;
      padding-left: 1em;
      border-radius: 5px;
  }
  .mainGrid {
      grid-row: 3;
      grid-column: 1;
-     min-width: 470px;
+     min-width: 30em;
      padding-top: 1em;
  }
  .cluesAcross {
@@ -188,9 +189,13 @@
  }
  .clue-container {
      padding: 0;
+     height: 100%;
      padding-top: 0.4em;
      padding-left: 0.4em;
      padding-right: 0.4em;
      border-radius: 5px;
+     width: 10em;
+     /* will have to change height to the height of the whole app plus some margin */
+     overflow: auto;
  }
 </style>

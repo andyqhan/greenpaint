@@ -1,10 +1,8 @@
 <template>
-    <div class="clueContainer across">
         <singleClue v-for="clue in clues" :key="clue.Num" :ref="clue.Num.toString()+direction"
                     @primary-clue-focus="primaryClueFocusEar($event)"
                     :clueObject="clue" :direction="direction" :clueFocus="clueFocus">
         </singleClue>
-    </div>
 </template>
 
 <script>
@@ -45,9 +43,6 @@
 
 <style scoped>
  .clueContainer {
-     width: 10em;
-     /* will have to change height to the height of the whole app plus some margin */
-     height: 30em;
-     overflow: auto;
+    
  }
 </style>

@@ -2,7 +2,7 @@
     <span v-if="isRebusActive" class="square rebusContainer">
         <input v-model="rebusInput"
                style="text-transform: uppercase;"
-               :style="selectSquare"
+               :style="squareStyle"
                @keydown.enter="this.$emit('rebus-enter', rebusInput)">
     </span>
     <span v-else :tabindex="isBlock ? null : -1" 
@@ -164,8 +164,8 @@
      outline: none
  }
  .square {
-     width: 27px;
-     height: 27px;
+     /* width: 27px;
+        height: 27px; */
      display: inline-block;
      border: 1px solid;
      font-size: 20px;

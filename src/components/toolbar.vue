@@ -55,11 +55,12 @@
  //import check from './check.vue'
  import stopwatch from './stopwatch.vue'
  import colors from '../assets/doom-one.js'
+  
  export default {
+     name: 'toolbar',
      components: {
          stopwatch
      },
-     name: 'toolbar',
      props: {
          currentPoint: Object
      },

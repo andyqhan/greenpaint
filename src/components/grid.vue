@@ -5,7 +5,6 @@
     <div class="gridContainer" :style="cssGridVars">
         <div class="row" v-for="(row, row_index) in staticGrid" :key="row_index" :style="cssRowVars">
             <square v-for="(cell, cell_index) in row"
-                    style="{ 'grid-column': cell_index+1, 'grid-row': row_index+1 }"
                     @square-focus="clickHandler($event)"
                     @rebus-enter="rebusEnter($event)"
                     :key="[row_index, cell_index]"
@@ -68,15 +67,19 @@
      computed: {
          cssGridVars() {
              return {
-                 'grid-template-columns': 'repeat(' + this.gridObject.length + ', 1fr)',
-                 'grid-template-rows': 'repeat(' + this.gridObject[0].length + ', 1fr)'
+                 //'grid-template-columns': 'repeat(' + this.gridObject.length + ', 1fr)',
+                 "height": "30em",
+                 'grid-template-rows': 'repeat(' + this.gridObject[0].length + ', 1fr)',
+                 'grid-auto-rows': `${100 / this.gridObject.length}%`
              }
          },
          
          cssRowVars() {
              return {
-                 'grid-column-start': 1,
-                 'grid-column-end': this.dynamicGrid[0].length
+                 'display': "grid",
+                 'grid-template-columns': 'repeat(' + this.gridObject.length + ', 1fr)',
+                 //'grid-column-start': 1,
+                 //'grid-column-end': this.dynamicGrid[0].length
              }
          },
 
