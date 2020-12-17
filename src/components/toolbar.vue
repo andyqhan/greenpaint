@@ -52,17 +52,39 @@
             </stopwatch>
         </button>
     </div>
+    <div class="dropdown">
+        <button class="dropbtn"
+                :style="styleToolbar('dropbtnsettings')"
+                @click="toggleSettings"
+                @mouseover="settingsMouse = true"
+                @mouseleave="settingsMouse = false">
+            Settings
+        </button>
+    </div>
+    <div>
+        <transition name="modal">
+            <div v-if="isSettingsShow">
+                <div class="overlay" @click.self="isSettingsShow = false;">
+                    <div class="modal">
+                        <settings></settings>
+                    </div>
+                </div>
+            </div>
+        </transition>
+    </div>
 </template>
 
 <script>
  //import check from './check.vue'
  import stopwatch from './stopwatch.vue'
  import colors from '../assets/doom-one.js'
-  
+ import settings from './settings.vue'
+ 
  export default {
      name: 'toolbar',
      components: {
-         stopwatch
+         stopwatch,
+         settings
      },
      props: {
          currentPoint: Object,
@@ -88,7 +110,9 @@
              revealMouse: false,
              clearMouse: false,
              rebusMouse: false,
-             timeMouse: false
+             timeMouse: false,
+             settingsMouse: false,
+             isSettingsShow: false,
          }
      },
 
@@ -103,6 +127,10 @@
 
          toggleClear() {
              this.revealClear = !this.revealClear;
+         },
+
+         toggleSettings() {
+             this.isSettingsShow = !this.isSettingsShow;
          },
 
          clearStopwatch() {
@@ -166,6 +194,17 @@
                              color: colors.fg,
                          }
                      }
+                 case "dropbtnsettings":
+                     if (this.settingsMouse) {
+                         return {
+                             backgroundColor: colors.base1,
+                         }
+                     } else {
+                         return {
+                             backgroundColor: colors.bg,
+                             color: colors.fg,
+                         }
+                     }
                  case "dropcontent":
                      return {
                          backgroundColor: colors.base1
@@ -214,5 +253,49 @@
      border-radius: 5px;
      padding-left: 1px;
      cursor: pointer;
+ }
+ .modal {
+     width: 500px;
+     margin: 0px auto;
+     padding: 20px;
+     background-color: #fff;
+     border-radius: 2px;
+     box-shadow: 0 2px 8px 3px;
+     transition: all 0.2s ease-in;
+     font-family: Helvetica, Arial, sans-serif;
+ }
+ .fadeIn-enter {
+     opacity: 0;
+ }
+
+ .fadeIn-leave-active {
+     opacity: 0;
+     transition: all 0.2s step-end;
+ }
+
+ .fadeIn-enter .modal,
+ .fadeIn-leave-active.modal {
+     transform: scale(1.1);
+ }
+ button {
+     padding: 7px;
+     margin-top: 10px;
+     background-color: green;
+     color: white;
+     font-size: 1.1rem;
+ }
+
+ .overlay {
+     position: fixed;
+     top: 0;
+     left: 0;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     width: 100%;
+     height: 100%;
+     background: #00000094;
+     z-index: 999;
+     transition: opacity 0.2s ease;
  }
 </style>
