@@ -965,6 +965,7 @@
              // TODO fix cluenum CSS geting fucked up with a letter
              //console.log('keyup');
              //console.log(event);
+             console.log(event)
              if (/^\w/.test(event.key) && event.key.length === 1) {
                  // it's a letter to insert into grid
                  this.clearCheckSquare(this.currentPoint.y, this.currentPoint.x);
@@ -1001,6 +1002,7 @@
                  // it's a space
                  this.switchDirectionAndFocus();
              } else if (event.keyCode === 9) {
+                 // it's a tab
                  this.moveWordHandler(event);
              }
          },

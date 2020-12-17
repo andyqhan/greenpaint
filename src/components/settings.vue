@@ -168,6 +168,7 @@
 <script>
  export default {
      name: 'settings',
+
      data() {
          return {
              theme: 'doom-one-light',
@@ -177,15 +178,57 @@
              moveUpSquare: ["ArrowUp"],
              moveDownSquare: ["ArrowDown"],
              deleteSquare: ["Backspace"],
-             moveRightWord: ["Tab", "Opt-f"],
-             moveLeftWord: ["Shift-Tab", "Opt-b"],
-             moveUpWord: ["Opt-p"],
-             moveDownWord: ["Opt-n"],
+             moveRightWord: ["Tab", "Alt-f"],
+             moveLeftWord: ["Shift-Tab", "Alt-b"],
+             moveUpWord: ["Alt-p"],
+             moveDownWord: ["Alt-n"],
              moveStartWord: ["Ctrl-a"],
              moveEndWord: ["Ctrl-e"],
-             deleteWord: ["Opt-d"],
+             deleteWord: ["Alt-d"],
              switchDirection: ["Space"],
          }
+     },
+     
+     methods: {
+         parseBind(bindString) {
+             // parse bindString into a function that returns true if event.key is the bindString
+             // if bindString represents one key, it must be one of legalSingles
+             // if bindString represents two keys, the first must be a modifier in legalMods and the second
+             // must either be a single letter or be in the legalSingles
+             let split = bindString.split('-');
+             let funcString = '';
+             let legalSingles = ["Tab", "Space", "Backspace", "ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"];
+             let legalMods = ["Ctrl", "Shift", "Alt"]
+             if (split.length === 1) {
+                 // if there's no hyphen, and the bindString must be Tab, Space, Backspace, or an Arrow
+                 if (legalSingles.includes(split[0])) {
+                     // return a function that checks if event.key is the same as the bind
+                     funcString = `return event.key === ${split[0]}`
+                     return Function('event', funcString)
+                 } else {
+                     console.log("parseBind: invalid binding");
+                     return;
+                 }
+             } else if (split.length === 2) {
+                 // if there's a modifier
+                 if (legalMods.includes(split[0]) && (legalSingles.includes(split[1]) || /^\w$/.test(split[1]))) {
+                     // validation: the first element must be in legalMods; the second must
+                     // either be in legalSingles or be a single letter
+                     funcString = `return event.${split[0].toLowerCase()}Key === true && event.key === ${split[1]}`;
+                     return Function('event', funcString);
+                 } else {
+                     console.log("parseBind: invalid binding");
+                     return;
+                 }
+             } else {
+                 console.log("parseBind: invalid binding");
+                 return;
+             }
+         }
+     },
+
+     mounted() {
+         console.log(this.parseBind('Shift-Tab'));
      }
  }
 </script>
