@@ -177,7 +177,7 @@
              moveLeftSquare: ["ArrowLeft"],
              moveUpSquare: ["ArrowUp"],
              moveDownSquare: ["ArrowDown"],
-             deleteSquare: ["Backspace"],
+             deleteSquare: ["Backspace", "Ctrl-d"],
              moveRightWord: ["Tab", "Alt-f"],
              moveLeftWord: ["Shift-Tab", "Alt-b"],
              moveUpWord: ["Alt-p"],
@@ -203,7 +203,7 @@
                  // if there's no hyphen, and the bindString must be Tab, Space, Backspace, or an Arrow
                  if (legalSingles.includes(split[0])) {
                      // return a function that checks if event.key is the same as the bind
-                     funcString = `return event.key === ${split[0]}`
+                     funcString = `return event.key === "${split[0]}"`
                      return Function('event', funcString)
                  } else {
                      console.log("parseBind: invalid binding");
@@ -214,7 +214,7 @@
                  if (legalMods.includes(split[0]) && (legalSingles.includes(split[1]) || /^\w$/.test(split[1]))) {
                      // validation: the first element must be in legalMods; the second must
                      // either be in legalSingles or be a single letter
-                     funcString = `return event.${split[0].toLowerCase()}Key === true && event.key === ${split[1]}`;
+                     funcString = `return event.${split[0].toLowerCase()}Key === true && event.key === "${split[1]}"`;
                      return Function('event', funcString);
                  } else {
                      console.log("parseBind: invalid binding");
@@ -228,7 +228,7 @@
      },
 
      mounted() {
-         console.log(this.parseBind('Shift-Tab'));
+         console.log(this.parseBind('Shift-Tab')({shiftKey: true, key: "Tab"}))
      }
  }
 </script>
