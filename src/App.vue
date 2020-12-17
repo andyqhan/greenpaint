@@ -21,20 +21,26 @@
             :cluesAcross="cluesAcross" :cluesDown="cluesDown" :rebusObj="rebusObj" ref="grid"></grid>
         </div>
         <div class="cluesAcross clue-container" :style="clueContStyle">
-            <p class="direction-label">Across</p>
-            <clueContainer
-                @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
-                :clueFocus="clueFocus"
-                :clues="cluesAcross"
-                :direction="'A'"></clueContainer>
+            <div class="direction-label" :style="clueContStyle">Across</div>
+            <div>
+                <clueContainer
+                    :style="clueContStyle"
+                    @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
+                    :clueFocus="clueFocus"
+                    :clues="cluesAcross"
+                    :direction="'A'"></clueContainer>
+            </div>
         </div>
         <div class="cluesDown clue-container" :style="clueContStyle">
-            <p class="direction-label">Down</p>
-            <clueContainer
-                @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
-                :clueFocus="clueFocus"
-                :clues="cluesDown"
-                :direction="'D'"></clueContainer>
+            <div class="direction-label" :style="clueContStyle">Down</div>
+            <div>
+                <clueContainer
+                    :style="clueContStyle"
+                    @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
+                    :clueFocus="clueFocus"
+                    :clues="cluesDown"
+                    :direction="'D'"></clueContainer>
+            </div>
         </div>
     </div>
 </template>
@@ -146,7 +152,7 @@
      grid-template-rows: 1fr 1fr 10fr;
      column-gap: 1em;
      max-width: 850px;
-     max-height: 700px;
+     max-height: 600px;
      justify-items: start;
      padding: 1em;
      border-radius: 5px;
@@ -184,12 +190,16 @@
  }
  .direction-label {
      padding: 0;
-     margin: 0;
-     margin-bottom: 0.2em;
+     /* margin: 0.4em; */
+     /*      margin-bottom: 0.2em; */
+     padding: 0.4em;
+     width: 10em;
+     position: sticky;
+     top: -0.4em;
  }
  .clue-container {
      padding: 0;
-     height: 100%;
+     height: 99%;
      padding-top: 0.4em;
      padding-left: 0.4em;
      padding-right: 0.4em;
