@@ -1,15 +1,28 @@
 <template>
     <div class="app-container" :style="appStyle">
+        <div>
+        <transition name="modal">
+            <div v-if="isFinishedShow">
+                <div class="overlay" @click.self="isFinishedShow = false;">
+                    <div class="modal">
+                        <p> {{ gridFullMessage }} </p>
+                    </div>
+                </div>
+            </div>
+        </transition>
+        </div>
         <div class="toolbar" :style="toolbarCSS">
-            <toolbar :currentPoint="currentPoint"
-         @check-square="checkEar('square')"
-         @check-word="checkEar('word')"
-         @check-grid="checkEar('grid')"
-         @reveal-square="this.$refs.grid.revealSquare()"
-         @reveal-word="this.$refs.grid.revealWord()"
-         @reveal-grid="this.$refs.grid.revealGrid()"
-         @clear-grid="this.$refs.grid.clearGrid()"
-         @rebus="this.$refs.grid.activateRebus()"
+            <toolbar ref="toolbar"
+                :currentPoint="currentPoint"
+             @check-square="checkEar('square')"
+             @check-word="checkEar('word')"
+             @check-grid="checkEar('grid')"
+             @reveal-square="this.$refs.grid.revealSquare()"
+             @reveal-word="this.$refs.grid.revealWord()"
+             @reveal-grid="this.$refs.grid.revealGrid()"
+             @clear-grid="this.$refs.grid.clearGrid()"
+             @rebus="this.$refs.grid.activateRebus()"
+             :isFinishedShow="isFinishedShow"
             ></toolbar>
         </div>
         <div class="activeClue" :style="activeClueCSS">
@@ -17,6 +30,7 @@
         </div>
         <div class="mainGrid">
             <grid @square-focus-to-app="squareFocusToAppEar($event)"
+            @grid-full="gridFullEar($event)"
             :gridObject="puzzleGrid"
             :cluesAcross="cluesAcross" :cluesDown="cluesDown" :rebusObj="rebusObj" ref="grid"></grid>
         </div>
@@ -68,7 +82,9 @@
 
              clueFocus: {primary: '1A', secondary: '1D'},
              activeClue: '',
-             currentPoint: {y: 0, x: 0}
+             currentPoint: {y: 0, x: 0},
+             gridFullMessage: '',
+             isFinishedShow: false,
          };
      },
      computed: {
@@ -134,6 +150,16 @@
                      break;
              }
          },
+
+         gridFullEar(event) {
+             this.isFinishedShow = true;
+             this.$refs.toolbar.$refs.stopwatch.stopStopwatch();
+             if (event === "correct") {
+                 this.gridFullMessage = "Congratulations! 🎉"
+             } else if (event === "incorrect") {
+                 this.gridFullMessage = "One or more letters are incorrect 😟"
+             }
+         }
      }
  }
 </script>
@@ -207,5 +233,49 @@
      width: 10em;
      /* will have to change height to the height of the whole app plus some margin */
      overflow: auto;
+ }
+ .modal {
+     width: 500px;
+     margin: 0px auto;
+     padding: 20px;
+     background-color: #fff;
+     border-radius: 2px;
+     box-shadow: 0 2px 8px 3px;
+     transition: all 0.2s ease-in;
+     font-family: Helvetica, Arial, sans-serif;
+ }
+ .fadeIn-enter {
+     opacity: 0;
+ }
+
+ .fadeIn-leave-active {
+     opacity: 0;
+     transition: all 0.2s step-end;
+ }
+
+ .fadeIn-enter .modal,
+ .fadeIn-leave-active.modal {
+     transform: scale(1.1);
+ }
+ button {
+     padding: 7px;
+     margin-top: 10px;
+     background-color: green;
+     color: white;
+     font-size: 1.1rem;
+ }
+
+ .overlay {
+     position: fixed;
+     top: 0;
+     left: 0;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     width: 100%;
+     height: 100%;
+     background: #00000094;
+     z-index: 999;
+     transition: opacity 0.2s ease;
  }
 </style>

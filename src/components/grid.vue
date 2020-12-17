@@ -1009,11 +1009,13 @@
              for (let iY = 0; iY < this.staticGrid.length; iY++) {
                  for (let iX = 0; iX < this.staticGrid[iY].length; iX++) {
                      if (this.dynamicGrid[iY][iX]['currentLetter'] !== this.staticGrid[iY][iX]['correctLetter']) {
-                         return "One or more letters are incorrect 😟"
+                         this.$emit('grid-full', "incorrect"); 
+                         return;
                      }
                  }
              }
-             return "Congratulations! 🎉"
+             this.$emit('grid-full', "correct");
+             return 
          }
      },
      mounted() {

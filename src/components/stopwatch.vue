@@ -5,6 +5,9 @@
 <script>
  export default {
      name: 'stopwatch',
+     props: {
+         isFinishedShow: Boolean,
+     },
 
      data() {
          return {
@@ -27,7 +30,7 @@
      
      methods: {
          startTimer() {
-             this.timerInterval = setInterval(this.incrementTimer, 1000);                 
+             this.timerInterval = setInterval(this.incrementTimer, 1000);
          },
 
          incrementTimer() {
@@ -38,6 +41,10 @@
 
          toggleStopwatch() {
              this.isStopwatchActive = !this.isStopwatchActive;
+         },
+
+         stopStopwatch() {
+             this.isStopwatchActive = false;
          },
 
          resetStopwatch() {

@@ -46,7 +46,10 @@
                 :style="styleToolbar('dropbtntime')"
                 @mouseover="timeMouse = true"
                 @mouseleave="timeMouse = false">
-            <stopwatch ref="stopwatch"></stopwatch>
+            <stopwatch
+                :isFinishedShow="isFinishedShow"
+                ref="stopwatch">
+            </stopwatch>
         </button>
     </div>
 </template>
@@ -62,7 +65,8 @@
          stopwatch
      },
      props: {
-         currentPoint: Object
+         currentPoint: Object,
+         isFinishedShow: Boolean
      },
      emits: ['check-square',
              'check-word',
