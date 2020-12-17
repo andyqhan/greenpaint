@@ -130,6 +130,7 @@
          },
 
          toggleSettings() {
+             this.$refs.stopwatch.stopStopwatch();
              this.isSettingsShow = !this.isSettingsShow;
          },
 
