@@ -1022,7 +1022,7 @@
      },
      mounted() {
          // console.log(this.dynamicGrid)
-         console.log(this.staticGrid)
+         //console.log(this.staticGrid)
          window.addEventListener('keydown', event => {
              // i don't get why these are being logged twice?
              if (event.keyCode === 9) {

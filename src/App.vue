@@ -34,27 +34,23 @@
             :gridObject="puzzleGrid"
             :cluesAcross="cluesAcross" :cluesDown="cluesDown" :rebusObj="rebusObj" ref="grid"></grid>
         </div>
+        <p class="direction-label" :style="clueContStyle">Across</p>
         <div class="cluesAcross clue-container" :style="clueContStyle">
-            <div class="direction-label" :style="clueContStyle">Across</div>
-            <div>
                 <clueContainer
                     :style="clueContStyle"
                     @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
                     :clueFocus="clueFocus"
                     :clues="cluesAcross"
                     :direction="'A'"></clueContainer>
-            </div>
         </div>
+        <p class="direction-label" :style="clueContStyle">Down</p>
         <div class="cluesDown clue-container" :style="clueContStyle">
-            <div class="direction-label" :style="clueContStyle">Down</div>
-            <div>
                 <clueContainer
                     :style="clueContStyle"
                     @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
                     :clueFocus="clueFocus"
                     :clues="cluesDown"
                     :direction="'D'"></clueContainer>
-            </div>
         </div>
     </div>
 </template>
@@ -177,7 +173,7 @@
      grid-template-columns: 2fr 0.5fr 0.5fr;
      grid-template-rows: 1fr 1fr 10fr;
      column-gap: 1em;
-     max-width: 850px;
+     max-width: 870px;
      max-height: 600px;
      justify-items: start;
      padding: 1em;
@@ -205,23 +201,17 @@
      padding-top: 1em;
  }
  .cluesAcross {
-     grid-row-start: 2;
-     grid-row-end: 4;
+     grid-row: 3;
      grid-column: 2;
  }
  .cluesDown {
-     grid-row-start: 2;
-     grid-row-end: 4;
+     grid-row: 3;
      grid-column: 3;
  }
  .direction-label {
-     padding: 0;
-     /* margin: 0.4em; */
-     /*      margin-bottom: 0.2em; */
      padding: 0.4em;
      width: 10em;
-     position: sticky;
-     top: -0.4em;
+     border-radius: 5px;
  }
  .clue-container {
      padding: 0;
