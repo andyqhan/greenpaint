@@ -191,20 +191,18 @@
      
      methods: {
          parseBind(bindString) {
-             // parse bindString into a function that returns true if event.key is the bindString
+             // parse bindString into a conditional statement that returns true if event corresponds to bindString
              // if bindString represents one key, it must be one of legalSingles
              // if bindString represents two keys, the first must be a modifier in legalMods and the second
              // must either be a single letter or be in the legalSingles
              let split = bindString.split('-');
-             let funcString = '';
              let legalSingles = ["Tab", "Space", "Backspace", "ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"];
              let legalMods = ["Ctrl", "Shift", "Alt"]
              if (split.length === 1) {
                  // if there's no hyphen, and the bindString must be Tab, Space, Backspace, or an Arrow
                  if (legalSingles.includes(split[0])) {
                      // return a function that checks if event.key is the same as the bind
-                     funcString = `return event.key === "${split[0]}"`
-                     return Function('event', funcString)
+                     return `event.key === "${split[0]}"`
                  } else {
                      console.log("parseBind: invalid binding");
                      return;
@@ -214,8 +212,7 @@
                  if (legalMods.includes(split[0]) && (legalSingles.includes(split[1]) || /^\w$/.test(split[1]))) {
                      // validation: the first element must be in legalMods; the second must
                      // either be in legalSingles or be a single letter
-                     funcString = `return event.${split[0].toLowerCase()}Key === true && event.key === "${split[1]}"`;
-                     return Function('event', funcString);
+                     return `event.${split[0].toLowerCase()}Key === true && event.key === "${split[1]}"`;
                  } else {
                      console.log("parseBind: invalid binding");
                      return;
@@ -224,11 +221,56 @@
                  console.log("parseBind: invalid binding");
                  return;
              }
+         },
+
+         parseBindList(bindList) {
+             // return a function that returns true if event corresponds to one
+             // of the bindStrings in bindList
+             let testString = "";
+             let thisString = "";
+             for (let i = 0; i < bindList.length-1; i++) {
+                 // add the parsed element of bindList to testString, except the last one
+                 thisString = this.parseBind(bindList[i]);
+                 testString += `(${thisString}) || `;
+             }
+             // do the last element (no || after)
+             thisString = this.parseBind(bindList[bindList.length-1]);
+             testString += `(${thisString})`;
+             return Function('event', `return ${testString}`);
+         },
+
+         createBindFunctionObject() {
+             // hardcoded for readability. return an object with keys equal to
+             // various grid operations and values equal to the function testing
+             // if this event is a key in that key's bindList
+             return {
+                 moveRightSquare: this.parseBindList(this.moveRightSquare),
+                 moveLeftSquare: this.parseBindList(this.moveLeftSquare),
+                 moveUpSquare: this.parseBindList(this.moveUpSquare),
+                 moveDownSquare: this.parseBindList(this.moveDownSquare),
+                 deleteSquare: this.parseBindList(this.deleteSquare),
+                 moveRightWord: this.parseBindList(this.moveRightWord),
+                 moveLeftWord: this.parseBindList(this.moveLeftWord),
+                 moveUpWord: this.parseBindList(this.moveUpWord),
+                 moveDownWord: this.parseBindList(this.moveDownWord),
+                 moveStartWord: this.parseBindList(this.moveStartWord),
+                 moveEndWord: this.parseBindList(this.moveEndWord),
+                 deleteWord: this.parseBindList(this.deleteWord),
+                 switchDirection: this.parseBindList(this.switchDirection),
+             }
+         },
+
+         createSettingsObject() {
+             return {
+                 theme: this.theme,
+                 upload: this.uploadJson,
+                 bindFunctionObject: this.createBindFunctionObject()
+             }
          }
      },
 
      mounted() {
-         console.log(this.parseBind('Shift-Tab')({shiftKey: true, key: "Tab"}))
+         console.log(this.createSettingsObject());
      }
  }
 </script>

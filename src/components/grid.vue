@@ -1025,9 +1025,10 @@
          //console.log(this.staticGrid)
          window.addEventListener('keydown', event => {
              // i don't get why these are being logged twice?
-             if (event.keyCode === 9) {
-                 event.preventDefault();                 
-             }
+             // if (event.keyCode === 9) {
+             //     event.preventDefault();                 
+             // }
+             event.preventDefault();
              //console.log('keydown');
              this.keyHandler(event);
          });
