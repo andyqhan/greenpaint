@@ -162,6 +162,10 @@
         <div>
             <input>
         </div>
+        
+        <div class="apply-settings" @click="emitSettings">
+            <button>Apply</button>
+        </div>
     </div>
 </template>
 
@@ -200,7 +204,9 @@
              let legalMods = ["Ctrl", "Shift", "Alt"]
              if (split.length === 1) {
                  // if there's no hyphen, and the bindString must be Tab, Space, Backspace, or an Arrow
-                 if (legalSingles.includes(split[0])) {
+                 if (split[0] === "Space") {
+                     return "event.key === ' '";
+                 } else if (legalSingles.includes(split[0])) {
                      // return a function that checks if event.key is the same as the bind
                      return `event.key === "${split[0]}"`
                  } else {
@@ -266,11 +272,16 @@
                  upload: this.uploadJson,
                  bindFunctionObject: this.createBindFunctionObject()
              }
+         },
+
+         emitSettings() {
+             this.$emit('settings', this.createSettingsObject());
+             console.log('emitted');
          }
      },
 
-     mounted() {
-         console.log(this.createSettingsObject());
+     created() {
+         this.emitSettings()
      }
  }
 </script>
@@ -279,5 +290,9 @@
  .settings-container {
      display: grid;
      grid-template-columns: 1.5fr 1.5fr 1fr;
+ }
+ .apply-settings {
+     grid-column: 3;
+     justify-self: right;
  }
 </style>

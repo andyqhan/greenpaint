@@ -63,10 +63,12 @@
     </div>
     <div>
         <transition name="modal">
-            <div v-if="isSettingsShow">
+            <div v-show="isSettingsShow">
                 <div class="overlay" @click.self="isSettingsShow = false;">
                     <div class="modal">
-                        <settings></settings>
+                        <settings ref="settings"
+                            @settings="this.$emit('settings-to-app', $event)"
+                        ></settings>
                     </div>
                 </div>
             </div>

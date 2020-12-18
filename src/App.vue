@@ -13,16 +13,17 @@
         </div>
         <div class="toolbar" :style="toolbarCSS">
             <toolbar ref="toolbar"
-                :currentPoint="currentPoint"
-             @check-square="checkEar('square')"
-             @check-word="checkEar('word')"
-             @check-grid="checkEar('grid')"
-             @reveal-square="this.$refs.grid.revealSquare()"
-             @reveal-word="this.$refs.grid.revealWord()"
-             @reveal-grid="this.$refs.grid.revealGrid()"
-             @clear-grid="this.$refs.grid.clearGrid()"
-             @rebus="this.$refs.grid.activateRebus()"
-             :isFinishedShow="isFinishedShow"
+                     :currentPoint="currentPoint"
+                     @check-square="checkEar('square')"
+                     @check-word="checkEar('word')"
+                     @check-grid="checkEar('grid')"
+                     @reveal-square="this.$refs.grid.revealSquare()"
+                     @reveal-word="this.$refs.grid.revealWord()"
+                     @reveal-grid="this.$refs.grid.revealGrid()"
+                     @clear-grid="this.$refs.grid.clearGrid()"
+                     @rebus="this.$refs.grid.activateRebus()"
+                     @settings-to-app="settingsObject = $event"
+                     :isFinishedShow="isFinishedShow"
             ></toolbar>
         </div>
         <div class="activeClue" :style="activeClueCSS">
@@ -32,7 +33,9 @@
             <grid @square-focus-to-app="squareFocusToAppEar($event)"
             @grid-full="gridFullEar($event)"
             :gridObject="puzzleGrid"
-            :cluesAcross="cluesAcross" :cluesDown="cluesDown" :rebusObj="rebusObj" ref="grid"></grid>
+            :settingsObject="settingsObject"
+            :cluesAcross="cluesAcross" :cluesDown="cluesDown" :rebusObj="rebusObj" ref="grid"
+            ></grid>
         </div>
         <p class="direction-label" :style="clueContStyle">Across</p>
         <div class="cluesAcross clue-container" :style="clueContStyle">
@@ -81,6 +84,7 @@
              currentPoint: {y: 0, x: 0},
              gridFullMessage: '',
              isFinishedShow: false,
+             settingsObject: {}
          };
      },
      computed: {
@@ -156,6 +160,10 @@
                  this.gridFullMessage = "One or more letters are incorrect 😟"
              }
          }
+     },
+
+     mounted() {
+         console.log(this.settingsObject)
      }
  }
 </script>

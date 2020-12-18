@@ -44,6 +44,7 @@
          cluesDown: Array,
          cluesAcross: Array,
          rebusObj: Object,
+         settingsObject: Object
      },
      emits: ['square-focus-to-app'],
      data() {
@@ -746,52 +747,55 @@
              return null
          },
 
-         moveDownWordRight() {
-             // TODO combine this and moveDownWordLeft() into one function, like the thing above
-             let nextWordStart = this.getNextDownWord();
-             if (!nextWordStart) {
-                 console.log('no NextDownWord')
-                 return
+         moveDownWord(direction) {
+             let targetWordStart;
+             if (direction === "right") {
+                 targetWordStart = this.getNextDownWord();
+             } else if (direction === "left") {
+                 targetWordStart = this.getPreviousDownWord();
+             }
+             if (!targetWordStart) {
+                 console.log("moveDownWord: no target word");
+                 return;
              }
              this.focusEar({
-                 y: nextWordStart.y,
-                 x: nextWordStart.x,
+                 y: targetWordStart.y,
+                 x: targetWordStart.x,
                  direction: this.currentDirection,
-                 acrossNum: this.staticGrid[nextWordStart.y][nextWordStart.x]['acrossNum'],
-                 downNum: this.staticGrid[nextWordStart.y][nextWordStart.x]['downNum']
+                 acrossNum: this.staticGrid[targetWordStart.y][targetWordStart.x]['acrossNum'],
+                 downNum: this.staticGrid[targetWordStart.y][targetWordStart.x]['downNum']
              })
          },
 
-         moveDownWordLeft() {
-             let previousWordStart = this.getPreviousDownWord();
-             if (!previousWordStart) {
-                 return
-             }
-             this.focusEar({
-                 y: previousWordStart.y,
-                 x: previousWordStart.x,
-                 direction: this.currentDirection,
-                 acrossNum: this.staticGrid[previousWordStart.y][previousWordStart.x]['acrossNum'],
-                 downNum: this.staticGrid[previousWordStart.y][previousWordStart.x]['downNum']
-             })
-         },
-
-         moveWordHandler(event) {
-             // TODO write moveBeginningWord method
-             if (event.shiftKey === false) {
-                 if (this.currentDirection === "across") {
-                     this.moveAcrossWord("right");
-                 } else if (this.currentDirection === "down") {
-                     this.moveDownWordRight();
-                 }
-             } else if (event.shiftKey === true) {
-                 if (this.currentDirection === "across") {
-                     this.moveAcrossWord("left");
-                 } else if (this.currentDirection === "down") {
-                     this.moveDownWordLeft();
-                 }
-             }
-         },
+         // moveDownWordRight() {
+         //     // TODO combine this and moveDownWordLeft() into one function, like the thing above
+         //     let nextWordStart = this.getNextDownWord();
+         //     if (!nextWordStart) {
+         //         console.log('no NextDownWord')
+         //         return
+         //     }
+         //     this.focusEar({
+         //         y: nextWordStart.y,
+         //         x: nextWordStart.x,
+         //         direction: this.currentDirection,
+         //         acrossNum: this.staticGrid[nextWordStart.y][nextWordStart.x]['acrossNum'],
+         //         downNum: this.staticGrid[nextWordStart.y][nextWordStart.x]['downNum']
+         //     })
+         // },
+         // 
+         // moveDownWordLeft() {
+         //     let previousWordStart = this.getPreviousDownWord();
+         //     if (!previousWordStart) {
+         //         return
+         //     }
+         //     this.focusEar({
+         //         y: previousWordStart.y,
+         //         x: previousWordStart.x,
+         //         direction: this.currentDirection,
+         //         acrossNum: this.staticGrid[previousWordStart.y][previousWordStart.x]['acrossNum'],
+         //         downNum: this.staticGrid[previousWordStart.y][previousWordStart.x]['downNum']
+         //     })
+         // },
 
          getNextEmptyAcross(y=this.currentPoint.y, x=this.currentPoint.x) {
              let iX = x;
@@ -957,6 +961,23 @@
                  this.focusEar(event)
              }
          },
+
+         moveWordHandler(event) {
+             // TODO write moveBeginningWord method
+             if (event.shiftKey === false) {
+                 if (this.currentDirection === "across") {
+                     this.moveAcrossWord("right");
+                 } else if (this.currentDirection === "down") {
+                     this.moveDownWordRight();
+                 }
+             } else if (event.shiftKey === true) {
+                 if (this.currentDirection === "across") {
+                     this.moveAcrossWord("left");
+                 } else if (this.currentDirection === "down") {
+                     this.moveDownWordLeft();
+                 }
+             }
+         },
          
          keyHandler(event) {
              //console.log(this.previousSelectAcross)
@@ -976,8 +997,61 @@
                      this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] = event.key.toUpperCase();
                      this.moveNextEmpty();
                  }
-             } else if (/^Backspace/.test(event.key)) {
-                 // clear current letter and move back
+             } // else if (/^Backspace/.test(event.key)) {
+             //   // clear current letter and move back
+             //   if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isCorrect']) {
+             //       // don't delete the letter if we know it's correct
+             //   } else {
+             //       this.currentSquaresFilled -= 1;
+             //       this.clearSquareLetter(this.currentPoint.y, this.currentPoint.x);
+             //       this.clearCheckSquare(this.currentPoint.y, this.currentPoint.x);
+             //   }
+             //   this.moveBackwardCurrentDirection();
+             //              } else if (/^Arrow/.test(event.key)) {
+             //   // move point
+             //   if ((event.key === "ArrowDown" || event.key === "ArrowUp") && this.currentDirection === "down") {
+             //       // if the movement direction is the same as currentdirection
+             //       this.movePointSmart(event.key.slice(5));
+             //   } else if ((event.key === "ArrowLeft" || event.key === "ArrowRight") && this.currentDirection === "across") {
+             //       this.movePointSmart(event.key.slice(5));
+             //   } else {
+             //       // if the movement direction is different
+             //       this.switchDirectionAndFocus();
+             //   }
+             // 
+             //              } else if (/^Space/.test(event.code)) {
+             //   // it's a space
+             //   this.switchDirectionAndFocus();
+             //              } else if (event.keyCode === 9) {
+             //   // it's a tab
+             //   this.moveWordHandler(event);
+             //              }
+
+             else if (this.settingsObject.bindFunctionObject.moveRightSquare(event)) {
+                 if (this.currentDirection === "down") {
+                     this.switchDirectionAndFocus();
+                 } else {
+                     this.movePointSmart("right");
+                 }
+             } else if (this.settingsObject.bindFunctionObject.moveLeftSquare(event)) {
+                 if (this.currentDirection === "down") {
+                     this.switchDirectionAndFocus();
+                 } else {
+                     this.movePointSmart("left");
+                 }
+             } else if (this.settingsObject.bindFunctionObject.moveUpSquare(event)) {
+                 if (this.currentDirection === "across") {
+                     this.switchDirectionAndFocus();
+                 } else {
+                     this.movePointSmart("up");
+                 }
+             } else if (this.settingsObject.bindFunctionObject.moveDownSquare(event)) {
+                 if (this.currentDirection === "across") {
+                     this.switchDirectionAndFocus();
+                 } else {
+                     this.movePointSmart("down");
+                 }
+             } else if (this.settingsObject.bindFunctionObject.deleteSquare(event)) {
                  if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isCorrect']) {
                      // don't delete the letter if we know it's correct
                  } else {
@@ -986,24 +1060,30 @@
                      this.clearCheckSquare(this.currentPoint.y, this.currentPoint.x);
                  }
                  this.moveBackwardCurrentDirection();
-             } else if (/^Arrow/.test(event.key)) {
-                 // move point
-                 if ((event.key === "ArrowDown" || event.key === "ArrowUp") && this.currentDirection === "down") {
-                     // if the movement direction is the same as currentdirection
-                     this.movePointSmart(event.key.slice(5));
-                 } else if ((event.key === "ArrowLeft" || event.key === "ArrowRight") && this.currentDirection === "across") {
-                     this.movePointSmart(event.key.slice(5));
-                 } else {
-                     // if the movement direction is different
-                     this.switchDirectionAndFocus();
+             } else if (this.settingsObject.bindFunctionObject.moveRightWord(event)) {
+                 if (this.currentDirection === "across") {
+                     this.moveAcrossWord("right");
+                 } else if (this.currentDirection === "down") {
+                     this.moveDownWord("right");
                  }
-
-             } else if (/^Space/.test(event.code)) {
-                 // it's a space
-                 this.switchDirectionAndFocus();
-             } else if (event.keyCode === 9) {
-                 // it's a tab
-                 this.moveWordHandler(event);
+             } else if (this.settingsObject.bindFunctionObject.moveLeftWord(event)) {
+                 if (this.currentDirection === "across") {
+                     this.moveAcrossWord("right");
+                 } else if (this.currentDirection === "down") {
+                     this.moveDownWord("left");
+                 }
+             } else if (this.settingsObject.bindFunctionObject.moveDownWord(event)) {
+                 // TODO
+             } else if (this.settingsObject.bindFunctionObject.moveUpWord(event)) {
+                 // TODO
+             } else if (this.settingsObject.bindFunctionObject.moveStartWord(event)) {
+                 // TODO
+             } else if (this.settingsObject.bindFunctionObject.moveEndWord(event)) {
+                 // TODO
+             } else if (this.settingsObject.bindFunctionObject.deleteWord(event)) {
+                 // TODO
+             } else if (this.settingsObject.bindFunctionObject.switchDirection(event)) {
+                 this.switchDirectionAndFocus()
              }
          },
 
