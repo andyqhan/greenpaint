@@ -992,23 +992,6 @@
              }
          },
 
-         moveWordHandler(event) {
-             // TODO write moveBeginningWord method
-             if (event.shiftKey === false) {
-                 if (this.currentDirection === "across") {
-                     this.moveAcrossWord("right");
-                 } else if (this.currentDirection === "down") {
-                     this.moveDownWordRight();
-                 }
-             } else if (event.shiftKey === true) {
-                 if (this.currentDirection === "across") {
-                     this.moveAcrossWord("left");
-                 } else if (this.currentDirection === "down") {
-                     this.moveDownWordLeft();
-                 }
-             }
-         },
-         
          keyHandler(event) {
              //console.log(this.previousSelectAcross)
              // let prevY = this.previousSelectAcross[0];
@@ -1018,36 +1001,7 @@
              //console.log(event);
              console.log(`keyHandler event:`)
              console.log(event)
-              // else if (/^Backspace/.test(event.key)) {
-             //   // clear current letter and move back
-             //   if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isCorrect']) {
-             //       // don't delete the letter if we know it's correct
-             //   } else {
-             //       this.currentSquaresFilled -= 1;
-             //       this.clearSquareLetter(this.currentPoint.y, this.currentPoint.x);
-             //       this.clearCheckSquare(this.currentPoint.y, this.currentPoint.x);
-             //   }
-             //   this.moveBackwardCurrentDirection();
-             //              } else if (/^Arrow/.test(event.key)) {
-             //   // move point
-             //   if ((event.key === "ArrowDown" || event.key === "ArrowUp") && this.currentDirection === "down") {
-             //       // if the movement direction is the same as currentdirection
-             //       this.movePointSmart(event.key.slice(5));
-             //   } else if ((event.key === "ArrowLeft" || event.key === "ArrowRight") && this.currentDirection === "across") {
-             //       this.movePointSmart(event.key.slice(5));
-             //   } else {
-             //       // if the movement direction is different
-             //       this.switchDirectionAndFocus();
-             //   }
-             // 
-             //              } else if (/^Space/.test(event.code)) {
-             //   // it's a space
-             //   this.switchDirectionAndFocus();
-             //              } else if (event.keyCode === 9) {
-             //   // it's a tab
-             //   this.moveWordHandler(event);
-             //              }
-
+             
              if (this.settingsObject.bindFunctionObject.moveRightSquare(event)) {
                  console.log("moveRightSquare")
                  if (this.currentDirection === "down") {
