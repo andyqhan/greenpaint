@@ -103,25 +103,6 @@
             <input>
         </div>
         
-         <div>
-            Move up by word
-         </div>
-         <div>
-             {{ moveUpWord.toString() }}
-         </div>
-         <div>
-            <input>
-        </div>
-        
-         <div>
-            Move down by word
-         </div>
-         <div>
-             {{ moveDownWord.toString() }}
-         </div>
-         <div>
-            <input>
-        </div>
         
         <div>
             Move to start of word
@@ -182,13 +163,11 @@
              moveUpSquare: ["ArrowUp", "Ctrl-p"],
              moveDownSquare: ["ArrowDown", "Ctrl-n"],
              deleteSquare: ["Backspace", "Ctrl-d"],
-             moveRightWord: ["Tab", "Meta-f"],
-             moveLeftWord: ["Shift-Tab", "Meta-b"],
-             moveUpWord: ["Meta-p"],
-             moveDownWord: ["Meta-n"],
+             moveRightWord: ["Tab"],
+             moveLeftWord: ["Shift-Tab"],
              moveStartWord: ["Ctrl-a"],
              moveEndWord: ["Ctrl-e"],
-             deleteWord: ["Meta-d"],
+             deleteWord: ["Ctrl-k"],
              switchDirection: ["Space"],
          }
      },
@@ -201,14 +180,14 @@
              // must either be a single letter or be in the legalSingles
              let split = bindString.split('-');
              let legalSingles = ["Tab", "Space", "Backspace", "ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"];
-             let legalMods = ["Ctrl", "Shift", "Meta"]
+             let legalMods = ["Ctrl", "Shift"]
              if (split.length === 1) {
                  // if there's no hyphen, and the bindString must be Tab, Space, Backspace, or an Arrow
                  if (split[0] === "Space") {
-                     return "event.key === ' '";
+                     return "event.key === ' ' && event.ctrlKey === false && event.shiftKey === false";
                  } else if (legalSingles.includes(split[0])) {
                      // return a function that checks if event.key is the same as the bind
-                     return `event.key === "${split[0]}"`
+                     return `event.key === "${split[0]}" && event.ctrlKey === false && event.shiftKey === false`
                  } else {
                      console.log("parseBind: invalid binding");
                      return;
@@ -257,8 +236,8 @@
                  deleteSquare: this.parseBindList(this.deleteSquare),
                  moveRightWord: this.parseBindList(this.moveRightWord),
                  moveLeftWord: this.parseBindList(this.moveLeftWord),
-                 moveUpWord: this.parseBindList(this.moveUpWord),
-                 moveDownWord: this.parseBindList(this.moveDownWord),
+                 // moveUpWord: this.parseBindList(this.moveUpWord),
+                 // moveDownWord: this.parseBindList(this.moveDownWord),
                  moveStartWord: this.parseBindList(this.moveStartWord),
                  moveEndWord: this.parseBindList(this.moveEndWord),
                  deleteWord: this.parseBindList(this.deleteWord),

@@ -1066,20 +1066,15 @@
              } else if (this.settingsObject.bindFunctionObject.moveLeftWord(event)) {
                  console.log("moveLeftWord")
                  if (this.currentDirection === "across") {
-                     this.moveAcrossWord("right");
+                     this.moveAcrossWord("left");
                  } else if (this.currentDirection === "down") {
                      this.moveDownWord("left");
                  }
-             } else if (this.settingsObject.bindFunctionObject.moveDownWord(event)) {
-                 console.log("moveDownWord")
-                 // TODO
-             } else if (this.settingsObject.bindFunctionObject.moveUpWord(event)) {
-                 console.log("moveUpWord")
-                 // TODO
              } else if (this.settingsObject.bindFunctionObject.moveStartWord(event)) {
                  console.log("moveStartWord")
                  // TODO
-             } else if (this.settingsObject.bindFunctionObject.moveEndWord(event)) {
+             } else
+                 if (this.settingsObject.bindFunctionObject.moveEndWord(event)) {
                  console.log("moveEndWord")
                  // TODO
              } else if (this.settingsObject.bindFunctionObject.deleteWord(event)) {
@@ -1124,6 +1119,7 @@
              //     event.preventDefault();                 
              // }
              event.preventDefault();
+             //event.stopPropagation();
              //console.log('keydown');
              this.keyHandler(event);
          });
