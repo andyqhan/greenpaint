@@ -1014,8 +1014,6 @@
              // TODO fix cluenum CSS geting fucked up with a letter
              //console.log('keyup');
              //console.log(event);
-             console.log(`keyHandler event:`)
-             console.log(event)
              
              if (this.settingsObject.bindFunctionObject.moveRightSquare(event)) {
                  console.log("moveRightSquare")
@@ -1109,16 +1107,8 @@
          }
      },
      mounted() {
-         // console.log(this.dynamicGrid)
-         //console.log(this.staticGrid)
          window.addEventListener('keydown', event => {
-             // i don't get why these are being logged twice?
-             // if (event.keyCode === 9) {
-             //     event.preventDefault();                 
-             // }
              event.preventDefault();
-             //event.stopPropagation();
-             //console.log('keydown');
              this.keyHandler(event);
          });
 
