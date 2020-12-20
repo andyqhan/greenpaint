@@ -767,36 +767,6 @@
              })
          },
 
-         // moveDownWordRight() {
-         //     // TODO combine this and moveDownWordLeft() into one function, like the thing above
-         //     let nextWordStart = this.getNextDownWord();
-         //     if (!nextWordStart) {
-         //         console.log('no NextDownWord')
-         //         return
-         //     }
-         //     this.focusEar({
-         //         y: nextWordStart.y,
-         //         x: nextWordStart.x,
-         //         direction: this.currentDirection,
-         //         acrossNum: this.staticGrid[nextWordStart.y][nextWordStart.x]['acrossNum'],
-         //         downNum: this.staticGrid[nextWordStart.y][nextWordStart.x]['downNum']
-         //     })
-         // },
-         // 
-         // moveDownWordLeft() {
-         //     let previousWordStart = this.getPreviousDownWord();
-         //     if (!previousWordStart) {
-         //         return
-         //     }
-         //     this.focusEar({
-         //         y: previousWordStart.y,
-         //         x: previousWordStart.x,
-         //         direction: this.currentDirection,
-         //         acrossNum: this.staticGrid[previousWordStart.y][previousWordStart.x]['acrossNum'],
-         //         downNum: this.staticGrid[previousWordStart.y][previousWordStart.x]['downNum']
-         //     })
-         // },
-
          getNextEmptyAcross(y=this.currentPoint.y, x=this.currentPoint.x) {
              let iX = x;
              for (let iY = y; iY < this.staticGrid.length; iY++) {
@@ -858,6 +828,24 @@
                  direction: this.currentDirection,
                  acrossNum: this.staticGrid[nextEmpty.y][nextEmpty.x]['acrossNum'],
                  downNum: this.staticGrid[nextEmpty.y][nextEmpty.x]['downNum']
+             });
+         },
+
+         moveStartWord(direction) {
+             // move to the start of this word
+             // direction is either "across" or "down"
+             let target;
+             if (direction === "across") {
+                 target = this.getAcrossWordStart(this.currentPoint.y, this.currentPoint.x);
+             } else if (direction === "down") {
+                 target = this.getDownWordStart(this.currentPoint.y, this.currentPoint.x);
+             }
+             this.focusEar({
+                 y: target.y,
+                 x: target.x,
+                 direction: this.currentDirection,
+                 acrossNum: this.staticGrid[target.y][target.x]['acrossNum'],
+                 downNum: this.staticGrid[target.y][target.x]['downNum']
              });
          },
 
@@ -1072,7 +1060,7 @@
                  }
              } else if (this.settingsObject.bindFunctionObject.moveStartWord(event)) {
                  console.log("moveStartWord")
-                 // TODO
+                 this.moveStartWord(this.currentDirection);
              } else
                  if (this.settingsObject.bindFunctionObject.moveEndWord(event)) {
                  console.log("moveEndWord")
