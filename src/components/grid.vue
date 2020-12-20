@@ -840,6 +840,18 @@
              } else if (direction === "down") {
                  target = this.getDownWordStart(this.currentPoint.y, this.currentPoint.x);
              }
+
+             if (target.x === this.currentPoint.x && target.y === this.currentPoint.y) {
+                 // we're already at the end of the word; simulate backtab behavior
+                 if (this.currentDirection === "across") {
+                     this.moveAcrossWord("left");
+                     return
+                 } else if (this.currentDirection === "down") {
+                     this.moveDownWord("left");
+                     return
+                 }
+             }
+             
              this.focusEar({
                  y: target.y,
                  x: target.x,
@@ -847,6 +859,36 @@
                  acrossNum: this.staticGrid[target.y][target.x]['acrossNum'],
                  downNum: this.staticGrid[target.y][target.x]['downNum']
              });
+         },
+
+         moveEndWord(direction) {
+             // move to the end of this word
+             // direction is either "across" or "down"
+             let target;
+             if (direction === "across") {
+                 target = this.getAcrossWordEnd(this.currentPoint.y, this.currentPoint.x);
+             } else if (direction === "down") {
+                 target = this.getDownWordEnd(this.currentPoint.y, this.currentPoint.x);
+             }
+             
+             if (target.x === this.currentPoint.x && target.y === this.currentPoint.y) {
+                 // we're already at the end of the word; simulate tab behavior
+                 if (this.currentDirection === "across") {
+                     this.moveAcrossWord("right");
+                     return
+                 } else if (this.currentDirection === "down") {
+                     this.moveDownWord("right");
+                     return
+                 }
+             }
+             
+             this.focusEar({
+                 y: target.y,
+                 x: target.x,
+                 direction: this.currentDirection,
+                 acrossNum: this.staticGrid[target.y][target.x]['acrossNum'],
+                 downNum: this.staticGrid[target.y][target.x]['downNum']
+             })
          },
 
          clearCheckSquare(y, x) {
@@ -1061,10 +1103,9 @@
              } else if (this.settingsObject.bindFunctionObject.moveStartWord(event)) {
                  console.log("moveStartWord")
                  this.moveStartWord(this.currentDirection);
-             } else
-                 if (this.settingsObject.bindFunctionObject.moveEndWord(event)) {
+             } else if (this.settingsObject.bindFunctionObject.moveEndWord(event)) {
                  console.log("moveEndWord")
-                 // TODO
+                 this.moveEndWord(this.currentDirection);
              } else if (this.settingsObject.bindFunctionObject.deleteWord(event)) {
                  console.log("deleteWord")
                  // TODO
