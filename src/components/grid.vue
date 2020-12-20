@@ -986,18 +986,9 @@
              // TODO fix cluenum CSS geting fucked up with a letter
              //console.log('keyup');
              //console.log(event);
+             console.log(`keyHandler event:`)
              console.log(event)
-             if (/^\w/.test(event.key) && event.key.length === 1) {
-                 // it's a letter to insert into grid
-                 this.clearCheckSquare(this.currentPoint.y, this.currentPoint.x);
-                 if (!this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive) {
-                     if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] === "") {
-                         this.currentSquaresFilled += 1;
-                     }
-                     this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] = event.key.toUpperCase();
-                     this.moveNextEmpty();
-                 }
-             } // else if (/^Backspace/.test(event.key)) {
+              // else if (/^Backspace/.test(event.key)) {
              //   // clear current letter and move back
              //   if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isCorrect']) {
              //       // don't delete the letter if we know it's correct
@@ -1027,31 +1018,36 @@
              //   this.moveWordHandler(event);
              //              }
 
-             else if (this.settingsObject.bindFunctionObject.moveRightSquare(event)) {
+             if (this.settingsObject.bindFunctionObject.moveRightSquare(event)) {
+                 console.log("moveRightSquare")
                  if (this.currentDirection === "down") {
                      this.switchDirectionAndFocus();
                  } else {
                      this.movePointSmart("right");
                  }
              } else if (this.settingsObject.bindFunctionObject.moveLeftSquare(event)) {
+                 console.log("moveLeftSquare")
                  if (this.currentDirection === "down") {
                      this.switchDirectionAndFocus();
                  } else {
                      this.movePointSmart("left");
                  }
              } else if (this.settingsObject.bindFunctionObject.moveUpSquare(event)) {
+                 console.log("moveUpSquare")
                  if (this.currentDirection === "across") {
                      this.switchDirectionAndFocus();
                  } else {
                      this.movePointSmart("up");
                  }
              } else if (this.settingsObject.bindFunctionObject.moveDownSquare(event)) {
+                 console.log("moveDownSquare")
                  if (this.currentDirection === "across") {
                      this.switchDirectionAndFocus();
                  } else {
                      this.movePointSmart("down");
                  }
              } else if (this.settingsObject.bindFunctionObject.deleteSquare(event)) {
+                 console.log("deleteSquare")
                  if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isCorrect']) {
                      // don't delete the letter if we know it's correct
                  } else {
@@ -1061,29 +1057,48 @@
                  }
                  this.moveBackwardCurrentDirection();
              } else if (this.settingsObject.bindFunctionObject.moveRightWord(event)) {
+                 console.log("moveRightWord")
                  if (this.currentDirection === "across") {
                      this.moveAcrossWord("right");
                  } else if (this.currentDirection === "down") {
                      this.moveDownWord("right");
                  }
              } else if (this.settingsObject.bindFunctionObject.moveLeftWord(event)) {
+                 console.log("moveLeftWord")
                  if (this.currentDirection === "across") {
                      this.moveAcrossWord("right");
                  } else if (this.currentDirection === "down") {
                      this.moveDownWord("left");
                  }
              } else if (this.settingsObject.bindFunctionObject.moveDownWord(event)) {
+                 console.log("moveDownWord")
                  // TODO
              } else if (this.settingsObject.bindFunctionObject.moveUpWord(event)) {
+                 console.log("moveUpWord")
                  // TODO
              } else if (this.settingsObject.bindFunctionObject.moveStartWord(event)) {
+                 console.log("moveStartWord")
                  // TODO
              } else if (this.settingsObject.bindFunctionObject.moveEndWord(event)) {
+                 console.log("moveEndWord")
                  // TODO
              } else if (this.settingsObject.bindFunctionObject.deleteWord(event)) {
+                 console.log("deleteWord")
                  // TODO
              } else if (this.settingsObject.bindFunctionObject.switchDirection(event)) {
+                 console.log("switchDirection")
                  this.switchDirectionAndFocus()
+             } else if (/^\w/.test(event.key) && event.key.length === 1) {
+                 // it's a letter to insert into grid
+                 console.log("inserting letter")
+                 this.clearCheckSquare(this.currentPoint.y, this.currentPoint.x);
+                 if (!this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive) {
+                     if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] === "") {
+                         this.currentSquaresFilled += 1;
+                     }
+                     this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] = event.key.toUpperCase();
+                     this.moveNextEmpty();
+                 }
              }
          },
 

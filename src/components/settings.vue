@@ -178,17 +178,17 @@
              theme: 'doom-one-light',
              uploadJson: null,
              moveRightSquare: ["ArrowRight", "Ctrl-f"],
-             moveLeftSquare: ["ArrowLeft"],
-             moveUpSquare: ["ArrowUp"],
-             moveDownSquare: ["ArrowDown"],
+             moveLeftSquare: ["ArrowLeft", "Ctrl-b"],
+             moveUpSquare: ["ArrowUp", "Ctrl-p"],
+             moveDownSquare: ["ArrowDown", "Ctrl-n"],
              deleteSquare: ["Backspace", "Ctrl-d"],
-             moveRightWord: ["Tab", "Alt-f"],
-             moveLeftWord: ["Shift-Tab", "Alt-b"],
-             moveUpWord: ["Alt-p"],
-             moveDownWord: ["Alt-n"],
+             moveRightWord: ["Tab", "Meta-f"],
+             moveLeftWord: ["Shift-Tab", "Meta-b"],
+             moveUpWord: ["Meta-p"],
+             moveDownWord: ["Meta-n"],
              moveStartWord: ["Ctrl-a"],
              moveEndWord: ["Ctrl-e"],
-             deleteWord: ["Alt-d"],
+             deleteWord: ["Meta-d"],
              switchDirection: ["Space"],
          }
      },
@@ -201,7 +201,7 @@
              // must either be a single letter or be in the legalSingles
              let split = bindString.split('-');
              let legalSingles = ["Tab", "Space", "Backspace", "ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"];
-             let legalMods = ["Ctrl", "Shift", "Alt"]
+             let legalMods = ["Ctrl", "Shift", "Meta"]
              if (split.length === 1) {
                  // if there's no hyphen, and the bindString must be Tab, Space, Backspace, or an Arrow
                  if (split[0] === "Space") {
