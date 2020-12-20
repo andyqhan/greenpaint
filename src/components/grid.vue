@@ -974,6 +974,21 @@
              }
          },
 
+         clearWordLetters(y=this.currentPoint.y, x=this.currentPoint.x) {
+             let wordEnd;
+             if (this.currentDirection === "across") {
+                 wordEnd = this.getAcrossWordEnd(y, x).x;
+                 for (let iX = x; iX <= wordEnd; iX++) {
+                     this.clearSquareLetter(y, iX);
+                 }
+             } else if (this.currentDirection === "down") {
+                 wordEnd = this.getDownWordEnd(y, x).y;
+                 for (let iY = y; iY <= wordEnd; iY++) {
+                     this.clearSquareLetter(iY, x);
+                 }
+             }
+         },
+
          clearGrid() {
              for (let iY = 0; iY < this.staticGrid.length; iY++) {
                  for (let iX = 0; iX < this.staticGrid[iY].length; iX++) {
@@ -1062,7 +1077,7 @@
                  this.moveEndWord(this.currentDirection);
              } else if (this.settingsObject.bindFunctionObject.deleteWord(event)) {
                  console.log("deleteWord")
-                 // TODO
+                 this.clearWordLetters(this.currentPoint.y, this.currentPoint.x);
              } else if (this.settingsObject.bindFunctionObject.switchDirection(event)) {
                  console.log("switchDirection")
                  this.switchDirectionAndFocus()
