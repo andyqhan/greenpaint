@@ -11,7 +11,10 @@
  
  export default {
      name: 'clues',
-     emits: ['primary-clue-focus-to-app'],
+     emits: [
+         'primary-clue-focus-to-app',
+         'primaryClueFocusToApp'
+     ],
      components: {
          singleClue,
      },
@@ -43,8 +46,3 @@
  }
 </script>
 
-<style scoped>
- .clueContainer {
-    
- }
-</style>

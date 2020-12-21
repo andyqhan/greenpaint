@@ -477,7 +477,7 @@
          }
      },
 
-     created() {
+     mounted() {
          this.emitSettings()
      }
  }

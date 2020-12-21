@@ -41,7 +41,6 @@
         <p class="direction-label" :style="clueContStyle">Across</p>
         <div class="cluesAcross clue-container" :style="clueContStyle">
                 <clueContainer
-                    :style="clueContStyle"
                     @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
                     :clueFocus="clueFocus"
                     :clues="cluesAcross"
@@ -52,7 +51,6 @@
         <p class="direction-label" :style="clueContStyle">Down</p>
         <div class="cluesDown clue-container" :style="clueContStyle">
                 <clueContainer
-                    :style="clueContStyle"
                     @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
                     :clueFocus="clueFocus"
                     :clues="cluesDown"

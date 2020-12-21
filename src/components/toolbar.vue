@@ -77,7 +77,6 @@
 </template>
 
 <script>
- //import check from './check.vue'
  import stopwatch from './stopwatch.vue'
  import settings from './settings.vue'
  
@@ -102,6 +101,14 @@
              'clear-grid',
              'rebus',
              'settings-to-app',
+             'checkSquare',
+             'checkWord',
+             'checkGrid',
+             'revealSquare',
+             'revealWord',
+             'revealGrid',
+             'clearGrid',
+             'settingsToApp'
      ],
 
      data() {

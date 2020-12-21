@@ -47,7 +47,11 @@
          rebusObj: Object,
          settingsObject: Object
      },
-     emits: ['square-focus-to-app'],
+     emits: [
+         'square-focus-to-app',
+         'squareFocusToApp',
+         'gridFull'
+     ],
      data() {
          return {
              currentDirection: "across",
