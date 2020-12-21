@@ -1,8 +1,9 @@
 <template>
         <singleClue v-for="clue in clues" :key="clue.Num" :ref="clue.Num.toString()+direction"
                     @primary-clue-focus="primaryClueFocusEar($event)"
-                    :clueObject="clue" :direction="direction" :clueFocus="clueFocus">
-        </singleClue>
+                    :clueObject="clue" :direction="direction" :clueFocus="clueFocus"
+                    :settingsObject="settingsObject"
+        ></singleClue>
 </template>
 
 <script>
@@ -19,6 +20,7 @@
          clues: Array,
          direction: String,
          clueFocus: Object,
+         settingsObject: Object,
      },
 
      methods: {

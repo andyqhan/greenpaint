@@ -24,6 +24,7 @@
                      @rebus="this.$refs.grid.activateRebus()"
                      @settings-to-app="settingsObject = $event"
                      :isFinishedShow="isFinishedShow"
+                     :settingsObject="settingsObject"
             ></toolbar>
         </div>
         <div class="activeClue" :style="activeClueCSS">
@@ -44,7 +45,9 @@
                     @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
                     :clueFocus="clueFocus"
                     :clues="cluesAcross"
-                    :direction="'A'"></clueContainer>
+                    :direction="'A'"
+                    :settingsObject="settingsObject"
+                ></clueContainer>
         </div>
         <p class="direction-label" :style="clueContStyle">Down</p>
         <div class="cluesDown clue-container" :style="clueContStyle">
@@ -53,7 +56,9 @@
                     @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
                     :clueFocus="clueFocus"
                     :clues="cluesDown"
-                    :direction="'D'"></clueContainer>
+                    :direction="'D'"
+                    :settingsObject="settingsObject"
+                ></clueContainer>
         </div>
     </div>
 </template>
@@ -63,7 +68,6 @@
  import grid from './components/grid.vue'
  import clueContainer from './components/clueContainer.vue'
  import toolbar from './components/toolbar.vue'
- import colors from './assets/doom-one.js'
  
  export default {
      name: 'App',
@@ -84,7 +88,34 @@
              currentPoint: {y: 0, x: 0},
              gridFullMessage: '',
              isFinishedShow: false,
-             settingsObject: {}
+             settingsObject: {
+                 selectedTheme: {
+                     "bg": "#fafafa",
+                     "bgAlt": "#f0f0f0",
+                     "base0": "#f0f0f0",
+                     "base1": "#e7e7e7",
+                     "base2": "#dfdfdf",
+                     "base3": "#c6c7c7",
+                     "base4": "#9ca0a4",
+                     "base5": "#383a42",
+                     "base6": "#202328",
+                     "base7": "#1c1f24",
+                     "base8": "#1b2229",
+                     "fg": "#383a42",
+                     "fgAlt": "#c6c7c7",
+                     "red": "#e45649",
+                     "orange": "#da8548",
+                     "green": "#50a14f",
+                     "teal": "#4db5bd",
+                     "yellow": "#986801",
+                     "blue": "#4078f2",
+                     "darkBlue": "#a0bcf8",
+                     "magenta": "#a626a4",
+                     "violet": "#b751b6",
+                     "cyan": "#0184bc",
+                     "darkCyan": "#005478"
+                 }
+             }
          };
      },
      computed: {
@@ -98,19 +129,19 @@
          activeClueCSS() {
              return {
                  gridColumn: 1,
-                 backgroundColor: colors.green
+                 backgroundColor: this.settingsObject.selectedTheme.green
              }
          },
 
          appStyle() {
              return {
-                 backgroundColor: colors.bg
+                 backgroundColor: this.settingsObject.selectedTheme.bg
              }
          },
 
          clueContStyle() {
              return {
-                 backgroundColor: colors.bgAlt
+                 backgroundColor: this.settingsObject.selectedTheme.bgAlt
              }
          }
      },

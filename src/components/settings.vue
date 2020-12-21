@@ -14,12 +14,12 @@
             Theme
         </div>
         <div>
-            {{ theme }}
+            {{ selectTheme }}
         </div>
         <div>
-            <select>
+            <select v-model="selectTheme" :value="'doom_one_light'">
                 <option value="doom_one_light">doom_one_light</option>
-                <option value="doom_one_dark">doom_one_dark</option>
+                <option value="doom_one">doom_one</option>
                 <option value="doom_zenburn">doom_zenburn</option>
                 <option value="doom_wilmersdorf">doom_wilmersdorf</option>
                 <option value="doom_vibrant">doom_vibrant</option>
@@ -32,7 +32,7 @@
                 <option value="doom_palenight">doom_palenight</option>
                 <option value="doom_outrun_electric">doom_outrun_electric</option>
                 <option value="doom_opera">doom_opera</option>
-                <option value="doom_opera_dark">doom_opera_dark</option>
+                <option value="doom_opera_light">doom_opera_light</option>
                 <option value="doom_old_hope">doom_old_hope</option>
                 <option value="doom_oceanic_next">doom_oceanic_next</option>
                 <option value="doom_nord">doom_nord</option>
@@ -195,11 +195,11 @@
  import doom_rouge from '../assets/doom_rouge.json'
  import doom_peacock from '../assets/doom_peacock.json'
  import doom_palenight from '../assets/doom_palenight.json'
- import doom_outrun_electric from '../assets/doom_outrun_electrric.json'
+ import doom_outrun_electric from '../assets/doom_outrun_electric.json'
  import doom_opera from '../assets/doom_opera.json'
- import doom_opera_dark from '../assets/doom_opera_dark.json'
+ import doom_opera_light from '../assets/doom_opera_light.json'
  import doom_one from '../assets/doom_one.json'
- import doom_one_light from '../assets/doom_one_night.json'
+ import doom_one_light from '../assets/doom_one_light.json'
  import doom_old_hope from '../assets/doom_old_hope.json'
  import doom_oceanic_next from '../assets/doom_oceanic_next.json'
  import doom_nord from '../assets/doom_nord.json'
@@ -226,9 +226,37 @@
  export default {
      name: 'settings',
 
+     emits: ['settings'],
+
      data() {
          return {
-             selectedTheme: 'doom_one_light',
+             selectTheme: "doom_one_light",
+             selectedTheme: {
+                 "bg": "#fafafa",
+                 "bgAlt": "#f0f0f0",
+                 "base0": "#f0f0f0",
+                 "base1": "#e7e7e7",
+                 "base2": "#dfdfdf",
+                 "base3": "#c6c7c7",
+                 "base4": "#9ca0a4",
+                 "base5": "#383a42",
+                 "base6": "#202328",
+                 "base7": "#1c1f24",
+                 "base8": "#1b2229",
+                 "fg": "#383a42",
+                 "fgAlt": "#c6c7c7",
+                 "red": "#e45649",
+                 "orange": "#da8548",
+                 "green": "#50a14f",
+                 "teal": "#4db5bd",
+                 "yellow": "#986801",
+                 "blue": "#4078f2",
+                 "darkBlue": "#a0bcf8",
+                 "magenta": "#a626a4",
+                 "violet": "#b751b6",
+                 "cyan": "#0184bc",
+                 "darkCyan": "#005478"
+             },
              uploadJson: null,
              moveRightSquare: ["ArrowRight", "Ctrl-f"],
              moveLeftSquare: ["ArrowLeft", "Ctrl-b"],
@@ -355,8 +383,8 @@
                  case "doom_opera":
                      this.selectedTheme = doom_opera;
                      break;
-                 case "doom_opera_dark":
-                     this.selectedTheme = doom_opera_dark;
+                 case "doom_opera_light":
+                     this.selectedTheme = doom_opera_light;
                      break;
                  case "doom_one":
                      this.selectedTheme = doom_one;
@@ -431,9 +459,11 @@
                      this.selectedTheme = doom_iosvkem;
                      break;
              }
+             return;
          },
 
          createSettingsObject() {
+             this.getThemeObject(this.selectTheme);
              return {
                  selectedTheme: this.selectedTheme,
                  upload: this.uploadJson,

@@ -79,7 +79,6 @@
 <script>
  //import check from './check.vue'
  import stopwatch from './stopwatch.vue'
- import colors from '../assets/doom-one.js'
  import settings from './settings.vue'
  
  export default {
@@ -90,7 +89,8 @@
      },
      props: {
          currentPoint: Object,
-         isFinishedShow: Boolean
+         isFinishedShow: Boolean,
+         settingsObject: Object
      },
      emits: ['check-square',
              'check-word',
@@ -100,7 +100,8 @@
              'reveal-grid',
              'clear-timer',
              'clear-grid',
-             'rebus'
+             'rebus',
+             'settings-to-app',
      ],
 
      data() {
@@ -145,72 +146,72 @@
                  case "dropbtncheck":
                      if (this.checkMouse) {
                          return {
-                             backgroundColor: colors.base1
+                             backgroundColor: this.settingsObject.selectedTheme.base1
                          }
                      } else {
                          return {
-                             backgroundColor: colors.bg,
-                             color: colors.fg,
+                             backgroundColor: this.settingsObject.selectedTheme.bg,
+                             color: this.settingsObject.selectedTheme.fg,
                          }
                      }
                  case "dropbtnreveal":
                      if (this.revealMouse) {
                          return {
-                             backgroundColor: colors.base1
+                             backgroundColor: this.settingsObject.selectedTheme.base1
                          }
                      } else {
                          return {
-                             backgroundColor: colors.bg,
-                             color: colors.fg,
+                             backgroundColor: this.settingsObject.selectedTheme.bg,
+                             color: this.settingsObject.selectedTheme.fg,
                          }
                      }
                  case "dropbtnclear":
                      if (this.clearMouse) {
                          return {
-                             backgroundColor: colors.base1
+                             backgroundColor: this.settingsObject.selectedTheme.base1
                          }
                      } else {
                          return {
-                             backgroundColor: colors.bg,
-                             color: colors.fg,
+                             backgroundColor: this.settingsObject.selectedTheme.bg,
+                             color: this.settingsObject.selectedTheme.fg,
                          }
                      }
                  case "dropbtnrebus":
                      if (this.rebusMouse) {
                          return {
-                             backgroundColor: colors.base1
+                             backgroundColor: this.settingsObject.selectedTheme.base1
                          }
                      } else {
                          return {
-                             backgroundColor: colors.bg,
-                             color: colors.fg,
+                             backgroundColor: this.settingsObject.selectedTheme.bg,
+                             color: this.settingsObject.selectedTheme.fg,
                          }
                      }
                  case "dropbtntime":
                      if (this.timeMouse) {
                          return {
-                             backgroundColor: colors.base1
+                             backgroundColor: this.settingsObject.selectedTheme.base1
                          }
                      } else {
                          return {
-                             backgroundColor: colors.bg,
-                             color: colors.fg,
+                             backgroundColor: this.settingsObject.selectedTheme.bg,
+                             color: this.settingsObject.selectedTheme.fg,
                          }
                      }
                  case "dropbtnsettings":
                      if (this.settingsMouse) {
                          return {
-                             backgroundColor: colors.base1,
+                             backgroundColor: this.settingsObject.selectedTheme.base1,
                          }
                      } else {
                          return {
-                             backgroundColor: colors.bg,
-                             color: colors.fg,
+                             backgroundColor: this.settingsObject.selectedTheme.bg,
+                             color: this.settingsObject.selectedTheme.fg,
                          }
                      }
                  case "dropcontent":
                      return {
-                         backgroundColor: colors.base1
+                         backgroundColor: this.settingsObject.selectedTheme.base1
                      }
              }
              return null;

@@ -15,7 +15,6 @@
 </template>
 
 <script>
- import colors from '../assets/doom-one.js'
  export default {
      name: 'square',
      props: {
@@ -40,6 +39,8 @@
          isCorrect: Boolean,
          isIncorrect: Boolean,
          isRebusActive: Boolean,
+
+         settingsObject: Object,
      },
      emits: ['square-focus', 'rebus-enter'],
      data() {
@@ -81,33 +82,33 @@
          squareStyle() {
              if (this.isBlock) {
                  return {
-                     backgroundColor: colors.fg,
-                     color: colors.fg
+                     backgroundColor: this.settingsObject.selectedTheme.fg,
+                     color: this.settingsObject.selectedTheme.fg
                  }
              }
              if (this.isPoint) {
                  return {
-                     backgroundColor: colors.green,
+                     backgroundColor: this.settingsObject.selectedTheme.green,
                  }
              }
              if (this.isPrimarySelect) {
                  return {
-                     backgroundColor: colors.darkBlue
+                     backgroundColor: this.settingsObject.selectedTheme.darkBlue
                  }
              }
              if (this.isSecondarySelect) {
                  return {
-                     backgroundColor: colors.base2,
+                     backgroundColor: this.settingsObject.selectedTheme.base2,
                  }
              }
              if (this.isCorrect) {
                  return {
-                     color: colors.darkCyan
+                     color: this.settingsObject.selectedTheme.darkCyan
                  }
              }
              if (this.isIncorrect) {
                  return {
-                     color: colors.red
+                     color: this.settingsObject.selectedTheme.red
                  }
              }
              return null

@@ -5,7 +5,6 @@
 </template>
 
 <script>
- import colors from '../assets/doom-one.js'
  export default {
      name: 'singleClue',
      emits: ['primary-clue-focus', 'secondary-clue-focus'],
@@ -13,6 +12,7 @@
          clueObject: Object,
          direction: String,  // either 'A' or 'D'
          clueFocus: Object,
+         settingsObject: Object,
      },
      data() {
          return {
@@ -41,7 +41,7 @@
                                 {composed: this.clueKey + ": " + this.clueObject.Clue,
                                  clueNum: this.clueNum});
                      return {
-                         backgroundColor: colors.darkBlue,
+                         backgroundColor: this.settingsObject.selectedTheme.darkBlue,
                          padding: "0.3em",
                          borderRadius: "5px"
                      }
@@ -53,7 +53,7 @@
                      this.$emit('secondary-clue-focus',
                                 {clueNum: this.clueNum});
                      return {
-                         backgroundColor: colors.base2,
+                         backgroundColor: this.settingsObject.selectedTheme.base2,
                          padding: "0.3em",
                          borderRadius: "5px"
                      }

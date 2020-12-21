@@ -26,6 +26,7 @@
                     :isCorrect="dynamicGrid[row_index][cell_index].isCorrect"
                     :isIncorrect="dynamicGrid[row_index][cell_index].isIncorrect"
                     :isRebusActive="dynamicGrid[row_index][cell_index].isRebusActive"
+                    :settingsObject="settingsObject"
                     ></square>
         </div>
     </div>
