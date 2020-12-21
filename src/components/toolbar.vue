@@ -74,7 +74,8 @@
                 <div class="overlay" @click.self="isSettingsShow = false;">
                     <div class="modal">
                         <settings ref="settings"
-                            @settings="this.$emit('settings-to-app', $event)"
+                                  @settings="this.$emit('settings-to-app', $event)"
+                                  @puzzle-send="this.$emit('puzzle-send-to-app', $event)"
                         ></settings>
                     </div>
                 </div>
@@ -115,7 +116,9 @@
              'revealWord',
              'revealGrid',
              'clearGrid',
-             'settingsToApp'
+             'settingsToApp',
+             'puzzle-send-to-app',
+             'puzzleSendToApp'
      ],
 
      data() {

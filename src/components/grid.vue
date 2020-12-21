@@ -225,6 +225,11 @@
              return outputGrid
          },
 
+         reCreateDynamicGrid() {
+             this.dynamicGrid = this.createDynamicGrid();
+             console.log(this.cluesAcross);
+         },
+
          clearPrevious() {
              //console.log("clearPrevious called")
              // clear previous across

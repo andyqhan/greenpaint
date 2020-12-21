@@ -23,6 +23,7 @@
                      @clear-grid="this.$refs.grid.clearGrid()"
                      @rebus="this.$refs.grid.activateRebus()"
                      @settings-to-app="settingsObject = $event"
+                     @puzzle-send-to-app="setPuzzle($event)"
                      :isFinishedShow="isFinishedShow"
                      :settingsObject="settingsObject"
             ></toolbar>
@@ -31,11 +32,16 @@
             <p>{{ activeClue }}</p>
         </div>
         <div class="mainGrid">
-            <grid @square-focus-to-app="squareFocusToAppEar($event)"
-            @grid-full="gridFullEar($event)"
-            :gridObject="puzzleGrid"
-            :settingsObject="settingsObject"
-            :cluesAcross="cluesAcross" :cluesDown="cluesDown" :rebusObj="rebusObj" ref="grid"
+            <grid
+                @square-focus-to-app="squareFocusToAppEar($event)"
+                @grid-full="gridFullEar($event)"
+                :gridObject="puzzleGrid"
+                :settingsObject="settingsObject"
+                :cluesAcross="cluesAcross"
+                :cluesDown="cluesDown"
+                :rebusObj="rebusObj"
+                ref="grid"
+                :key="gridKey"
             ></grid>
         </div>
         <p class="direction-label" :style="clueContStyle">Across</p>
@@ -47,6 +53,7 @@
                     :direction="'A'"
                     :settingsObject="settingsObject"
                     @clue-click-to-app="clueClickToAppEar($event)"
+                    :key="acrossClueContKey"
                 ></clueContainer>
         </div>
         <p class="direction-label" :style="clueContStyle">Down</p>
@@ -58,6 +65,7 @@
                 :direction="'D'"
                 :settingsObject="settingsObject"
                 @clue-click-to-app="clueClickToAppEar($event)"
+                :key="downClueContKey"
             ></clueContainer>
         </div>
     </div>
@@ -82,6 +90,9 @@
              rebusObj: puzzle.IsRebus,
              cluesAcross: puzzle.Across,
              cluesDown: puzzle.Down,
+             gridKey: 0,
+             acrossClueContKey: 0,
+             downClueContKey: 0,
 
              clueFocus: {primary: '1A', secondary: '1D'},
              activeClue: '',
@@ -147,6 +158,18 @@
          }
      },
      methods: {
+         setPuzzle(event) {
+             console.log(event);
+             this.puzzle = event;
+             this.puzzleGrid = event.Grid;
+             this.rebusObj = event.IsRebus;
+             this.cluesAcross = event.Across;
+             this.cluesDown = event.Down;
+             this.gridKey += 1;  // force update grid
+             this.acrossClueContKey += 1;
+             this.downClueContKey += 1;
+         },
+         
          squareFocusToAppEar(event) {
              if (event.primaryDirection === 'across') {
                  this.clueFocus = {
