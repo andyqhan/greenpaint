@@ -1,5 +1,5 @@
 <template>
-    <p class="singleClue" :style="whichFocus">
+    <p class="singleClue" :style="whichFocus" @click="clueClickEar">
         {{ clueKey + ": " + clueObject.Clue }}
     </p>
 </template>
@@ -7,7 +7,11 @@
 <script>
  export default {
      name: 'singleClue',
-     emits: ['primary-clue-focus', 'secondary-clue-focus'],
+     emits: [
+         'primary-clue-focus',
+         'secondary-clue-focus',
+         'clue-click'
+     ],
      props: {
          clueObject: Object,
          direction: String,  // either 'A' or 'D'
@@ -65,6 +69,15 @@
              } else {
                  return null   
              }
+         }
+     },
+
+     methods: {
+         clueClickEar() {
+             this.$emit('clue-click', {
+                 num: this.clueObject.Num,
+                 direction: this.direction
+             })
          }
      }
  }

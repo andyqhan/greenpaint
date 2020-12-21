@@ -1,8 +1,13 @@
 <template>
-        <singleClue v-for="clue in clues" :key="clue.Num" :ref="clue.Num.toString()+direction"
-                    @primary-clue-focus="primaryClueFocusEar($event)"
-                    :clueObject="clue" :direction="direction" :clueFocus="clueFocus"
-                    :settingsObject="settingsObject"
+    <singleClue v-for="clue in clues"
+                :key="clue.Num"
+                :ref="clue.Num.toString()+direction"
+                @primary-clue-focus="primaryClueFocusEar($event)"
+                :clueObject="clue"
+                :direction="direction"
+                :clueFocus="clueFocus"
+                :settingsObject="settingsObject"
+                @clue-click="clueClickToAppEar($event)"
         ></singleClue>
 </template>
 
@@ -13,7 +18,9 @@
      name: 'clues',
      emits: [
          'primary-clue-focus-to-app',
-         'primaryClueFocusToApp'
+         'primaryClueFocusToApp',
+         'clue-click-to-app',
+         'clueClickToApp'
      ],
      components: {
          singleClue,
@@ -30,6 +37,10 @@
          primaryClueFocusEar(clueEvent) {
              this.$emit('primary-clue-focus-to-app', clueEvent)
          },
+
+         clueClickToAppEar(event) {
+             this.$emit('clue-click-to-app', event)
+         }
      },
      
      updated() {

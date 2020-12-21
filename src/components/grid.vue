@@ -349,6 +349,42 @@
              })
          },
 
+         focusFromClueClick(event) {
+             // event is in the form of an object:
+             // {num: (clue number), direction: (clue direction)}
+             for (let iY = 0; iY < this.staticGrid.length; iY++) {
+                 for (let iX = 0; iX < this.staticGrid[iY].length; iX++) {
+                     if (this.staticGrid[iY][iX].isBlock === true) {
+                         continue
+                     } else {
+                         if (event.direction === "A") {
+                             if (this.staticGrid[iY][iX].isWordStartAcross === true && this.staticGrid[iY][iX].acrossNum === event.num) {
+                                 this.focusEar({
+                                     y: iY,
+                                     x: iX,
+                                     direction: "across",
+                                     acrossNum: this.staticGrid[iY][iX]['acrossNum'],
+                                     downNum: this.staticGrid[iY][iX]['downNum']
+                                 })
+                                 return
+                             }
+                         } else if (event.direction === "D") {
+                             if (this.staticGrid[iY][iX].isWordStartDown === true && this.staticGrid[iY][iX].downNum === event.num) {
+                                 this.focusEar({
+                                     y: iY,
+                                     x: iX,
+                                     direction: "down",
+                                     acrossNum: this.staticGrid[iY][iX]['acrossNum'],
+                                     downNum: this.staticGrid[iY][iX]['downNum']
+                                 })
+                                 return
+                             }
+                         }
+                     }
+                 }
+             }
+         },
+
          movePointNaive(targetY, targetX) {
              // try to avoid calling this function
              this.focusEar({y: targetY, x: targetX});
@@ -1112,6 +1148,7 @@
          }
      },
      mounted() {
+         console.log(this.staticGrid)
          window.addEventListener('keydown', event => {
              event.preventDefault();
              this.keyHandler(event);

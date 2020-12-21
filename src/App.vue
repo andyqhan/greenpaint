@@ -46,17 +46,19 @@
                     :clues="cluesAcross"
                     :direction="'A'"
                     :settingsObject="settingsObject"
+                    @clue-click-to-app="clueClickToAppEar($event)"
                 ></clueContainer>
         </div>
         <p class="direction-label" :style="clueContStyle">Down</p>
         <div class="cluesDown clue-container" :style="clueContStyle">
-                <clueContainer
-                    @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
-                    :clueFocus="clueFocus"
-                    :clues="cluesDown"
-                    :direction="'D'"
-                    :settingsObject="settingsObject"
-                ></clueContainer>
+            <clueContainer
+                @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
+                :clueFocus="clueFocus"
+                :clues="cluesDown"
+                :direction="'D'"
+                :settingsObject="settingsObject"
+                @clue-click-to-app="clueClickToAppEar($event)"
+            ></clueContainer>
         </div>
     </div>
 </template>
@@ -189,6 +191,10 @@
              } else if (event === "incorrect") {
                  this.gridFullMessage = "One or more letters are incorrect 😟"
              }
+         },
+
+         clueClickToAppEar(event) {
+             this.$refs.grid.focusFromClueClick(event);
          }
      },
 
