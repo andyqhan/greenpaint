@@ -76,7 +76,7 @@
                  //'grid-template-columns': 'repeat(' + this.gridObject.length + ', 1fr)',
                  "height": "30em",
                  'grid-template-rows': 'repeat(' + this.gridObject[0].length + ', 1fr)',
-                 'grid-auto-rows': `${100 / this.gridObject.length}%`
+                 'grid-auto-rows': `${100 / this.gridObject.length}%`,
              }
          },
          
@@ -84,8 +84,6 @@
              return {
                  'display': "grid",
                  'grid-template-columns': 'repeat(' + this.gridObject.length + ', 1fr)',
-                 //'grid-column-start': 1,
-                 //'grid-column-end': this.dynamicGrid[0].length
              }
          },
 

@@ -10,8 +10,12 @@
           :style="squareStyle"
           @click="selectSquare" 
           @keydown="keyHandler">
-        <span class="cluenum-square">{{ cluenum }}</span>
-        <span class="current-letter"> {{ currentLetter }} </span>
+        <span class="cluenum-square"
+              :style="cluenumStyle"
+        >{{ cluenum }}</span>
+        <span class="current-letter"
+              :style="currentLetterStyle"
+        > {{ currentLetter }} </span>
     </span>
 </template>
 
@@ -80,6 +84,31 @@
              }
          },
 
+         cluenumStyle() {
+             return {
+                 color: this.settingsObject.selectedTheme.fg
+             }
+         },
+
+         currentLetterStyle() {
+             if (this.isCorrect) {
+                 return {
+                     color: this.settingsObject.selectedTheme.blue,
+                     borderColor: this.settingsObject.selectedTheme.fg,
+                 }
+             }
+             if (this.isIncorrect) {
+                 return {
+                     color: this.settingsObject.selectedTheme.red,
+                     borderColor: this.settingsObject.selectedTheme.fg,
+                 }
+             } else {
+                 return {
+                     color: this.settingsObject.selectedTheme.fg
+                 }
+             }
+         },
+
          squareStyle() {
              if (this.isBlock) {
                  return {
@@ -104,19 +133,11 @@
                      backgroundColor: this.settingsObject.selectedTheme.base2,
                      color: this.settingsObject.selectedTheme.fg
                  }
-             }
-             if (this.isCorrect) {
-                 return {
-                     color: this.settingsObject.selectedTheme.darkCyan
-                 }
-             }
-             if (this.isIncorrect) {
-                 return {
-                     color: this.settingsObject.selectedTheme.red
-                 }
              } else {
                  // it's a normal square
-                 return {color: this.settingsObject.selectedTheme.fg} 
+                 return {
+                     color: this.settingsObject.selectedTheme.fg,
+                 } 
              }
          }
      },
