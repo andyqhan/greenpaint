@@ -9,8 +9,9 @@
           class="square" :class="classObject"
           :style="squareStyle"
           @click="selectSquare" 
-          @keydown="keyHandler">{{ currentLetter }}
+          @keydown="keyHandler">
         <span class="cluenum-square">{{ cluenum }}</span>
+        <span class="current-letter"> {{ currentLetter }} </span>
     </span>
 </template>
 
@@ -149,12 +150,12 @@
 
 <style scoped>
  .cluenum-square {
-     /* this styling is almost certainly not robust and will break */
-     position: relative;
-     left: 1px;
-     top: -1px;
+     position: absolute;
      float: left;
      font-size: 10px;
+     white-space: nowrap;
+     margin-left: 1px;
+     margin-top: -1px;
      /* disable text selection */
      -webkit-user-select: none; /* Safari */        
      -moz-user-select: none; /* Firefox */
@@ -170,16 +171,17 @@
      outline: none
  }
  .square {
-     /* width: 27px;
-        height: 27px; */
      display: inline-block;
      border: 1px solid;
-     font-size: 20px;
      font-weight: normal;
-     text-align: center;
-     /* i'm pretty sure that this isn't putting it in the exact middle */
-     vertical-align: text-top;
      cursor: default;
+     white-space: nowrap;
+ }
+ .current-letter {
+     position: relative;
+     top: 0.35em;
+     left: 0.4em;
+     font-size: 20px;
  }
  .block {
      border: 1px solid;
