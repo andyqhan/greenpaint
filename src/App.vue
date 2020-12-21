@@ -139,7 +139,8 @@
 
          clueContStyle() {
              return {
-                 backgroundColor: this.settingsObject.selectedTheme.bgAlt
+                 backgroundColor: this.settingsObject.selectedTheme.bgAlt,
+                 color: this.settingsObject.selectedTheme.fg,
              }
          }
      },

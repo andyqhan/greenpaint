@@ -44,6 +44,7 @@
                          backgroundColor: this.settingsObject.selectedTheme.darkBlue,
                          padding: "0.3em",
                          borderRadius: "5px"
+                         //color: this.settingsObject.selectedTheme.fgAlt
                      }
                  } else {
                      return null
@@ -56,16 +57,15 @@
                          backgroundColor: this.settingsObject.selectedTheme.base2,
                          padding: "0.3em",
                          borderRadius: "5px"
+                         //color: this.settingsObject.selectedTheme.fgAlt
                      }
                  } else {
                      return null
                  }
+             } else {
+                 return null   
              }
-             return null
-         },
-     },
-     methods: {
-         
+         }
      }
  }
 </script>

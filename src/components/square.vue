@@ -89,16 +89,19 @@
              if (this.isPoint) {
                  return {
                      backgroundColor: this.settingsObject.selectedTheme.green,
+                     color: this.settingsObject.selectedTheme.fg
                  }
              }
              if (this.isPrimarySelect) {
                  return {
-                     backgroundColor: this.settingsObject.selectedTheme.darkBlue
+                     backgroundColor: this.settingsObject.selectedTheme.darkBlue,
+                     color: this.settingsObject.selectedTheme.fg
                  }
              }
              if (this.isSecondarySelect) {
                  return {
                      backgroundColor: this.settingsObject.selectedTheme.base2,
+                     color: this.settingsObject.selectedTheme.fg
                  }
              }
              if (this.isCorrect) {
@@ -110,8 +113,10 @@
                  return {
                      color: this.settingsObject.selectedTheme.red
                  }
+             } else {
+                 // it's a normal square
+                 return {color: this.settingsObject.selectedTheme.fg} 
              }
-             return null
          }
      },
      methods: {
