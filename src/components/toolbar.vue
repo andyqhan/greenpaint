@@ -1,10 +1,10 @@
 <template>
-    <div class="dropdown">
+    <div class="dropdown"
+         @mouseover="checkMouse = true; checkActive = true"
+         @mouseleave="checkMouse = false; checkActive = false"
+    >
         <button class="dropbtn"
-                :style="styleToolbar('dropbtncheck')"
-                @mouseover="checkMouse = true"
-                @mouseleave="checkMouse = false"
-                @click="toggleCheck">Check</button>
+                :style="styleToolbar('dropbtncheck')">Check</button>
         <div class="dropcontent" :style="styleToolbar('dropcontent')" v-if="checkActive">
             <div class="menuitem"
                  @mouseover="styleToolbar('menuitemhover')"
@@ -14,33 +14,38 @@
             <div class="menuitem" @click="this.$emit('check-grid')">Grid</div>
         </div>
     </div>
-    <div class="dropdown">
-        <button class="dropbtn" :style="styleToolbar('dropbtnreveal')"
-                @mouseover="revealMouse = true"
-                @mouseleave="revealMouse = false"
-                @click="toggleReveal">Reveal</button>
+    
+    <div class="dropdown"
+         @mouseover="revealMouse = true; revealActive = true"
+         @mouseleave="revealMouse = false; revealActive = false"
+    >
+        <button class="dropbtn"
+                :style="styleToolbar('dropbtnreveal')">Reveal</button>
         <div class="dropcontent" :style="styleToolbar('dropcontent')" v-if="revealActive">
             <div class="menuitem" @click="this.$emit('reveal-square')">Square</div>
             <div class="menuitem" @click="this.$emit('reveal-word')">Word</div>
             <div class="menuitem" @click="this.$emit('reveal-grid')">Grid</div>
         </div>
     </div>
-    <div class="dropdown">
+    
+    <div class="dropdown"
+         @mouseover="clearMouse = true; clearActive = true"
+         @mouseleave="clearMouse = false; clearActive = false"
+    >
         <button class="dropbtn"
-                :style="styleToolbar('dropbtnclear')"
-                @mouseover="clearMouse = true"
-                @mouseleave="clearMouse = false"
-                @click="toggleClear">Clear</button>
-        <div class="dropcontent" :style="styleToolbar('dropcontent')" v-if="revealClear">
+                :style="styleToolbar('dropbtnclear')">Clear</button>
+        <div class="dropcontent" :style="styleToolbar('dropcontent')" v-if="clearActive">
             <div class="menuitem" @click="clearStopwatch">Time</div>
             <div class="menuitem" @click="this.$emit('clear-grid')">Grid</div>
         </div>
     </div>
+    
     <button class="dropbtn"
             :style="styleToolbar('dropbtnrebus')"
             @mouseover="rebusMouse = true"
             @mouseleave="rebusMouse = false"
             @click="this.$emit('rebus')">Rebus</button>
+    
     <div class="dropdown">
         <button class="dropbtn"
                 :style="styleToolbar('dropbtntime')"
@@ -52,6 +57,7 @@
             </stopwatch>
         </button>
     </div>
+    
     <div class="dropdown">
         <button class="dropbtn"
                 :style="styleToolbar('dropbtnsettings')"
@@ -61,6 +67,7 @@
             Settings
         </button>
     </div>
+    
     <div>
         <transition name="modal">
             <div v-show="isSettingsShow">
@@ -116,7 +123,7 @@
              checkActive: false,
              checkMouse: false,
              revealActive: false,
-             revealClear: false,
+             clearActive: false,
              revealMouse: false,
              clearMouse: false,
              rebusMouse: false,
@@ -127,17 +134,8 @@
      },
 
      methods: {
-         toggleCheck() {
-             this.checkActive = !this.checkActive;
-         },
-         
-         toggleReveal() {
-             this.revealActive = !this.revealActive;
-         },
-
-         toggleClear() {
-             this.revealClear = !this.revealClear;
-         },
+         // can't implement clickaway elegantly bc i didn't make the dropdowns
+         // a component, so compromise with mouseover/leave
 
          toggleSettings() {
              this.$refs.stopwatch.stopStopwatch();
@@ -153,7 +151,8 @@
                  case "dropbtncheck":
                      if (this.checkMouse) {
                          return {
-                             backgroundColor: this.settingsObject.selectedTheme.base1
+                             backgroundColor: this.settingsObject.selectedTheme.base1,
+                             color: this.settingsObject.selectedTheme.fg,
                          }
                      } else {
                          return {
@@ -164,7 +163,8 @@
                  case "dropbtnreveal":
                      if (this.revealMouse) {
                          return {
-                             backgroundColor: this.settingsObject.selectedTheme.base1
+                             backgroundColor: this.settingsObject.selectedTheme.base1,
+                             color: this.settingsObject.selectedTheme.fg,
                          }
                      } else {
                          return {
@@ -175,7 +175,8 @@
                  case "dropbtnclear":
                      if (this.clearMouse) {
                          return {
-                             backgroundColor: this.settingsObject.selectedTheme.base1
+                             backgroundColor: this.settingsObject.selectedTheme.base1,
+                             color: this.settingsObject.selectedTheme.fg,
                          }
                      } else {
                          return {
@@ -186,7 +187,8 @@
                  case "dropbtnrebus":
                      if (this.rebusMouse) {
                          return {
-                             backgroundColor: this.settingsObject.selectedTheme.base1
+                             backgroundColor: this.settingsObject.selectedTheme.base1,
+                             color: this.settingsObject.selectedTheme.fg,
                          }
                      } else {
                          return {
@@ -197,7 +199,8 @@
                  case "dropbtntime":
                      if (this.timeMouse) {
                          return {
-                             backgroundColor: this.settingsObject.selectedTheme.base1
+                             backgroundColor: this.settingsObject.selectedTheme.base1,
+                             color: this.settingsObject.selectedTheme.fg,
                          }
                      } else {
                          return {
@@ -209,6 +212,7 @@
                      if (this.settingsMouse) {
                          return {
                              backgroundColor: this.settingsObject.selectedTheme.base1,
+                             color: this.settingsObject.selectedTheme.fg,
                          }
                      } else {
                          return {
@@ -218,7 +222,8 @@
                      }
                  case "dropcontent":
                      return {
-                         backgroundColor: this.settingsObject.selectedTheme.base1
+                         backgroundColor: this.settingsObject.selectedTheme.base1,
+                         color: this.settingsObject.selectedTheme.fg,
                      }
              }
              return null;
