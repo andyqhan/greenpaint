@@ -7,6 +7,7 @@
             <square v-for="(cell, cell_index) in row"
                     @square-focus="clickHandler($event)"
                     @rebus-enter="rebusEnter($event)"
+                    @rebus-blur="rebusBlur($event)"
                     :key="[row_index, cell_index]"
                     :correctLetter="cell.correctLetter"
                     :isBlock="cell.isBlock"
@@ -63,6 +64,7 @@
 
              currentPoint: {y: 0, x: 0},
              currentSquaresFilled: 0,
+             prevWasRebus: false,
          }
      },
      created() {
@@ -249,13 +251,26 @@
          },
 
          activateRebus() {
-             // TODO add clickaway
-             this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive = !this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive;
+             if (!this.prevWasRebus) {
+                 if (!this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive) {
+                     this.removeKeyEventListener();
+                 }
+                 this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive = !this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive;
+             } else {
+                 this.prevWasRebus = false;
+                 return
+             }
          },
 
          rebusEnter(event) {
              this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].currentLetter = event.toUpperCase();
-             this.activateRebus();
+             this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive = false;
+             this.addKeyEventListener();
+         },
+
+         rebusBlur(event) {
+             this.prevWasRebus = true;
+             this.rebusEnter(event);
          },
          
          focusEar(event) {
@@ -1044,50 +1059,52 @@
          clickHandler(event) {
              if (event.x === this.currentPoint.x && event.y === this.currentPoint.y) {
                  // if user clicks on the the point
-                 this.switchDirectionAndFocus()
+                 if (this.dynamicGrid[event.y][event.x].isRebusActive) {
+                     // if it's a rebus, do nothing
+                     return;
+                 } else {
+                     // else, switch direction
+                     this.switchDirectionAndFocus()
+                 }
              } else {
                  this.focusEar(event)
              }
          },
 
          keyHandler(event) {
-             //console.log(this.previousSelectAcross)
-             // let prevY = this.previousSelectAcross[0];
-             // let prevX = this.previousSelectDown[0];
-             // TODO fix cluenum CSS geting fucked up with a letter
-             //console.log('keyup');
-             //console.log(event);
-             
+             // TODO possibly don't prevent default if the event is meta
+             // to preserve cmd-r and cmd-f
+             event.preventDefault()
              if (this.settingsObject.bindFunctionObject.moveRightSquare(event)) {
-                 console.log("moveRightSquare")
+                 // console.log("moveRightSquare")
                  if (this.currentDirection === "down") {
                      this.switchDirectionAndFocus();
                  } else {
                      this.movePointSmart("right");
                  }
              } else if (this.settingsObject.bindFunctionObject.moveLeftSquare(event)) {
-                 console.log("moveLeftSquare")
+                 // console.log("moveLeftSquare")
                  if (this.currentDirection === "down") {
                      this.switchDirectionAndFocus();
                  } else {
                      this.movePointSmart("left");
                  }
              } else if (this.settingsObject.bindFunctionObject.moveUpSquare(event)) {
-                 console.log("moveUpSquare")
+                 // console.log("moveUpSquare")
                  if (this.currentDirection === "across") {
                      this.switchDirectionAndFocus();
                  } else {
                      this.movePointSmart("up");
                  }
              } else if (this.settingsObject.bindFunctionObject.moveDownSquare(event)) {
-                 console.log("moveDownSquare")
+                 // console.log("moveDownSquare")
                  if (this.currentDirection === "across") {
                      this.switchDirectionAndFocus();
                  } else {
                      this.movePointSmart("down");
                  }
              } else if (this.settingsObject.bindFunctionObject.deleteSquare(event)) {
-                 console.log("deleteSquare")
+                 // console.log("deleteSquare")
                  if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isCorrect']) {
                      // don't delete the letter if we know it's correct
                  } else {
@@ -1097,34 +1114,34 @@
                  }
                  this.moveBackwardCurrentDirection();
              } else if (this.settingsObject.bindFunctionObject.moveRightWord(event)) {
-                 console.log("moveRightWord")
+                 // console.log("moveRightWord")
                  if (this.currentDirection === "across") {
                      this.moveAcrossWord("right");
                  } else if (this.currentDirection === "down") {
                      this.moveDownWord("right");
                  }
              } else if (this.settingsObject.bindFunctionObject.moveLeftWord(event)) {
-                 console.log("moveLeftWord")
+                 // console.log("moveLeftWord")
                  if (this.currentDirection === "across") {
                      this.moveAcrossWord("left");
                  } else if (this.currentDirection === "down") {
                      this.moveDownWord("left");
                  }
              } else if (this.settingsObject.bindFunctionObject.moveStartWord(event)) {
-                 console.log("moveStartWord")
+                 // console.log("moveStartWord")
                  this.moveStartWord(this.currentDirection);
              } else if (this.settingsObject.bindFunctionObject.moveEndWord(event)) {
-                 console.log("moveEndWord")
+                 // console.log("moveEndWord")
                  this.moveEndWord(this.currentDirection);
              } else if (this.settingsObject.bindFunctionObject.deleteWord(event)) {
-                 console.log("deleteWord")
+                 // console.log("deleteWord")
                  this.clearWordLetters(this.currentPoint.y, this.currentPoint.x);
              } else if (this.settingsObject.bindFunctionObject.switchDirection(event)) {
-                 console.log("switchDirection")
+                 // console.log("switchDirection")
                  this.switchDirectionAndFocus()
              } else if (/^\w/.test(event.key) && event.key.length === 1) {
                  // it's a letter to insert into grid
-                 console.log("inserting letter")
+                 // console.log("inserting letter")
                  this.clearCheckSquare(this.currentPoint.y, this.currentPoint.x);
                  if (!this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive) {
                      if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] === "") {
@@ -1147,14 +1164,21 @@
              }
              this.$emit('grid-full', "correct");
              return 
-         }
+         },
+
+         addKeyEventListener() {
+             console.log("added keyEventListener")
+             window.addEventListener('keydown', this.keyHandler);
+         },
+
+         removeKeyEventListener() {
+             console.log('removed keyEventListener')
+             window.removeEventListener('keydown', this.keyHandler);
+         },
      },
      mounted() {
          // console.log(this.staticGrid)
-         window.addEventListener('keydown', event => {
-             event.preventDefault();
-             this.keyHandler(event);
-         });
+         window.addEventListener('keydown', this.keyHandler);
 
          this.focusEar({
              y: 0,

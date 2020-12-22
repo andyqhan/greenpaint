@@ -1,11 +1,5 @@
 <template>
-    <span v-if="isRebusActive" class="square rebusContainer">
-        <input v-model="rebusInput"
-               style="text-transform: uppercase;"
-               :style="squareStyle"
-               @keydown.enter="this.$emit('rebus-enter', rebusInput)">
-    </span>
-    <span v-else :tabindex="isBlock ? null : -1" 
+    <span :tabindex="isBlock ? null : -1" 
           class="square" :class="classObject"
           :style="squareStyle"
           @click="selectSquare" 
@@ -16,6 +10,14 @@
         <span class="current-letter"
               :style="currentLetterStyle"
         > {{ currentLetter }} </span>
+        <span v-if="isRebusActive" class="square rebusContainer">
+            <input v-model="rebusInput"
+                   style="text-transform: uppercase;"
+                   :style="squareStyle"
+                   @keydown.enter="this.$emit('rebus-enter', rebusInput)"
+                   @focusout="this.$emit('rebus-blur', rebusInput)"
+            >
+        </span>
     </span>
 </template>
 
@@ -47,11 +49,10 @@
 
          settingsObject: Object,
      },
-     emits: ['square-focus', 'rebus-enter'],
+     emits: ['square-focus', 'rebus-enter', 'rebus-blur'],
      data() {
          return {
-             //letter: '',  // TODO rename to currentLetter maybe
-             // direction: "across",
+             rebusInput: '',
          };
      },
      computed: {
@@ -70,7 +71,8 @@
                  secondarySelect: this.isSecondarySelect,
                  isPoint: this.isPoint,
                  isCorrect: this.isCorrect,
-                 isIncorrect: this.isIncorrect
+                 isIncorrect: this.isIncorrect,
+                 isRebus: this.isRebusActive,
              }
          },
          
@@ -151,9 +153,6 @@
          },
          
          selectSquare() {
-             // this is handled much better by the tabindex and focusing,
-             // but i still might need it later for the clue highlighting
-             // maybe @click, i want to switch direction?
              if (this.isBlock != true) {
                  this.$emit('square-focus', {
                      acrossNum: this.acrossNum,
@@ -184,8 +183,7 @@
      user-select: none; /* Standard */
  }
  .rebusContainer {
-     width: 25px;
-     height: 30px;
+     position: absolute;
      z-index: 1;
  }
  span:focus {
