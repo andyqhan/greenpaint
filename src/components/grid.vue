@@ -68,7 +68,6 @@
      created() {
          // need to wait until methods load, which is why this is in created()
          this.dynamicGrid = this.createDynamicGrid();
-         //console.log(this.dynamicGridData)
      },
      computed: {
          cssGridVars() {
@@ -1151,7 +1150,7 @@
          }
      },
      mounted() {
-         console.log(this.staticGrid)
+         // console.log(this.staticGrid)
          window.addEventListener('keydown', event => {
              event.preventDefault();
              this.keyHandler(event);

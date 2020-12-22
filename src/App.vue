@@ -91,8 +91,8 @@
              cluesAcross: puzzle.Across,
              cluesDown: puzzle.Down,
              gridKey: 0,
-             acrossClueContKey: 0,
-             downClueContKey: 0,
+             acrossClueContKey: 47,
+             downClueContKey: 48,
 
              clueFocus: {primary: '1A', secondary: '1D'},
              activeClue: '',
@@ -158,19 +158,21 @@
          }
      },
      methods: {
-         setPuzzle(event) {
-             console.log(event);
-             this.puzzle = event;
-             this.puzzleGrid = event.Grid;
-             this.rebusObj = event.IsRebus;
-             this.cluesAcross = event.Across;
-             this.cluesDown = event.Down;
-             this.gridKey += 1;  // force update grid
-             this.acrossClueContKey += 1;
-             this.downClueContKey += 1;
-         },
+         // setPuzzle(event) {
+         //     //console.log(event);
+         //     this.puzzle = event;
+         //     this.puzzleGrid = event.Grid;
+         //     this.rebusObj = event.IsRebus;
+         //     this.cluesAcross = event.Across;
+         //     this.cluesDown = event.Down;
+         //     this.gridKey += 1;  // force update grid
+         //     this.acrossClueContKey += 2;
+         //     this.downClueContKey += 2;
+         //     //this.$forceUpdate();
+         // },
          
          squareFocusToAppEar(event) {
+             // console.log(event)
              if (event.primaryDirection === 'across') {
                  this.clueFocus = {
                      primary: event.squareFocusEvent.acrossNum.toString() + 'A',
@@ -222,7 +224,7 @@
      },
 
      mounted() {
-         console.log(this.settingsObject)
+         // console.log(this.settingsObject)
      }
  }
 </script>
