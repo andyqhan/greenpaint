@@ -1167,12 +1167,12 @@
          },
 
          addKeyEventListener() {
-             console.log("added keyEventListener")
+             //console.log("added keyEventListener")
              window.addEventListener('keydown', this.keyHandler);
          },
 
          removeKeyEventListener() {
-             console.log('removed keyEventListener')
+             //console.log('removed keyEventListener')
              window.removeEventListener('keydown', this.keyHandler);
          },
      },

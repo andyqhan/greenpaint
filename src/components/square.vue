@@ -12,6 +12,7 @@
         > {{ currentLetter }} </span>
         <span v-if="isRebusActive" class="square rebusContainer">
             <input v-model="rebusInput"
+                   class="rebus-input"
                    style="text-transform: uppercase;"
                    :style="squareStyle"
                    @keydown.enter="this.$emit('rebus-enter', rebusInput)"
@@ -183,8 +184,26 @@
      user-select: none; /* Standard */
  }
  .rebusContainer {
+     padding: 0;
+     margin: 0;
      position: absolute;
      z-index: 1;
+     width: 2.5em;
+     height: 2em;
+     /* borders or outline still appear... possibly inherited from square */
+     border: none;
+     outline: none;
+ }
+ .rebus-input {
+     padding-left: 2px;
+     padding-right: 2px;
+     padding-top: 5px;
+     padding-bottom: 5px;
+     margin: 0;
+     width: 100%;
+     border: none;
+     line-height: 140%;
+     outline: none;
  }
  span:focus {
      outline: none
@@ -195,6 +214,7 @@
      font-weight: normal;
      cursor: default;
      white-space: nowrap;
+     overflow: hidden;
  }
  .current-letter {
      position: relative;
