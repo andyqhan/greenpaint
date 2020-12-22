@@ -3,22 +3,24 @@
           class="square" :class="classObject"
           :style="squareStyle"
           @click="selectSquare" 
-          @keydown="keyHandler">
+          @keydown="keyHandler"
+          ref="square"
+    >
         <span class="cluenum-square"
               :style="cluenumStyle"
         >{{ cluenum }}</span>
         <span class="current-letter"
               :style="currentLetterStyle"
         > {{ currentLetter }} </span>
-        <span v-if="isRebusActive" class="square rebusContainer">
+        <span v-show="isRebusActive" class="square rebusContainer" ref="rebusCont">
             <input v-model="rebusInput"
                    class="rebus-input"
                    style="text-transform: uppercase;"
                    :style="squareStyle"
-                   @keydown.enter="this.$emit('rebus-enter', currentLetter)"
-                   @focusout="this.$emit('rebus-blur', currentLetter)"
-                   autofocus
+                   @keydown.enter="this.$emit('rebus-enter', rebusInput)"
+                   @focusout="this.$emit('rebus-blur', rebusInput)"
                    type="text"
+                   ref="rebus"
             />
         </span>
     </span>
@@ -52,12 +54,22 @@
 
          settingsObject: Object,
      },
+     
      emits: ['square-focus', 'rebus-enter', 'rebus-blur'],
+     
      data() {
          return {
              rebusInput: '',
          };
      },
+
+     created() {
+         this.$watch('isRebusActive', this.focusRebus, {
+             immediate: true,
+             deep: true
+         })
+     },
+     
      computed: {
          classObject() {
              return {
@@ -141,6 +153,7 @@
              }
          }
      },
+     
      methods: {
          keyHandler() {
              if (event.key === event.key.toLowerCase()) {
@@ -162,6 +175,14 @@
                  //console.log('selected');   
              }
          },
+
+         focusRebus() {
+             if (this.isRebusActive) {
+                 this.$nextTick(() => {
+                     this.$refs.rebus.focus();
+                 });
+             }
+         }
      },
  }
 </script>
