@@ -237,10 +237,12 @@
              for (let ai = 1; ai < this.previousSelectAcross.length; ai++) {
                  this.dynamicGrid[this.previousSelectAcross[0]][this.previousSelectAcross[ai]]['isPrimarySelect'] = false;
                  this.dynamicGrid[this.previousSelectAcross[0]][this.previousSelectAcross[ai]]['isSecondarySelect'] = false;
+                 this.dynamicGrid[this.previousSelectAcross[0]][this.previousSelectAcross[ai]]['isRebusActive'] = false;
              }
              for (let di = 1; di < this.previousSelectDown.length; di++) {
                  this.dynamicGrid[this.previousSelectDown[di]][this.previousSelectDown[0]]['isPrimarySelect'] = false;
                  this.dynamicGrid[this.previousSelectDown[di]][this.previousSelectDown[0]]['isSecondarySelect'] = false;
+                 this.dynamicGrid[this.previousSelectDown[di]][this.previousSelectDown[0]]['isRebusActive'] = false;
              }
              // clear previous point
              this.dynamicGrid[this.previousSelectAcross[0]][this.previousSelectDown[0]]['isPoint'] = false;
@@ -251,17 +253,8 @@
          },
 
          activateRebus() {
-             if (this.currentPoint != this.previousPoint) {
-                 // activate rebus if it wasn't just closed bc of rebusBlur
-                 if (!this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive) {
-                     this.removeKeyEventListener();
-                     this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive = true;
-                 } else {
-                     this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive = false;
-                 }
-             } else {
-                 return
-             }
+             this.removeKeyEventListener();
+             this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive = !this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive;
          },
 
          rebusEnter(event) {
@@ -271,7 +264,8 @@
          },
 
          rebusBlur(event) {
-             this.rebusEnter(event);
+             this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].currentLetter = event.toUpperCase();
+             this.addKeyEventListener();
          },
          
          focusEar(event) {

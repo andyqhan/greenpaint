@@ -15,9 +15,11 @@
                    class="rebus-input"
                    style="text-transform: uppercase;"
                    :style="squareStyle"
-                   @keydown.enter="this.$emit('rebus-enter', rebusInput)"
-                   @focusout="this.$emit('rebus-blur', rebusInput)"
-            >
+                   @keydown.enter="this.$emit('rebus-enter', currentLetter)"
+                   @focusout="this.$emit('rebus-blur', currentLetter)"
+                   autofocus
+                   type="text"
+            />
         </span>
     </span>
 </template>
@@ -59,11 +61,6 @@
      computed: {
          classObject() {
              return {
-                 //point: this.isPoint,
-                 // add like checked and incorrect classes for styling and
-                 // stuff like that
-                 
-                 // these two could probably be immutable in data
                  block: this.isBlock,
                  circled: this.isCircled,
                  rebus: this.isRebus,
