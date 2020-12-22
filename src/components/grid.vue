@@ -61,10 +61,10 @@
              // is the row or column; the cdr is the columns or rows
              previousSelectAcross: [],
              previousSelectDown: [],
+             previousPoint: {},
 
              currentPoint: {y: 0, x: 0},
              currentSquaresFilled: 0,
-             prevWasRebus: false,
          }
      },
      created() {
@@ -251,13 +251,15 @@
          },
 
          activateRebus() {
-             if (!this.prevWasRebus) {
+             if (this.currentPoint != this.previousPoint) {
+                 // activate rebus if it wasn't just closed bc of rebusBlur
                  if (!this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive) {
                      this.removeKeyEventListener();
+                     this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive = true;
+                 } else {
+                     this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive = false;
                  }
-                 this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive = !this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive;
              } else {
-                 this.prevWasRebus = false;
                  return
              }
          },
@@ -269,19 +271,18 @@
          },
 
          rebusBlur(event) {
-             this.prevWasRebus = true;
              this.rebusEnter(event);
          },
          
          focusEar(event) {
+             // set previous point (multiple lines to prevent variable shadowing)
+             this.previousPoint.x = this.currentPoint.x;
+             this.previousPoint.y = this.currentPoint.y;
              if (this.previousSelectAcross.length != 0 && this.previousSelectDown.length != 0) {
+                 // clear the previous selection's css if there was a previous selection
                  this.clearPrevious();
              }
-             //console.log('focusEar called')
-             //console.log(event)
-             //let eventAcrossNum = event.acrossNum
-             //let eventDownNum = event.downNum
-             //let eventDirection = event.direction
+
              let eventX = event.x
              let eventY = event.y
              let primaryDirection = ""
