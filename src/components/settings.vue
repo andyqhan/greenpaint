@@ -263,8 +263,8 @@
              moveUpSquare: ["ArrowUp", "Ctrl-p"],
              moveDownSquare: ["ArrowDown", "Ctrl-n"],
              deleteSquare: ["Backspace", "Ctrl-d"],
-             moveRightWord: ["Tab"],
-             moveLeftWord: ["Shift-Tab"],
+             moveRightWord: ["Tab", "Enter"],
+             moveLeftWord: ["Shift-Tab", "Shift-Enter"],
              moveStartWord: ["Ctrl-a"],
              moveEndWord: ["Ctrl-e"],
              deleteWord: ["Ctrl-k"],
@@ -279,7 +279,7 @@
              // if bindString represents two keys, the first must be a modifier in legalMods and the second
              // must either be a single letter or be in the legalSingles
              let split = bindString.split('-');
-             let legalSingles = ["Tab", "Space", "Backspace", "ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"];
+             let legalSingles = ["Tab", "Space", "Backspace", "ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown", "Enter"];
              let legalMods = ["Ctrl", "Shift"]
              if (split.length === 1) {
                  // if there's no hyphen, and the bindString must be Tab, Space, Backspace, or an Arrow
