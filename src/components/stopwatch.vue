@@ -47,6 +47,10 @@
              this.isStopwatchActive = false;
          },
 
+         startStopwatch() {
+             this.isStopwatchActive = true;
+         },
+
          resetStopwatch() {
              this.countedTime = 0;
          }

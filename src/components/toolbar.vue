@@ -164,6 +164,7 @@
          hideSettings() {
              this.$emit('settings-hidden')
              this.isSettingsShow = false;
+             this.$refs.stopwatch.startStopwatch();
          },
 
          clearStopwatch() {

@@ -74,7 +74,10 @@
             {{ moveRightSquare.toString() }}
         </div>
         <div>
-            <input>
+            <settingsInput
+                @valid-keybind="moveRightSquare = moveRightSquare.concat($event)"
+            >
+            </settingsInput>
         </div>
         
          <div>
@@ -84,8 +87,11 @@
              {{ moveLeftSquare.toString() }}
          </div>
          <div>
-            <input>
-        </div>
+             <settingsInput
+                 @valid-keybind="moveLeftSquare = moveLeftSquare.concat($event)"
+             >
+             </settingsInput>
+         </div>
         
          <div>
             Move up by square
@@ -94,8 +100,11 @@
              {{ moveUpSquare.toString() }}
          </div>
          <div>
-            <input>
-        </div>
+             <settingsInput
+                 @valid-keybind="moveUpSquare = moveUpSquare.concat($event)"
+             >
+             </settingsInput>
+         </div>
         
         <div>
             Move down by square
@@ -104,7 +113,10 @@
             {{ moveDownSquare.toString() }}
         </div>
         <div>
-            <input>
+            <settingsInput
+                @valid-keybind="moveDownSquare = moveDownSquare.concat($event)"
+            >
+            </settingsInput>
         </div>
 
         <div>
@@ -114,7 +126,10 @@
             {{ deleteSquare.toString() }}
         </div>
         <div>
-            <input>
+            <settingsInput
+                @valid-keybind="deleteSquare = deleteSquare.concat($event)"
+            >
+            </settingsInput>
         </div>
         
         <div>
@@ -124,7 +139,10 @@
             {{ moveRightWord.toString() }}
         </div>
         <div>
-            <input>
+            <settingsInput
+                @valid-keybind="moveRightWord = moveRightWord.concat($event)"
+            >
+            </settingsInput>
         </div>
          
          <div>
@@ -134,8 +152,11 @@
              {{ moveLeftWord.toString() }}
          </div>
          <div>
-            <input>
-        </div>
+             <settingsInput
+                 @valid-keybind="moveLeftWord = moveLeftWord.concat($event)"
+             >
+             </settingsInput>
+         </div>
         
         
         <div>
@@ -145,7 +166,10 @@
             {{ moveStartWord.toString() }}
         </div>
         <div>
-            <input>
+            <settingsInput
+                @valid-keybind="moveStartWord = moveStartWord.concat($event)"
+            >
+            </settingsInput>
         </div>
         
         <div>
@@ -155,17 +179,23 @@
             {{ moveEndWord.toString() }}
         </div>
         <div>
-            <input>
+            <settingsInput
+                @valid-keybind="moveEndWord = moveEndWord.concat($event)"
+            >
+            </settingsInput>
         </div>
         
         <div>
-            Delete word
+            Delete rest of word
         </div>
         <div>
             {{ deleteWord.toString() }}
         </div>
         <div>
-            <input>
+            <settingsInput
+                @valid-keybind="deleteWord = deleteWord.concat($event)"
+            >
+            </settingsInput>
         </div>
         
         <div>
@@ -175,7 +205,10 @@
             {{ switchDirection.toString() }}
         </div>
         <div>
-            <input>
+            <settingsInput
+                @valid-keybind="switchDirection = switchDirection.concat($event)"
+            >
+            </settingsInput>
         </div>
         
         <div class="apply-settings" @click="emitSettings">
@@ -185,6 +218,8 @@
 </template>
 
 <script>
+ import settingsInput from './settingsInput.vue'
+ 
  import doom_zenburn from '../assets/doom_zenburn.json'
  import doom_wilmersdorf from '../assets/doom_wilmersdorf.json'
  import doom_vibrant from '../assets/doom_vibrant.json'
@@ -225,6 +260,10 @@
  
  export default {
      name: 'settings',
+
+     components: {
+         settingsInput
+     },
 
      emits: ['settings', 'puzzle-send'],
 
