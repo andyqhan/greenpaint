@@ -52,7 +52,9 @@
          } else if (this.clueFocus.secondary[this.clueFocus.secondary.length-1] === this.direction) {
              scrollClue = this.clueFocus.secondary;
          }
-         this.$refs[scrollClue].$el.scrollIntoView();
+         this.$refs[scrollClue].$el.scrollIntoView({
+             behavior: "smooth"
+         });
      }
  }
 </script>
