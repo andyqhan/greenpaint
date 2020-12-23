@@ -74,7 +74,7 @@
 </template>
 
 <script>
- import puzzle from './examples/rebusex.json'
+ import puzzle from './examples/circleex.json'
  import grid from './components/grid.vue'
  import clueContainer from './components/clueContainer.vue'
  import toolbar from './components/toolbar.vue'

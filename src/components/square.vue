@@ -9,6 +9,25 @@
         <span class="cluenum-square"
               :style="cluenumStyle"
         >{{ cluenum }}</span>
+        <svg class="svg">
+            <circle v-if="isCircled && !isWordStartAcross && !isWordStartDown"
+                    cx="0.95em"
+                    cy="0.95em"
+                    r="13px"
+                    :stroke="settingsObject.selectedTheme.fgAlt"
+                    stroke-width="1px"
+                    stroke-opacity="0.9"
+                    fill-opacity="0"/>
+            <g v-if="isCircled && (isWordStartAcross || isWordStartDown)"
+               :stroke="settingsObject.selectedTheme.fgAlt"
+               stroke-width="1px"
+               stroke-opacity="0.9"
+               fill-opacity="0">
+                <path d="
+                         M 14 2.5
+                         A 13 13 0 1 1 2 15"/>
+            </g>
+        </svg>
         <span class="current-letter"
               :style="currentLetterStyle"
         > {{ currentLetter }} </span>
@@ -71,6 +90,7 @@
      },
      
      computed: {
+         
          classObject() {
              return {
                  block: this.isBlock,
@@ -195,6 +215,7 @@
      white-space: nowrap;
      margin-left: 1px;
      margin-top: -1px;
+     z-index: 2;
      /* disable text selection */
      -webkit-user-select: none; /* Safari */        
      -moz-user-select: none; /* Firefox */
@@ -236,7 +257,7 @@
  }
  .current-letter {
      position: relative;
-     top: 0.35em;
+     top: 0.3em;
      left: 0.4em;
      font-size: 20px;
  }
@@ -245,5 +266,9 @@
  }
  .isPoint {
      outline: none;
+ }
+ .svg {
+     position: absolute;
+     z-index: 0;
  }
 </style>
