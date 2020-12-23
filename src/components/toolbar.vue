@@ -72,7 +72,7 @@
         <transition name="modal">
             <div v-show="isSettingsShow">
                 <div class="overlay" @click.self="isSettingsShow = false;">
-                    <div class="modal">
+                    <div class="modal" :style="modalStyle">
                         <settings ref="settings"
                                   @settings="this.$emit('settings-to-app', $event)"
                                   @puzzle-send="this.$emit('puzzle-send-to-app', $event)"
@@ -90,15 +90,18 @@
  
  export default {
      name: 'toolbar',
+     
      components: {
          stopwatch,
          settings
      },
+     
      props: {
          currentPoint: Object,
          isFinishedShow: Boolean,
          settingsObject: Object
      },
+     
      emits: ['check-square',
              'check-word',
              'check-grid',
@@ -120,6 +123,14 @@
              'puzzle-send-to-app',
              'puzzleSendToApp'
      ],
+
+     computed: {
+         modalStyle() {
+             return {
+                 backgroundColor: this.settingsObject.selectedTheme.bg
+             }
+         }
+     },
 
      data() {
          return {
@@ -277,11 +288,10 @@
      width: 500px;
      margin: 0px auto;
      padding: 20px;
-     background-color: #fff;
-     border-radius: 2px;
+     border-radius: 5px;
      box-shadow: 0 2px 8px 3px;
      transition: all 0.2s ease-in;
-     font-family: Helvetica, Arial, sans-serif;
+     /* font-family: Helvetica, Arial, sans-serif; */
  }
  .fadeIn-enter {
      opacity: 0;
@@ -311,8 +321,12 @@
      display: flex;
      justify-content: center;
      align-items: center;
-     width: 100%;
-     height: 100%;
+     left: 0.5em;
+     top: 0.5em;
+     padding: 1em;
+     border-radius: 5px;
+     max-width: 870px;
+     max-height: 600px;
      background: #00000094;
      z-index: 999;
      transition: opacity 0.2s ease;

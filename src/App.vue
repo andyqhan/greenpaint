@@ -4,7 +4,7 @@
         <transition name="modal">
             <div v-if="isFinishedShow">
                 <div class="overlay" @click.self="isFinishedShow = false;">
-                    <div class="modal">
+                    <div class="modal" :style="modalStyle">
                         <p> {{ gridFullMessage }} </p>
                     </div>
                 </div>
@@ -155,6 +155,12 @@
                  backgroundColor: this.settingsObject.selectedTheme.bgAlt,
                  color: this.settingsObject.selectedTheme.fg,
              }
+         },
+
+         modalStyle() {
+             return {
+                 backgroundColor: this.settingsObject.selectedTheme.bg
+             }
          }
      },
      methods: {
@@ -297,11 +303,9 @@
      width: 500px;
      margin: 0px auto;
      padding: 20px;
-     background-color: #fff;
-     border-radius: 2px;
+     border-radius: 5px;
      box-shadow: 0 2px 8px 3px;
      transition: all 0.2s ease-in;
-     font-family: Helvetica, Arial, sans-serif;
  }
  .fadeIn-enter {
      opacity: 0;
@@ -326,13 +330,15 @@
 
  .overlay {
      position: fixed;
-     top: 0;
-     left: 0;
+     top: 0.5em;
+     left: 0.5em;
+     border-radius: 5px;
+     width: 870px;
+     height: 600px;
+     padding: 1em;
      display: flex;
      justify-content: center;
      align-items: center;
-     width: 100%;
-     height: 100%;
      background: #00000094;
      z-index: 999;
      transition: opacity 0.2s ease;
