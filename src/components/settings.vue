@@ -269,8 +269,11 @@
 
      data() {
          return {
-             selectTheme: "doom_one_light",
+             selectTheme: "doom_fairy_floss",
              selectedTheme: {
+                 // this is here so that app doesn't throw an error. but
+                 // you just have to change "selectTheme" to change the
+                 // default theme
                  "bg": "#fafafa",
                  "bgAlt": "#f0f0f0",
                  "base0": "#f0f0f0",
