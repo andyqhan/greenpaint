@@ -1,12 +1,12 @@
 <template>
-    <div class="settings-container">
-        <div>
+    <div class="settings-container" :style="settingsContStyle">
+        <div :style="headerStyle">
             <b>Option</b>
         </div>
-        <div>
+        <div :style="headerStyle">
             <b>Current value</b>
         </div>
-        <div>
+        <div :style="headerStyle">
             <b>Customize</b>
         </div>
         
@@ -71,7 +71,14 @@
             Move right by square
         </div>
         <div>
-            {{ moveRightSquare.toString() }}
+            <div v-for="bind in moveRightSquare"
+                 :key="bind"
+                 class="bind-item"
+                 @click="removeBind(moveRightSquare, bind)"
+                 :style="removeBindStyle"
+            >
+                {{ bind.toString() }}
+            </div>
         </div>
         <div>
             <settingsInput
@@ -80,37 +87,58 @@
             </settingsInput>
         </div>
         
-         <div>
+        <div>
             Move left by square
-         </div>
-         <div>
-             {{ moveLeftSquare.toString() }}
-         </div>
-         <div>
-             <settingsInput
-                 @valid-keybind="moveLeftSquare = moveLeftSquare.concat($event)"
-             >
-             </settingsInput>
-         </div>
+        </div>
+        <div>
+            <div v-for="bind in moveLeftSquare"
+                 :key="bind"
+                 class="bind-item"
+                 @click="removeBind(moveLeftSquare, bind)"
+                 :style="removeBindStyle"
+            >
+                {{ bind.toString() }}
+            </div>
+        </div>
+        <div>
+            <settingsInput
+                @valid-keybind="moveLeftSquare = moveLeftSquare.concat($event)"
+            >
+            </settingsInput>
+        </div>
         
-         <div>
+        <div>
             Move up by square
-         </div>
-         <div>
-             {{ moveUpSquare.toString() }}
-         </div>
-         <div>
-             <settingsInput
-                 @valid-keybind="moveUpSquare = moveUpSquare.concat($event)"
-             >
-             </settingsInput>
-         </div>
+        </div>
+        <div>
+            <div v-for="bind in moveUpSquare"
+                 :key="bind"
+                 class="bind-item"
+                 @click="removeBind(moveUpSquare, bind)"
+                 :style="removeBindStyle"
+            >
+                {{ bind.toString() }}
+            </div>
+        </div>
+        <div>
+            <settingsInput
+                @valid-keybind="moveUpSquare = moveUpSquare.concat($event)"
+            >
+            </settingsInput>
+        </div>
         
         <div>
             Move down by square
         </div>
         <div>
-            {{ moveDownSquare.toString() }}
+            <div v-for="bind in moveDownSquare"
+                 :key="bind"
+                 class="bind-item"
+                 @click="removeBind(moveDownSquare, bind)"
+                 :style="removeBindStyle"
+            >
+                {{ bind.toString() }}
+            </div>
         </div>
         <div>
             <settingsInput
@@ -123,7 +151,14 @@
             Delete square
         </div>
         <div>
-            {{ deleteSquare.toString() }}
+            <div v-for="bind in deleteSquare"
+                 :key="bind"
+                 class="bind-item"
+                 @click="removeBind(deleteSquare, bind)"
+                 :style="removeBindStyle"
+            >
+                {{ bind.toString() }}
+            </div>
         </div>
         <div>
             <settingsInput
@@ -136,7 +171,14 @@
             Move right by word
         </div>
         <div>
-            {{ moveRightWord.toString() }}
+            <div v-for="bind in moveRightWord"
+                 :key="bind"
+                 class="bind-item"
+                 @click="removeBind(moveRightWord, bind)"
+                 :style="removeBindStyle"
+            >
+                {{ bind.toString() }}
+            </div>
         </div>
         <div>
             <settingsInput
@@ -144,26 +186,40 @@
             >
             </settingsInput>
         </div>
-         
-         <div>
+        
+        <div>
             Move left by word
-         </div>
-         <div>
-             {{ moveLeftWord.toString() }}
-         </div>
-         <div>
-             <settingsInput
-                 @valid-keybind="moveLeftWord = moveLeftWord.concat($event)"
-             >
-             </settingsInput>
-         </div>
+        </div>
+        <div>
+            <div v-for="bind in moveLeftWord"
+                 :key="bind"
+                 class="bind-item"
+                 @click="removeBind(moveLeftWord, bind)"
+                 :style="removeBindStyle"
+            >
+                {{ bind.toString() }}
+            </div>
+        </div>
+        <div>
+            <settingsInput
+                @valid-keybind="moveLeftWord = moveLeftWord.concat($event)"
+            >
+            </settingsInput>
+        </div>
         
         
         <div>
             Move to start of word
         </div>
         <div>
-            {{ moveStartWord.toString() }}
+            <div v-for="bind in moveStartWord"
+                 :key="bind"
+                 class="bind-item"
+                 @click="removeBind(moveStartWord, bind)"
+                 :style="removeBindStyle"
+            >
+                {{ bind.toString() }}
+            </div>
         </div>
         <div>
             <settingsInput
@@ -176,7 +232,14 @@
             Move to end of word
         </div>
         <div>
-            {{ moveEndWord.toString() }}
+            <div v-for="bind in moveEndWord"
+                 :key="bind"
+                 class="bind-item"
+                 @click="removeBind(moveEndWord, bind)"
+                 :style="removeBindStyle"
+            >
+                {{ bind.toString() }}
+            </div>
         </div>
         <div>
             <settingsInput
@@ -189,7 +252,14 @@
             Delete rest of word
         </div>
         <div>
-            {{ deleteWord.toString() }}
+            <div v-for="bind in deleteWord"
+                 :key="bind"
+                 class="bind-item"
+                 @click="removeBind(deleteWord, bind)"
+                 :style="removeBindStyle"
+            >
+                {{ bind.toString() }}
+            </div>
         </div>
         <div>
             <settingsInput
@@ -202,7 +272,14 @@
             Switch direction
         </div>
         <div>
-            {{ switchDirection.toString() }}
+            <div v-for="bind in switchDirection"
+                 :key="bind"
+                 class="bind-item"
+                 @click="removeBind(switchDirection, bind)"
+                 :style="removeBindStyle"
+            >
+                {{ bind.toString() }}
+            </div>
         </div>
         <div>
             <settingsInput
@@ -534,10 +611,36 @@
 
          emitSettings() {
              this.$emit('settings', this.createSettingsObject());
+         },
+
+         removeBind(bindArray, bindItem) {
+             let removeIndex = bindArray.indexOf(bindItem);
+             if (removeIndex > -1) {
+                 bindArray.splice(removeIndex, 1);
+             }
+             return bindArray;
          }
      },
 
      computed: {
+         settingsContStyle() {
+             return {
+                 color: this.selectedTheme.fg,
+             }
+         },
+
+         headerStyle() {
+             return {
+                 color: this.selectedTheme.green,
+             }
+         },
+         
+         removeBindStyle() {
+             return {
+                 '--background-color-hover': this.selectedTheme.red,
+             }
+         },
+         
          applyButtonStyle() {
              return {
                  backgroundColor: this.selectedTheme.base1,
@@ -570,5 +673,13 @@
      cursor: pointer;
      border-radius: 5px;
      outline: none;
+ }
+ .bind-item {
+     cursor: pointer;
+     border-radius: 5px;
+ }
+ .bind-item:hover {
+     background-color: var(--background-color-hover);
+     text-decoration: line-through;
  }
 </style>
