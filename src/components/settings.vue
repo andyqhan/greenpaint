@@ -1,13 +1,13 @@
 <template>
     <div class="settings-container">
         <div>
-            Option
+            <b>Option</b>
         </div>
         <div>
-            Current
+            <b>Current value</b>
         </div>
         <div>
-            Customize
+            <b>Customize</b>
         </div>
         
         <div>
@@ -179,7 +179,7 @@
         </div>
         
         <div class="apply-settings" @click="emitSettings">
-            <button>Apply</button>
+            <button class="apply-settings" :style="applyButtonStyle">Apply</button>
         </div>
     </div>
 </template>
@@ -495,6 +495,15 @@
          }
      },
 
+     computed: {
+         applyButtonStyle() {
+             return {
+                 backgroundColor: this.selectedTheme.base1,
+                 color: this.selectedTheme.fg
+             }
+         }
+     },
+
      mounted() {
          this.emitSettings()
      }
@@ -505,9 +514,19 @@
  .settings-container {
      display: grid;
      grid-template-columns: 1.5fr 1.5fr 1fr;
+     grid-gap: 0.5em;
  }
  .apply-settings {
      grid-column: 3;
      justify-self: right;
+     padding-left: 10px;
+     padding-right: 10px;
+     padding-top: 5px;
+     padding-bottom: 5px;
+     font-size: 16px;
+     border: none;
+     cursor: pointer;
+     border-radius: 5px;
+     outline: none;
  }
 </style>

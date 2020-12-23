@@ -320,14 +320,6 @@
  .fadeIn-leave-active.modal {
      transform: scale(1.1);
  }
- button {
-     padding: 7px;
-     margin-top: 10px;
-     background-color: green;
-     color: white;
-     font-size: 1.1rem;
- }
-
  .overlay {
      position: fixed;
      top: 0.5em;
