@@ -24,6 +24,8 @@
                      @rebus="this.$refs.grid.activateRebus()"
                      @settings-to-app="settingsObject = $event"
                      @puzzle-send-to-app="setPuzzle($event)"
+                     @settings-shown="this.$refs.grid.removeKeyEventListener()"
+                     @settings-hidden="this.$refs.grid.addKeyEventListener()"
                      :isFinishedShow="isFinishedShow"
                      :settingsObject="settingsObject"
             ></toolbar>

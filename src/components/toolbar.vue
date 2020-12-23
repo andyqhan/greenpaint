@@ -61,7 +61,7 @@
     <div class="dropdown">
         <button class="dropbtn"
                 :style="styleToolbar('dropbtnsettings')"
-                @click="toggleSettings"
+                @click="showSettings"
                 @mouseover="settingsMouse = true"
                 @mouseleave="settingsMouse = false">
             Settings
@@ -71,7 +71,7 @@
     <div>
         <transition name="modal">
             <div v-show="isSettingsShow">
-                <div class="overlay" @click.self="isSettingsShow = false;">
+                <div class="overlay" @click.self="hideSettings">
                     <div class="modal" :style="modalStyle">
                         <settings ref="settings"
                                   @settings="this.$emit('settings-to-app', $event)"
@@ -121,7 +121,11 @@
              'clearGrid',
              'settingsToApp',
              'puzzle-send-to-app',
-             'puzzleSendToApp'
+             'puzzleSendToApp',
+             'settings-shown',
+             'settings-hidden',
+             'settingsShown',
+             "settingsHidden"
      ],
 
      computed: {
@@ -151,9 +155,15 @@
          // can't implement clickaway elegantly bc i didn't make the dropdowns
          // a component, so compromise with mouseover/leave
 
-         toggleSettings() {
+         showSettings() {
+             this.$emit('settings-shown');
              this.$refs.stopwatch.stopStopwatch();
-             this.isSettingsShow = !this.isSettingsShow;
+             this.isSettingsShow = true;
+         },
+
+         hideSettings() {
+             this.$emit('settings-hidden')
+             this.isSettingsShow = false;
          },
 
          clearStopwatch() {
