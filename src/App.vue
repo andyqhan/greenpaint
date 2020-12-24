@@ -1,15 +1,15 @@
 <template>
     <div class="app-container" :style="appStyle">
         <div>
-        <transition name="modal">
-            <div v-if="isFinishedShow">
-                <div class="overlay" @click.self="isFinishedShow = false;">
-                    <div class="modal" :style="modalStyle">
-                        <p> {{ gridFullMessage }} </p>
+            <transition name="modal">
+                <div v-if="isFinishedShow">
+                    <div class="overlay" @click.self="isFinishedShow = false;">
+                        <div class="modal" :style="modalStyle">
+                            <p> {{ gridFullMessage }} </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </transition>
+            </transition>
         </div>
         <div class="toolbar" :style="toolbarCSS">
             <toolbar ref="toolbar"
@@ -48,15 +48,15 @@
         </div>
         <p class="direction-label" :style="clueContStyle">Across</p>
         <div class="cluesAcross clue-container" :style="clueContStyle">
-                <clueContainer
-                    @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
-                    :clueFocus="clueFocus"
-                    :clues="cluesAcross"
-                    :direction="'A'"
-                    :settingsObject="settingsObject"
-                    @clue-click-to-app="clueClickToAppEar($event)"
-                    :key="acrossClueContKey"
-                ></clueContainer>
+            <clueContainer
+                @primary-clue-focus-to-app="primaryClueFocusToAppEar($event)"
+                :clueFocus="clueFocus"
+                :clues="cluesAcross"
+                :direction="'A'"
+                :settingsObject="settingsObject"
+                @clue-click-to-app="clueClickToAppEar($event)"
+                :key="acrossClueContKey"
+            ></clueContainer>
         </div>
         <p class="direction-label" :style="clueContStyle">Down</p>
         <div class="cluesDown clue-container" :style="clueContStyle">
@@ -85,7 +85,7 @@
 </template>
 
 <script>
- import puzzle from './examples/shadeex.json'
+ import puzzle from './examples/circleex.json'
  import grid from './components/grid.vue'
  import clueContainer from './components/clueContainer.vue'
  import toolbar from './components/toolbar.vue'
@@ -289,6 +289,7 @@
      width: 100%;
  }
  .activeClue {
+     grid-column: 1;
      grid-row: 2;
      align-self: center;
      width: stretch;
@@ -323,9 +324,10 @@
      padding-left: 0.4em;
      padding-right: 0.4em;
      border-radius: 5px;
-     /* will have to change height to the height of the whole app plus some margin */
-     overflow: auto;
+     overflow: scroll;
      font-size: 14px;
+     cursor: pointer;
+     z-index: 2;
  }
  .modal {
      width: 500px;
