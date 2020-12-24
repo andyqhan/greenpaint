@@ -70,11 +70,22 @@
                 :key="downClueContKey"
             ></clueContainer>
         </div>
+        <div class="bylineCont" :style="bylineStyle">
+            <span class="title">
+                {{ puzzleTitle }}
+            </span>
+            <span class="author">
+                {{ puzzleAuthor }}
+            </span>
+            <span class="copyright">
+                {{ puzzleCopyright  }}
+            </span>
+        </div>
     </div>
 </template>
 
 <script>
- import puzzle from './examples/circleex.json'
+ import puzzle from './examples/shadeex.json'
  import grid from './components/grid.vue'
  import clueContainer from './components/clueContainer.vue'
  import toolbar from './components/toolbar.vue'
@@ -88,6 +99,10 @@
      },
      data() {
          return {
+             puzzleTitle: puzzle.Title,
+             puzzleAuthor: puzzle.Author,
+             puzzleCopyright: puzzle.Copyright,
+             
              puzzleGrid: puzzle.Grid,
              rebusObj: puzzle.IsRebus,
              cluesAcross: puzzle.Across,
@@ -162,6 +177,12 @@
          modalStyle() {
              return {
                  backgroundColor: this.settingsObject.selectedTheme.bg
+             }
+         },
+
+         bylineStyle() {
+             return {
+                 color: this.settingsObject.selectedTheme.fg,
              }
          }
      },
@@ -269,6 +290,7 @@
      align-self: center;
      width: stretch;
      padding-left: 1em;
+     padding-right: 1em;
      border-radius: 5px;
  }
  .mainGrid {
@@ -297,9 +319,9 @@
      padding-left: 0.4em;
      padding-right: 0.4em;
      border-radius: 5px;
-     width: 10em;
      /* will have to change height to the height of the whole app plus some margin */
      overflow: auto;
+     font-size: 14px;
  }
  .modal {
      width: 500px;
@@ -336,5 +358,27 @@
      background: #00000094;
      z-index: 999;
      transition: opacity 0.2s ease;
+ }
+ .bylineCont {
+     grid-column: 1 / 4;
+     display: inline-block;
+     width: 870px;
+ }
+ .bylineCont > span {
+     font-size: 12px;
+     padding-top: 0.1em;
+     padding-left: 0.1em;
+     padding-right: 0.1em;
+     display: inline-block;
+ }
+ .title {
+     float: left;
+     margin-right: 2em;
+ }
+ .author {
+     float: left;
+ }
+ .copyright {
+     float: right;
  }
 </style>

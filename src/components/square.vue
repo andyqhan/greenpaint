@@ -55,7 +55,7 @@
          correctLetter: String,
          isBlock: Boolean,
          isCircled: Boolean,
-         isRebus: Boolean,         
+         isRebus: Boolean,
          isWordStartAcross: Boolean,
          isWordStartDown: Boolean,
          acrossNum: Number,
