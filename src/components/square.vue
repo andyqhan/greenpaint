@@ -60,6 +60,10 @@
          isWordStartDown: Boolean,
          acrossNum: Number,
          downNum: Number,
+         isLeft: Boolean,
+         isRight: Boolean,
+         isTop: Boolean,
+         isBot: Boolean,
 
          // dynamic
          currentLetter: String,
@@ -142,35 +146,55 @@
          },
 
          squareStyle() {
+             let styleObj = {}
+             styleObj['color'] = this.settingsObject.selectedTheme.fg;
+             
              if (this.isBlock) {
-                 return {
-                     backgroundColor: this.settingsObject.selectedTheme.fg,
-                     color: this.settingsObject.selectedTheme.fg
-                 }
-             }
-             if (this.isPoint) {
-                 return {
-                     backgroundColor: this.settingsObject.selectedTheme.green,
-                     color: this.settingsObject.selectedTheme.fg
-                 }
+                 styleObj['background-color'] = this.settingsObject.selectedTheme.fg;
              }
              if (this.isPrimarySelect) {
-                 return {
-                     backgroundColor: this.settingsObject.selectedTheme.darkBlue,
-                     color: this.settingsObject.selectedTheme.fg
-                 }
+                 styleObj['background-color'] = this.settingsObject.selectedTheme.darkBlue;
              }
              if (this.isSecondarySelect) {
-                 return {
-                     backgroundColor: this.settingsObject.selectedTheme.base2,
-                     color: this.settingsObject.selectedTheme.fg
-                 }
-             } else {
-                 // it's a normal square
-                 return {
-                     color: this.settingsObject.selectedTheme.fg,
-                 } 
+                 styleObj['background-color'] = this.settingsObject.selectedTheme.base2;
              }
+             if (this.isPoint) {
+                 styleObj['background-color'] = this.settingsObject.selectedTheme.green;
+             }
+
+             // border stuff
+             if (this.isLeft) {
+                 if (this.isTop) {
+                     // top left
+                     styleObj['border-width'] = "2px 1px 0 2px"
+                 } else if (this.isBot) {
+                     // bottom left
+                     styleObj['border-width'] = "1px 1px 2px 2px"
+                 } else {
+                     // left edge
+                     styleObj['border-width'] = "1px 1px 0 2px"
+                 }
+             } else if (this.isRight) {
+                 console.log('isRight')
+                 if (this.isTop) {
+                     styleObj['border-width'] = "2px 2px 0 0"
+                 } else if (this.isBot) {
+                     styleObj['border-width'] = "1px 2px 2px 0"
+                 } else {
+                     styleObj['border-width'] = "1px 2px 0 0"
+                 }
+             } else if (this.isTop) {
+                 // normal top (not top left or top right)
+                 styleObj['border-width'] = "2px 1px 0 0"
+             } else if (this.isBot) {
+                 // normal bot (not bot left or bot right)
+                 styleObj['border-width'] = "1px 1px 2px 0"
+             } else if (!this.isRight && !this.isLeft && !this.isTop && !this.isBot) {
+                 // middle square
+                 styleObj['border-width'] = "1px 1px 0 0"
+             }
+             styleObj['border-style'] = "solid";
+             return styleObj;
          }
      },
      
@@ -249,7 +273,7 @@
  }
  .square {
      display: inline-block;
-     border: 1px solid;
+     /* border: 1px solid; */
      font-weight: normal;
      cursor: default;
      white-space: nowrap;
@@ -262,7 +286,7 @@
      font-size: 20px;
  }
  .block {
-     border: 1px solid;
+     /* border: 1px solid; */
  }
  .isPoint {
      outline: none;

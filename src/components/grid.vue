@@ -28,6 +28,10 @@
                     :isIncorrect="dynamicGrid[row_index][cell_index].isIncorrect"
                     :isRebusActive="dynamicGrid[row_index][cell_index].isRebusActive"
                     :settingsObject="settingsObject"
+                    :isLeft="cell.isLeft"
+                    :isRight="cell.isRight"
+                    :isTop="cell.isTop"
+                    :isBot="cell.isBot"
                     ></square>
         </div>
     </div>
@@ -163,8 +167,20 @@
                              // otherwise downNum is the same as the one above
                              thisCell['downNum'] = outputGrid[row-1][char]['downNum']
                          }
+
+                         // get position of this cell for border css
+                         if (char == 0) {
+                             thisCell['isLeft'] = true;
+                         } else if (char == thisRowArray.length-1) {
+                             thisCell['isRight'] = true;
+                         }
+                         if (row == 0) {
+                             thisCell['isTop'] = true;
+                         } else if (row == gridObject.length-1) {
+                             thisCell['isBot'] = true;
+                         }
                      }
-                     outputGrid[row].push(thisCell)
+                     outputGrid[row].push(thisCell);
                  }
              }
              //console.log(outputGrid)
