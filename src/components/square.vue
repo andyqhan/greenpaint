@@ -175,7 +175,6 @@
                      styleObj['border-width'] = "1px 1px 0 2px"
                  }
              } else if (this.isRight) {
-                 console.log('isRight')
                  if (this.isTop) {
                      styleObj['border-width'] = "2px 2px 0 0"
                  } else if (this.isBot) {

@@ -304,7 +304,7 @@
      margin: 0px auto;
      padding: 20px;
      border-radius: 5px;
-     box-shadow: 0 2px 8px 3px;
+     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
      transition: all 0.2s ease-in;
      /* font-family: Helvetica, Arial, sans-serif; */
  }
