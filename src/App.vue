@@ -150,14 +150,15 @@
          toolbarCSS() {
              return {
                  'grid-column-start': 1,
-                 'grid-column-end': 3,
+                 'grid-column-end': 4,
              }
          },
          
          activeClueCSS() {
              return {
                  gridColumn: 1,
-                 backgroundColor: this.settingsObject.selectedTheme.green
+                 backgroundColor: this.settingsObject.selectedTheme.green,
+                 color: this.settingsObject.selectedTheme.bgAlt,
              }
          },
 
@@ -284,6 +285,8 @@
  .toolbar {
      grid-row: 1;
      align-self: center;
+     float: left;
+     width: 100%;
  }
  .activeClue {
      grid-row: 2;
@@ -311,6 +314,7 @@
      padding: 0.4em;
      width: 10em;
      border-radius: 5px;
+     grid-row: 2;
  }
  .clue-container {
      padding: 0;

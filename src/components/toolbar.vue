@@ -58,7 +58,7 @@
         </button>
     </div>
     
-    <div class="dropdown">
+    <div class="dropdown settings-button">
         <button class="dropbtn"
                 :style="styleToolbar('dropbtnsettings')"
                 @click="showSettings"
@@ -288,6 +288,10 @@
      z-index: 1;
      display: block;
      border-radius: 10px;
+ }
+
+ .settings-button {
+     float: right;
  }
 
  .menuitem:hover {
