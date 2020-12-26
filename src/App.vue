@@ -85,10 +85,10 @@
 </template>
 
 <script>
- import puzzle from './examples/circleex.json'
  import grid from './components/grid.vue'
  import clueContainer from './components/clueContainer.vue'
  import toolbar from './components/toolbar.vue'
+ import puzzle from './examples/circleex.json'
  
  export default {
      name: 'App',
@@ -97,6 +97,9 @@
          clueContainer,
          toolbar,
      },
+     
+     //props: ['puzzle'],
+     
      data() {
          return {
              puzzleTitle: puzzle.Title,
@@ -372,7 +375,7 @@
  }
  .bylineCont > span {
      font-size: 12px;
-     padding-top: 0.1em;
+     padding-top: 0.15em;
      padding-left: 0.1em;
      padding-right: 0.1em;
      display: inline-block;
