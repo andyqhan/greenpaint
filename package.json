@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "buildwp": "webpack serve --config ./webpack.config.dev.js",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
     "deploy": "node Scripts/gh-pages-deploy.js"
   },
   "dependencies": {
