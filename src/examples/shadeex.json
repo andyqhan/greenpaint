@@ -1,0 +1,453 @@
+{
+  "Title": "NY Times, Thursday, December 17, 2020",
+  "Author": "Kathryn Ladner / Will Shortz",
+  "Copyright": "© 2020, The New York Times",
+  "Size": {
+    "Rows": 15,
+    "Cols": 15
+  },
+  "Grid": [
+    {
+      "Row": "ACHY.SCOTS.AMMO"
+    },
+    {
+      "Row": "SMEE.ALBUM.WISH"
+    },
+    {
+      "Row": "GIST.BOOMERANGS"
+    },
+    {
+      "Row": "ANTIDOTE.LOKI.."
+    },
+    {
+      "Row": "ROI.IRS.ALLEGED"
+    },
+    {
+      "Row": "DRAFT..PLIE.OXO"
+    },
+    {
+      "Row": "...ACH.RAE.ALIT"
+    },
+    {
+      "Row": "BEETHOVENSFIFTH"
+    },
+    {
+      "Row": "URGE.NEG.TED..."
+    },
+    {
+      "Row": "FIg.gOgO..TAMIL"
+    },
+    {
+      "Row": "FERRERA.MOA.ACU"
+    },
+    {
+      "Row": "..OONA.DeflatED"
+    },
+    {
+      "Row": "WILDEBEEST.FLAW"
+    },
+    {
+      "Row": "IDLE.LEASE.RIGI"
+    },
+    {
+      "Row": "SOSO.ELFIN.ONEG"
+    }
+  ],
+  "Across": [
+    {
+      "Num": 1,
+      "Ans": "ACHY",
+      "Clue": "Needing some kneading, say"
+    },
+    {
+      "Num": 5,
+      "Ans": "SCOTS",
+      "Clue": "Language in which a nutty person might be told \"Yer bum's oot the windae\""
+    },
+    {
+      "Num": 10,
+      "Ans": "AMMO",
+      "Clue": "Hunting store purchase"
+    },
+    {
+      "Num": 14,
+      "Ans": "SMEE",
+      "Clue": "Hook's henchman"
+    },
+    {
+      "Num": 15,
+      "Ans": "ALBUM",
+      "Clue": "Stamp holder"
+    },
+    {
+      "Num": 16,
+      "Ans": "WISH",
+      "Clue": "Birthday ___"
+    },
+    {
+      "Num": 17,
+      "Ans": "GIST",
+      "Clue": "Basic idea"
+    },
+    {
+      "Num": 18,
+      "Ans": "BOOMERANGS",
+      "Clue": "Items that are hard to throw away?"
+    },
+    {
+      "Num": 20,
+      "Ans": "ANTIDOTE",
+      "Clue": "Remedy"
+    },
+    {
+      "Num": 22,
+      "Ans": "LOKI",
+      "Clue": "Troublemaker of 1-Down"
+    },
+    {
+      "Num": 23,
+      "Ans": "ROI",
+      "Clue": "Important piece in échecs"
+    },
+    {
+      "Num": 24,
+      "Ans": "IRS",
+      "Clue": "Money-collecting org."
+    },
+    {
+      "Num": 25,
+      "Ans": "ALLEGED",
+      "Clue": "Word included to prevent libel, say"
+    },
+    {
+      "Num": 28,
+      "Ans": "DRAFT",
+      "Clue": "Rough write-up"
+    },
+    {
+      "Num": 30,
+      "Ans": "PLIE",
+      "Clue": "Ballet basic"
+    },
+    {
+      "Num": 31,
+      "Ans": "OXO",
+      "Clue": "Losing tic-tac-toe row"
+    },
+    {
+      "Num": 32,
+      "Ans": "ACH",
+      "Clue": "Cry of dismay in 5-Across"
+    },
+    {
+      "Num": 34,
+      "Ans": "RAE",
+      "Clue": "Singer/songwriter Corinne Bailey ___"
+    },
+    {
+      "Num": 35,
+      "Ans": "ALIT",
+      "Clue": "Landed"
+    },
+    {
+      "Num": 36,
+      "Ans": "BEETHOVENSFIFTH",
+      "Clue": "Work suggested by this puzzle's circled squares"
+    },
+    {
+      "Num": 41,
+      "Ans": "URGE",
+      "Clue": "Strongly advocate"
+    },
+    {
+      "Num": 42,
+      "Ans": "NEG",
+      "Clue": "-: Abbr."
+    },
+    {
+      "Num": 43,
+      "Ans": "TED",
+      "Clue": "One of the Kennedys"
+    },
+    {
+      "Num": 44,
+      "Ans": "FIG",
+      "Clue": "Pudding flavor"
+    },
+    {
+      "Num": 45,
+      "Ans": "GOGO",
+      "Clue": "Big name in in-flight internet"
+    },
+    {
+      "Num": 46,
+      "Ans": "TAMIL",
+      "Clue": "___ Nadu (Indian state)"
+    },
+    {
+      "Num": 50,
+      "Ans": "FERRERA",
+      "Clue": "America ___, star of TV's \"Ugly Betty\""
+    },
+    {
+      "Num": 52,
+      "Ans": "MOA",
+      "Clue": "Extinct flightless bird"
+    },
+    {
+      "Num": 54,
+      "Ans": "ACU",
+      "Clue": "Lead-in to puncture"
+    },
+    {
+      "Num": 55,
+      "Ans": "OONA",
+      "Clue": "Actress Chaplin"
+    },
+    {
+      "Num": 56,
+      "Ans": "DEFLATED",
+      "Clue": "Like an unused air mattress"
+    },
+    {
+      "Num": 58,
+      "Ans": "WILDEBEEST",
+      "Clue": "That's gnus to me!"
+    },
+    {
+      "Num": 61,
+      "Ans": "FLAW",
+      "Clue": "Shortcoming"
+    },
+    {
+      "Num": 62,
+      "Ans": "IDLE",
+      "Clue": "Word before rich or talk"
+    },
+    {
+      "Num": 63,
+      "Ans": "LEASE",
+      "Clue": "Rent"
+    },
+    {
+      "Num": 64,
+      "Ans": "RIGI",
+      "Clue": "Swiss Alp next to Lake Lucerne"
+    },
+    {
+      "Num": 65,
+      "Ans": "SOSO",
+      "Clue": "Just OK"
+    },
+    {
+      "Num": 66,
+      "Ans": "ELFIN",
+      "Clue": "Small and pointy-eared, perhaps"
+    },
+    {
+      "Num": 67,
+      "Ans": "ONEG",
+      "Clue": "What \"exaggerated\" is sometimes misspelled with"
+    }
+  ],
+  "Down": [
+    {
+      "Num": 1,
+      "Ans": "ASGARD",
+      "Clue": "Mythical realm accessible only by the rainbow bridge Bifrost"
+    },
+    {
+      "Num": 2,
+      "Ans": "CMINOR",
+      "Clue": "Key to this puzzle's theme?"
+    },
+    {
+      "Num": 3,
+      "Ans": "HESTIA",
+      "Clue": "Greek goddess of the hearth"
+    },
+    {
+      "Num": 4,
+      "Ans": "YETI",
+      "Clue": "Sight on Disney World's Expedition Everest ride"
+    },
+    {
+      "Num": 5,
+      "Ans": "SABOR",
+      "Clue": "Flavor: Sp."
+    },
+    {
+      "Num": 6,
+      "Ans": "CLOTS",
+      "Clue": "Sticks together"
+    },
+    {
+      "Num": 7,
+      "Ans": "OBOE",
+      "Clue": "Instrument featured in 36-Across"
+    },
+    {
+      "Num": 8,
+      "Ans": "TUM",
+      "Clue": "Rum ___ Tugger (\"Cats\" cat)"
+    },
+    {
+      "Num": 9,
+      "Ans": "SMELLIEST",
+      "Clue": "Most foul"
+    },
+    {
+      "Num": 10,
+      "Ans": "AWAKE",
+      "Clue": "Up"
+    },
+    {
+      "Num": 11,
+      "Ans": "MINIGOLF",
+      "Clue": "Puttering around?"
+    },
+    {
+      "Num": 12,
+      "Ans": "MSG",
+      "Clue": "Flavor enhancer"
+    },
+    {
+      "Num": 13,
+      "Ans": "OHS",
+      "Clue": "Exclamations of surprise"
+    },
+    {
+      "Num": 19,
+      "Ans": "ROLE",
+      "Clue": "Credit line?"
+    },
+    {
+      "Num": 21,
+      "Ans": "DITCH",
+      "Clue": "Leave behind"
+    },
+    {
+      "Num": 25,
+      "Ans": "ALAN",
+      "Clue": "___ Freed, early radio personality who coined the term \"rock 'n' roll\""
+    },
+    {
+      "Num": 26,
+      "Ans": "EXIT",
+      "Clue": "It takes people out"
+    },
+    {
+      "Num": 27,
+      "Ans": "DOTH",
+      "Clue": "Biblical verb"
+    },
+    {
+      "Num": 29,
+      "Ans": "FATE",
+      "Clue": "What the opening motif of 36-Across is said to represent"
+    },
+    {
+      "Num": 30,
+      "Ans": "PREGO",
+      "Clue": "Response to \"Grazie!\""
+    },
+    {
+      "Num": 33,
+      "Ans": "HONORABLE",
+      "Clue": "Epithet for a judge"
+    },
+    {
+      "Num": 35,
+      "Ans": "AIDA",
+      "Clue": "Lover of Radames, in opera"
+    },
+    {
+      "Num": 36,
+      "Ans": "BUFF",
+      "Clue": "Muscly"
+    },
+    {
+      "Num": 37,
+      "Ans": "ERIE",
+      "Clue": "Tribe that fought the Iroquois"
+    },
+    {
+      "Num": 38,
+      "Ans": "EGGROLLS",
+      "Clue": "Servings with sweet-and-sour sauce"
+    },
+    {
+      "Num": 39,
+      "Ans": "VEGA",
+      "Clue": "Summer Triangle star"
+    },
+    {
+      "Num": 40,
+      "Ans": "FETAL",
+      "Clue": "___ position"
+    },
+    {
+      "Num": 45,
+      "Ans": "GENE",
+      "Clue": "Something editable using CRISPR technology"
+    },
+    {
+      "Num": 47,
+      "Ans": "MATLIN",
+      "Clue": "Oscar winner Marlee"
+    },
+    {
+      "Num": 48,
+      "Ans": "ICEAGE",
+      "Clue": "Cooling-off period?"
+    },
+    {
+      "Num": 49,
+      "Ans": "LUDWIG",
+      "Clue": "First name of this puzzle's dedicatee, born December 1770"
+    },
+    {
+      "Num": 51,
+      "Ans": "RODEO",
+      "Clue": "Copland ballet with a hoedown"
+    },
+    {
+      "Num": 52,
+      "Ans": "MESSI",
+      "Clue": "Longtime star of F.C. Barcelona"
+    },
+    {
+      "Num": 53,
+      "Ans": "OFTEN",
+      "Clue": "A lot"
+    },
+    {
+      "Num": 56,
+      "Ans": "DEAF",
+      "Clue": "What 49-Down became in later life"
+    },
+    {
+      "Num": 57,
+      "Ans": "AFRO",
+      "Clue": "Prefix with Cuban"
+    },
+    {
+      "Num": 58,
+      "Ans": "WIS",
+      "Clue": "Ill. neighbor"
+    },
+    {
+      "Num": 59,
+      "Ans": "IDO",
+      "Clue": "Formal \"yes\""
+    },
+    {
+      "Num": 60,
+      "Ans": "EEL",
+      "Clue": "Reef predator"
+    }
+  ],
+  "NotePad": null,
+  "HasCircles": true,
+  "IsRebus": null
+}

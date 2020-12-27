@@ -88,7 +88,7 @@
  import grid from './components/grid.vue'
  import clueContainer from './components/clueContainer.vue'
  import toolbar from './components/toolbar.vue'
- import puzzle from './examples/circleex.json'
+ //import puzzle from './examples/circleex.json'
  
  export default {
      name: 'App',
@@ -98,18 +98,18 @@
          toolbar,
      },
      
-     //props: ['puzzle'],
+     props: ['puzzle'],
      
      data() {
          return {
-             puzzleTitle: puzzle.Title,
-             puzzleAuthor: puzzle.Author,
-             puzzleCopyright: puzzle.Copyright,
+             puzzleTitle: this.puzzle.Title,
+             puzzleAuthor: this.puzzle.Author,
+             puzzleCopyright: this.puzzle.Copyright,
              
-             puzzleGrid: puzzle.Grid,
-             rebusObj: puzzle.IsRebus,
-             cluesAcross: puzzle.Across,
-             cluesDown: puzzle.Down,
+             puzzleGrid: this.puzzle.Grid,
+             rebusObj: this.puzzle.IsRebus,
+             cluesAcross: this.puzzle.Across,
+             cluesDown: this.puzzle.Down,
              gridKey: 0,
              acrossClueContKey: 47,
              downClueContKey: 48,
