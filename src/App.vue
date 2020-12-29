@@ -1,4 +1,4 @@
-<greenpaint :puzzledata="puzzleData">
+<greenpaint :puzzledata="puzzleData"/>
 
 <script>
  import greenpaint from './components/greenpaint.vue'
@@ -6,7 +6,9 @@
  export default {
      name: 'App',
      data() {
-         puzzleData: {}
+         return {
+             puzzleData: {}
+         }
      },
      components: {
          greenpaint
