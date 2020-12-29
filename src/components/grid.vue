@@ -55,7 +55,8 @@
      emits: [
          'square-focus-to-app',
          'squareFocusToApp',
-         'gridFull'
+         'gridFull',
+         'grid-full'
      ],
      data() {
          return {

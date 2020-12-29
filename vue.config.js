@@ -1,3 +1,4 @@
 module.exports = {
-    publicPath: '/greenpaint/'
+    publicPath: '/greenpaint/',
+    runtimeCompiler: true
 }
