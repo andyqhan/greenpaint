@@ -15,7 +15,7 @@
      },
      mounted() {
          this.$nextTick(() => {
-             this.puzzleData = JSON.parse(document.getElementById('puzzledata').innerHTML);
+             this.puzzleData = JSON.parse(document.getElementById('puzzledata').text);
          });
      }
  }
