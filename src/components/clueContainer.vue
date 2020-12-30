@@ -45,16 +45,11 @@
      
      updated() {
          // not all that elegant but ok
-         let scrollClue;
-         if (this.clueFocus.primary[this.clueFocus.primary.length-1] === this.direction) {
-             // if the primary focus's direction is the same as current direction
-             scrollClue = this.clueFocus.primary;
-         } else if (this.clueFocus.secondary[this.clueFocus.secondary.length-1] === this.direction) {
-             scrollClue = this.clueFocus.secondary;
+         if (this.$refs[this.clueFocus.primary]) {
+             this.$refs[this.clueFocus.primary].$el.scrollIntoView();
+         } else if (this.$refs[this.clueFocus.secondary]) {
+             this.$refs[this.clueFocus.secondary].$el.scrollIntoView();
          }
-         this.$refs[scrollClue].$el.scrollIntoView({
-             behavior: "smooth"
-         });
      }
  }
 </script>

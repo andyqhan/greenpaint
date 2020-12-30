@@ -1,22 +1,39 @@
-<greenpaint :puzzledata="puzzleData"/>
+<template>
+    <div v-if="loaded">
+        <greenpaint :puzzledata="this.puzzleData"/>
+    </div>
+    <div v-else>
+        loading puzzle data...
+    </div>
+</template>
 
 <script>
  import greenpaint from './components/greenpaint.vue'
- //import puzzle from '../public/static/circleex.json'
- export default {
+  export default {
      name: 'App',
      data() {
          return {
-             puzzleData: {}
+             puzzleData: Object,
+             loaded: false,
          }
      },
      components: {
          greenpaint
      },
-     mounted() {
-         this.$nextTick(() => {
-             this.puzzleData = JSON.parse(document.getElementById('puzzledata').text);
-         });
+     methods: {
+         async getPuzzleData() {
+             let puzzlepath = document.getElementById('puzzlepath').text.slice(1, -1);
+             let response = await fetch(puzzlepath);
+             if (!response.ok) {
+                 throw new Error(`Error getting puzzle data: ${response.status}`);
+             }
+             let puzzleData = await response.json();
+             return puzzleData;
+         }
+     },
+     async created() {
+         this.puzzleData = await this.getPuzzleData();
+         this.loaded = true;
      }
  }
 </script>

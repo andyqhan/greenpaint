@@ -111,6 +111,7 @@
              // cluesAcross: puzzle.Across,
              // cluesDown: puzzle.Down,
              puzzle: this.puzzledata,
+             publicPath: process.env.BASE_URL,
              gridKey: 0,
              acrossClueContKey: 47,
              downClueContKey: 48,
@@ -246,7 +247,7 @@
              this.isFinishedShow = true;
              this.$refs.toolbar.$refs.stopwatch.stopStopwatch();
              if (event === "correct") {
-                 this.gridFullMessage = "Congratulations! 🎉"
+                 this.gridFullMessage = `Congratulations! 🎉 You solved the puzzle in ${this.$refs.toolbar.$refs.stopwatch.formatedTime()}!`
              } else if (event === "incorrect") {
                  this.gridFullMessage = "One or more letters are incorrect 😟"
              }
@@ -256,12 +257,6 @@
              this.$refs.grid.focusFromClueClick(event);
          }
      },
-
-     mounted() {
-         // console.log(this.settingsObject)
-         console.log(this.puzzlepath);
-         //console.log(this.puzzle);
-     }
  }
 </script>
 
