@@ -645,7 +645,7 @@
 
          // TODO maybe wrap around to the start of the grid
          // TODO also i think i've hardcoded in that the [0,0] square is not a block... oops
-         getAcrossWordStart(y, x) {
+         getAcrossWordStart(y=this.currentPoint.y, x=this.currentPoint.x) {
              let currentAcrossNum = this.staticGrid[y][x]['acrossNum'];
              let targetX = x;
              while (targetX > 0 && this.staticGrid[y][targetX]['acrossNum'] === currentAcrossNum) {
@@ -764,7 +764,7 @@
              })
          },
 
-         getDownWordStart(y, x) {
+         getDownWordStart(y=this.currentPoint.y, x=this.currentPoint.x) {
              let currentDownNum = this.staticGrid[y][x]['downNum'];
              let targetY = y;
              while (targetY > 0 && this.staticGrid[targetY][x]['downNum'] === currentDownNum) {
@@ -955,6 +955,10 @@
              } else if (this.currentDirection === "down") {
                  nextEmpty = this.getNextEmptyDown();
              }
+             if (!nextEmpty) {
+                 console.log("moveNextEmpty: no next empty")
+                 return;
+             }
              this.focusEar({
                  y: nextEmpty.y,
                  x: nextEmpty.x,
@@ -962,6 +966,75 @@
                  acrossNum: this.staticGrid[nextEmpty.y][nextEmpty.x]['acrossNum'],
                  downNum: this.staticGrid[nextEmpty.y][nextEmpty.x]['downNum']
              });
+         },
+
+         moveAfterInsert() {
+             if (this.currentDirection === "across") {
+                 let acrossWordStart = this.getAcrossWordStart();
+                 let thisAcrossNum = this.staticGrid[this.currentPoint.y][this.currentPoint.x].acrossNum;
+                 for (let iX = this.currentPoint.x; iX < this.staticGrid[this.currentPoint.y].length; iX++) {
+                     if (this.dynamicGrid[this.currentPoint.y][iX].currentLetter === "") {
+                         this.focusEar({
+                             y: this.currentPoint.y,
+                             x: iX,
+                             direction: this.currentDirection,
+                             acrossNum: this.staticGrid[this.currentPoint.y][iX].acrossNum,
+                             downNum: this.staticGrid[this.currentPoint.y][iX].downNum
+                         });
+                         return;
+                     }
+                     if (this.staticGrid[this.currentPoint.y][iX].acrossNum !== thisAcrossNum) {
+                         // the rest of the word is full
+                         break;
+                     }
+                 }
+                 for (let iX = acrossWordStart.x; iX < this.currentPoint.x; iX++) {
+                     // search starting from the start of the word
+                     if (this.dynamicGrid[this.currentPoint.y][iX].currentLetter === "") {
+                         this.focusEar({
+                             y: this.currentPoint.y,
+                             x: iX,
+                             direction: this.currentDirection,
+                             acrossNum: this.staticGrid[this.currentPoint.y][iX].acrossNum,
+                             downNum: this.staticGrid[this.currentPoint.y][iX].downNum
+                         });
+                         return;
+                     }
+                 }
+                 // finally, the whole word is full --- move next empty
+                 this.moveNextEmpty();
+             } else if (this.currentDirection === "down") {
+                 let downWordStart = this.getDownWordStart();
+                 let thisDownNum = this.staticGrid[this.currentPoint.y][this.currentPoint.x].downNum;
+                 for (let iY = this.currentPoint.y; iY < this.staticGrid.length; iY++) {
+                     if (this.dynamicGrid[iY][this.currentPoint.x].currentLetter === "") {
+                         this.focusEar({
+                             y: iY,
+                             x: this.currentPoint.x,
+                             direction: this.currentDirection,
+                             acrossNum: this.staticGrid[iY][this.currentPoint.x].acrossNum,
+                             downNum: this.staticGrid[iY][this.currentPoint.x].downNum
+                         });
+                         return;
+                     }
+                     if (this.staticGrid[iY][this.currentPoint.x].downNum !== thisDownNum) {
+                         break;
+                     }
+                 }
+                 for (let iY = downWordStart.y; iY < this.currentPoint.y; iY++) {
+                     if (this.dynamicGrid[iY][this.currentPoint.x].currentLetter === "") {
+                         this.focusEar({
+                             y: iY,
+                             x: this.currentPoint.x,
+                             direction: this.currentDirection,
+                             acrossNum: this.staticGrid[iY][this.currentPoint.x].acrossNum,
+                             downNum: this.staticGrid[iY][this.currentPoint.x].downNum
+                         });
+                         return;
+                     }
+                 }
+                 this.moveNextEmpty()
+             }
          },
 
          moveStartWord(direction) {
@@ -1030,7 +1103,7 @@
          },
          
          checkSquare(y=this.currentPoint.y, x=this.currentPoint.x) {
-             if (this.dynamicGrid[y][x]['currentLetter'] === this.staticGrid[y][x]['correctLetter']) {
+             if (this.dynamicGrid[y][x]['currentLetter'] === this.staticGrid[y][x]['correctLetter'].toUpperCase()) {
                  this.dynamicGrid[y][x]['isIncorrect'] = false;
                  this.dynamicGrid[y][x]['isCorrect'] = true;
              } else {
@@ -1209,7 +1282,7 @@
                          this.currentSquaresFilled += 1;
                      }
                      this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] = event.key.toUpperCase();
-                     this.moveNextEmpty();
+                     this.moveAfterInsert();
                  }
              }
          },
