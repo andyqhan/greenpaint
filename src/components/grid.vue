@@ -555,8 +555,48 @@
                      if (this.currentPoint.x === this.dynamicGrid[0].length-1 && this.currentPoint.y === this.dynamicGrid.length-1) {
                          // do nothing at the bottom right corner
                          break;
-                     } else if (this.currentPoint.x === this.dynamicGrid[0].length-1 || this.staticGrid[this.currentPoint.y][this.currentPoint.x+1]['isBlock'] === true) {
-                         this.moveAcrossWord("right");
+                     } else if (this.currentPoint.x === this.dynamicGrid[0].length-1 && this.currentPoint.y !== this.dynamicGrid.length-1) {
+                         // wrap around if we're at the right edge
+                         let targetX = 0;
+                         while (this.dynamicGrid[this.currentPoint.y+1][targetX]['isBlock'] === true) {
+                             targetX++;
+                         }
+                         this.focusEar({
+                             y: this.currentPoint.y+1,
+                             x: targetX,
+                             direction: this.currentDirection,
+                             acrossNum: this.staticGrid[this.currentPoint.y+1][targetX]['acrossNum'],
+                             downNum: this.staticGrid[this.currentPoint.y+1][targetX]['downNum']
+                         })
+                     } else if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x+1]['isBlock'] === true) {
+                         // look for the closest square that's not a block
+                         let targetX = this.currentPoint.x+1;
+                         while (targetX <= this.dynamicGrid[0].length-1 && this.dynamicGrid[this.currentPoint.y][targetX]['isBlock'] === true) {
+                             targetX++;
+                         }
+                         if (targetX > this.dynamicGrid[0].length-1) {
+                             // case when the right edge is a block
+                             // TODO this is a dirty hack refactor this code to be more efficient
+                             let targetX2 = 0;
+                             while (this.dynamicGrid[this.currentPoint.y+1][targetX2]['isBlock'] === true) {
+                                 targetX2++;
+                             }
+                             this.focusEar({
+                                 y: this.currentPoint.y+1,
+                                 x: targetX2,
+                                 direction: this.currentDirection,
+                                 acrossNum: this.staticGrid[this.currentPoint.y+1][targetX2]['acrossNum'],
+                                 downNum: this.staticGrid[this.currentPoint.y+1][targetX2]['downNum']
+                             })
+                         } else if (targetX <= this.dynamicGrid[0].length-1) {
+                             this.focusEar({
+                                 y: this.currentPoint.y,
+                                 x: targetX,
+                                 direction: this.currentDirection,
+                                 acrossNum: this.staticGrid[this.currentPoint.y][targetX]['acrossNum'],
+                                 downNum: this.staticGrid[this.currentPoint.y][targetX]['downNum'],
+                             });
+                         }
                      } else {
                          this.focusEar({
                              y: this.currentPoint.y,
