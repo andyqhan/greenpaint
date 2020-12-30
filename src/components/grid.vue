@@ -261,7 +261,11 @@
 
          activateRebus() {
              this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].currentLetter = ''
-             this.removeKeyEventListener();
+             if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive) {
+                 this.addKeyEventListener();
+             } else {
+                 this.removeKeyEventListener();
+             }
              this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive = !this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive;
          },
 
