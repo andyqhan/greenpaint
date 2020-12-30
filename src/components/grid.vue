@@ -422,10 +422,6 @@
 
          movePointSmart(direction) {
              // direction is a string "up", "down", "left", "right"
-             // TODO maybe rename direction to movementDirection lol
-             // passingDirection is the direction to pass to focusEar
-             // console.log(direction);
-             // console.log(this.currentDirection);
              switch(direction.toLowerCase()) {
                  case "up":
                      if (this.currentDirection === "across") {
@@ -671,14 +667,20 @@
                  }
                  x = 0;
              }
+
+             // return the very first word if we can't find one above
+             for (let iX = 0; iX < this.staticGrid[0].length; iX++) {
+                 if (this.staticGrid[0][x]['acrossNum'] === 1) {
+                     return this.getAcrossWordStart(0, iX)
+                 }
+             }
              return null
          },
 
          getPreviousAcrossNum() {
              let currentAcrossNum = this.staticGrid[this.currentPoint.y][this.currentPoint.x]['acrossNum'];
              if (currentAcrossNum === 1) {
-                 // exit when we're at first
-                 return null
+                 return this.cluesAcross[this.cluesAcross.length-1]
              }
              for (let clueIndex = 0; clueIndex < this.cluesAcross.length; clueIndex++) {
                  if (this.cluesAcross[clueIndex].Num === currentAcrossNum) {
@@ -697,25 +699,41 @@
                  }
                  x = this.staticGrid[y].length-1;
              }
+
+             // return the last word if we can't find one above
+             let lastRow = this.staticGrid.length-1
+             for (let iX = this.staticGrid[lastRow].length-1; iX >= 0; iX--) {
+                 if (this.staticGrid[lastRow][iX].isBlock !== true) {
+                     return this.getAcrossWordStart(lastRow, iX);
+                 }
+             }
+             console.log("getPreviousAcrossWord: returning null");
              return null
          },
 
          moveAcrossWord(direction) {
              let nextWordStart;
+             let nextEmpty;
              if (direction === "right") {
                  nextWordStart = this.getNextAcrossWord();
+                 nextEmpty = this.getNextEmptyAcross(nextWordStart.y, nextWordStart.x);
              } else if (direction === "left") {
                  nextWordStart = this.getPreviousAcrossWord();
+                 nextEmpty = this.getPreviousEmptyAcross(nextWordStart.y, nextWordStart.x);
+                 nextEmpty = this.getAcrossWordStart(nextEmpty.y, nextEmpty.x);
+                 // MAYB add logic to move to the next empty square? but how to handle if all of them are full
              }
              if (!nextWordStart) {
+                 console.log("moveAcrossWord: no nextwordstart!")
                  return
              }
+             //console.log(nextWordStart)
              this.focusEar({
-                 y: nextWordStart.y,
-                 x: nextWordStart.x,
+                 y: nextEmpty.y,
+                 x: nextEmpty.x,
                  direction: this.currentDirection,
-                 acrossNum: this.staticGrid[nextWordStart.y][nextWordStart.x]['acrossNum'],
-                 downNum: this.staticGrid[nextWordStart.y][nextWordStart.x]['downNum']
+                 acrossNum: this.staticGrid[nextEmpty.y][nextEmpty.x]['acrossNum'],
+                 downNum: this.staticGrid[nextEmpty.y][nextEmpty.x]['downNum']
              })
          },
 
@@ -859,6 +877,31 @@
              }
              // if we can't find one still
              console.log("getNextEmptyAcross: can't find empty square");
+             return null
+         },
+
+         getPreviousEmptyAcross(y=this.currentPoint.y, x=this.currentPoint.x) {
+             let iX = x;
+             for (let iY = y; iY >= 0; iY--) {
+                 for (iX; iX >= 0; iX--) {
+                     console.log(`iY: ${iY}; iX: ${iX}`)
+                     if (this.dynamicGrid[iY][iX].isBlock !== true && this.dynamicGrid[iY][iX].currentLetter === "") {
+                         return {y: iY, x: iX}
+                     }
+                 }
+                 iX = this.staticGrid[iY].length-1;
+             }
+             
+             // if we can't find it, wrap around to the end of the grid
+             let lastRow = this.staticGrid.length-1
+             for (let iY = lastRow; iY >= 0; iY--) {
+                 for (iX = this.staticGrid[lastRow].length-1; iX >= 0; iX--) {
+                     if (this.dynamicGrid[iY][iX].isBlock !== true && this.dynamicGrid[iY][iX].currentLetter === "") {
+                         return {y: iY, x: iX}
+                     }
+                 }
+             }
+             console.log("getPreviousEmptyAcross: can't find previous empty square");
              return null
          },
 

@@ -101,17 +101,8 @@
      
      data() {
          return {
-             // puzzleObj: this.puzzlePath.
-             // puzzleTitle: puzzle.Title,
-             // puzzleAuthor: puzzle.Author,
-             // puzzleCopyright: puzzle.Copyright,
-             // 
-             // puzzleGrid: puzzle.Grid,
-             // rebusObj: puzzle.IsRebus,
-             // cluesAcross: puzzle.Across,
-             // cluesDown: puzzle.Down,
              puzzle: this.puzzledata,
-             publicPath: process.env.BASE_URL,
+             //publicPath: process.env.BASE_URL,
              gridKey: 0,
              acrossClueContKey: 47,
              downClueContKey: 48,

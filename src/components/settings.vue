@@ -52,7 +52,8 @@
                 <option value="doom_dark_plus">doom_dark_plus</option>
                 <option value="doom_city_lights">doom_city_lights</option>
                 <option value="doom_challenger_dark">doom_challenger_dark</option>
-                <option value="doom_acario_light">doom_acario_dark</option>
+                <option value="doom_acario_light">doom_acario_light</option>
+                <option value="doom_acario_dark">doom_acario_dark</option>
                 <option value="doom_iosvkem">doom_iosvkem</option>
             </select>
         </div>
@@ -346,7 +347,7 @@
 
      data() {
          return {
-             selectTheme: "doom_fairy_floss",
+             selectTheme: "doom_peacock",
              selectedTheme: {
                  // this is here so that app doesn't throw an error. but
                  // you just have to change "selectTheme" to change the
