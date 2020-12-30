@@ -104,7 +104,6 @@
          },
          
          staticGrid() {
-             //console.log("staticGrid called")
              // gridObject is actually an array lol
              // for each cell in the grid, create on object with keys:
              // isBlock: it's a block / black square
@@ -184,7 +183,6 @@
                      outputGrid[row].push(thisCell);
                  }
              }
-             //console.log(outputGrid)
              return outputGrid
          },
 
@@ -215,7 +213,6 @@
      },
      methods: {
          createDynamicGrid() {
-             //console.log('createDynamicGrid called')
              // i wonder if it's a problem that this is reading static data (rather than a param)
              var outputGrid = []
              for (let row in this.staticGrid) {
@@ -239,17 +236,10 @@
                      outputGrid[row].push(thisCell)
                  }
              }
-             //console.log(outputGrid)
              return outputGrid
          },
 
-         reCreateDynamicGrid() {
-             this.dynamicGrid = this.createDynamicGrid();
-             console.log(this.cluesAcross);
-         },
-
          clearPrevious() {
-             //console.log("clearPrevious called")
              // clear previous across
              for (let ai = 1; ai < this.previousSelectAcross.length; ai++) {
                  this.dynamicGrid[this.previousSelectAcross[0]][this.previousSelectAcross[ai]]['isPrimarySelect'] = false;
@@ -321,7 +311,6 @@
              var whileX = eventX;
              // search backward for across
              while (this.dynamicGrid[eventY][whileX] && this.dynamicGrid[eventY][whileX]['isBlock'] != true) {
-                 //console.log(whileX)
                  if (primaryDirection === "across") {
                      this.dynamicGrid[eventY][whileX]['isPrimarySelect'] = true
                  } else {
@@ -659,7 +648,6 @@
                  // iterate till we get the start of across word
                  targetX--;
              }
-             //console.log(targetX)
              if (this.staticGrid[y][targetX]['isBlock'] === true) {
                  return {y: y, x: targetX+1}
              } else {
@@ -670,16 +658,12 @@
          getAcrossWordEnd(y, x) {
              let currentAcrossNum = this.staticGrid[y][x]['acrossNum'];
              let targetX = x;
-             console.log("current across num: " + currentAcrossNum.toString())
              while (targetX < this.staticGrid[y].length && this.staticGrid[y][targetX]['acrossNum'] === currentAcrossNum) {
                  targetX++;
              }
-             console.log("targetX: " + targetX.toString())
              if (targetX >= this.staticGrid[y].length || this.staticGrid[y][targetX]['isBlock'] === true) {
-                 console.log('was a block')
                  return {y: y, x: targetX-1}
              } else {
-                 console.log('was not a block')
                  return {y: y, x: targetX}
              }
          },
@@ -767,7 +751,6 @@
                  console.log("moveAcrossWord: no nextwordstart!")
                  return
              }
-             //console.log(nextWordStart)
              this.focusEar({
                  y: nextEmpty.y,
                  x: nextEmpty.x,
@@ -778,7 +761,6 @@
          },
 
          getDownWordStart(y, x) {
-             //console.log('computing getDownWordStart')
              let currentDownNum = this.staticGrid[y][x]['downNum'];
              let targetY = y;
              while (targetY > 0 && this.staticGrid[targetY][x]['downNum'] === currentDownNum) {
@@ -786,10 +768,8 @@
                  targetY--;
              }
              if (this.staticGrid[targetY][x]['isBlock'] === true) {
-                 //console.log('getDownWordStart returning plus one since block ' + (targetY+1).toString() + ", " + x.toString())
                  return {y: targetY+1, x: x}
              } else {
-                 //console.log('getDownWordStart returning ' + targetY.toString() + ", " + x.toString())
                  return {y: targetY, x: x}                 
              }
          },
@@ -823,7 +803,6 @@
              }
              for (let clueIndex = 0; clueIndex < this.cluesDown.length; clueIndex++) {
                  if (this.cluesDown[clueIndex].Num === currentDownNum) {
-                     //console.log("nextDownNum: " + this.cluesDown[clueIndex+1].Num.toString())
                      return this.cluesDown[clueIndex+1].Num;
                  }
              }
@@ -836,9 +815,7 @@
              let cy = currentDownStart.y;
              for (cy; cy < this.staticGrid.length; cy++) {
                  for (cx; cx < this.staticGrid[cy].length; cx++) {
-                     //console.log("iterating downNum: " + this.staticGrid[y][x]['downNum'].toString());
                      if (this.staticGrid[cy][cx]['downNum'] === this.getNextDownNum(y, x)) {
-                         //console.log('returning getDownWordStart')
                          return this.getDownWordStart(cy, cx);
                      }
                  }
@@ -924,7 +901,6 @@
              let iX = x;
              for (let iY = y; iY >= 0; iY--) {
                  for (iX; iX >= 0; iX--) {
-                     console.log(`iY: ${iY}; iX: ${iX}`)
                      if (this.dynamicGrid[iY][iX].isBlock !== true && this.dynamicGrid[iY][iX].currentLetter === "") {
                          return {y: iY, x: iX}
                      }
@@ -974,7 +950,6 @@
                  nextEmpty = this.getNextEmptyAcross();
              } else if (this.currentDirection === "down") {
                  nextEmpty = this.getNextEmptyDown();
-                 console.log(nextEmpty);
              }
              this.focusEar({
                  y: nextEmpty.y,
@@ -1066,8 +1041,6 @@
              if (this.currentDirection === "across") {
                  wordStart = this.getAcrossWordStart(y, x).x;
                  wordEnd = this.getAcrossWordEnd(y, x).x;
-                 //console.log("across start: " + wordStart.toString());
-                 //console.log("across end: " + wordEnd.toString())
                  for (let iX = wordStart; iX <= wordEnd; iX++) {
                      this.checkSquare(y, iX);
                  }
@@ -1172,35 +1145,30 @@
              // to preserve cmd-r and cmd-f
              event.preventDefault()
              if (this.settingsObject.bindFunctionObject.moveRightSquare(event)) {
-                 // console.log("moveRightSquare")
                  if (this.currentDirection === "down") {
                      this.switchDirectionAndFocus();
                  } else {
                      this.movePointSmart("right");
                  }
              } else if (this.settingsObject.bindFunctionObject.moveLeftSquare(event)) {
-                 // console.log("moveLeftSquare")
                  if (this.currentDirection === "down") {
                      this.switchDirectionAndFocus();
                  } else {
                      this.movePointSmart("left");
                  }
              } else if (this.settingsObject.bindFunctionObject.moveUpSquare(event)) {
-                 // console.log("moveUpSquare")
                  if (this.currentDirection === "across") {
                      this.switchDirectionAndFocus();
                  } else {
                      this.movePointSmart("up");
                  }
              } else if (this.settingsObject.bindFunctionObject.moveDownSquare(event)) {
-                 // console.log("moveDownSquare")
                  if (this.currentDirection === "across") {
                      this.switchDirectionAndFocus();
                  } else {
                      this.movePointSmart("down");
                  }
              } else if (this.settingsObject.bindFunctionObject.deleteSquare(event)) {
-                 // console.log("deleteSquare")
                  if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isCorrect']) {
                      // don't delete the letter if we know it's correct
                  } else {
@@ -1210,34 +1178,27 @@
                  }
                  this.moveBackwardCurrentDirection();
              } else if (this.settingsObject.bindFunctionObject.moveRightWord(event)) {
-                 // console.log("moveRightWord")
                  if (this.currentDirection === "across") {
                      this.moveAcrossWord("right");
                  } else if (this.currentDirection === "down") {
                      this.moveDownWord("right");
                  }
              } else if (this.settingsObject.bindFunctionObject.moveLeftWord(event)) {
-                 // console.log("moveLeftWord")
                  if (this.currentDirection === "across") {
                      this.moveAcrossWord("left");
                  } else if (this.currentDirection === "down") {
                      this.moveDownWord("left");
                  }
              } else if (this.settingsObject.bindFunctionObject.moveStartWord(event)) {
-                 // console.log("moveStartWord")
                  this.moveStartWord(this.currentDirection);
              } else if (this.settingsObject.bindFunctionObject.moveEndWord(event)) {
-                 // console.log("moveEndWord")
                  this.moveEndWord(this.currentDirection);
              } else if (this.settingsObject.bindFunctionObject.deleteWord(event)) {
-                 // console.log("deleteWord")
                  this.clearWordLetters(this.currentPoint.y, this.currentPoint.x);
              } else if (this.settingsObject.bindFunctionObject.switchDirection(event)) {
-                 // console.log("switchDirection")
                  this.switchDirectionAndFocus()
              } else if (/^\w/.test(event.key) && event.key.length === 1) {
                  // it's a letter to insert into grid
-                 // console.log("inserting letter")
                  this.clearCheckSquare(this.currentPoint.y, this.currentPoint.x);
                  if (!this.dynamicGrid[this.currentPoint.y][this.currentPoint.x].isRebusActive) {
                      if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['currentLetter'] === "") {
@@ -1263,17 +1224,14 @@
          },
 
          addKeyEventListener() {
-             //console.log("added keyEventListener")
              window.addEventListener('keydown', this.keyHandler);
          },
 
          removeKeyEventListener() {
-             //console.log('removed keyEventListener')
              window.removeEventListener('keydown', this.keyHandler);
          },
      },
      mounted() {
-         // console.log(this.staticGrid)
          window.addEventListener('keydown', this.keyHandler);
 
          this.focusEar({
