@@ -678,6 +678,7 @@
                  return null
              }
              // TODO binary search to make this faster?
+             // or a cache?
              for (let clueIndex = 0; clueIndex < this.cluesAcross.length; clueIndex++) {
                  if (this.cluesAcross[clueIndex].Num === currentAcrossNum) {
                      return this.cluesAcross[clueIndex+1].Num;
@@ -708,7 +709,7 @@
          getPreviousAcrossNum(y=this.currentPoint.y, x=this.currentPoint.x) {
              let currentAcrossNum = this.staticGrid[y][x]['acrossNum'];
              if (currentAcrossNum === 1) {
-                 return this.cluesAcross[this.cluesAcross.length-1]
+                 return this.cluesAcross[this.cluesAcross.length-1].Num;
              }
              for (let clueIndex = 0; clueIndex < this.cluesAcross.length; clueIndex++) {
                  if (this.cluesAcross[clueIndex].Num === currentAcrossNum) {
@@ -747,9 +748,6 @@
                  nextEmpty = this.getNextEmptyAcross(nextWordStart.y, nextWordStart.x);
              } else if (direction === "left") {
                  nextEmpty = this.getPreviousEmptyAcross();
-                 //nextEmpty = this.getPreviousEmptyAcross(nextWordStart.y, nextWordStart.x);
-                 //nextEmpty = this.getAcrossWordStart(nextEmpty.y, nextEmpty.x);
-                 // MAYB add logic to move to the next empty square? but how to handle if all of them are full
              }
              if (!nextEmpty) {
                  console.log("moveAcrossWord: no nextEmpty!")
@@ -831,11 +829,11 @@
              return this.firstSquareCoor
          },
 
-         getPreviousDownNum() {
-             let currentDownNum = this.staticGrid[this.currentPoint.y][this.currentPoint.x]['downNum'];
+         getPreviousDownNum(y=this.currentPoint.y, x=this.currentPoint.x) {
+             let currentDownNum = this.staticGrid[y][x]['downNum'];
              if (currentDownNum === 1) {
-                 // exit when we're at the first
-                 return null
+                 // return last when we're at the first
+                 return this.cluesDown[this.cluesDown.length-1].Num;
              }
              for (let clueIndex = 0; clueIndex < this.cluesDown.length; clueIndex++) {
                  if (this.cluesDown[clueIndex].Num === currentDownNum) {
@@ -844,15 +842,23 @@
              }
          },
 
-         getPreviousDownWord() {
-             let x = this.currentPoint.x;
-             for (let y = this.currentPoint.y; y >= 0; y--) {
+         getPreviousDownWord(y=this.currentPoint.y, x=this.currentPoint.x) {
+             let prevDownNum = this.getPreviousDownNum(y, x);
+             for (y; y >= 0; y--) {
                  for (x; x >= 0; x--) {
-                     if (this.staticGrid[y][x]['downNum'] === this.getPreviousDownNum()) {
+                     if (this.staticGrid[y][x]['downNum'] === prevDownNum) {
                          return this.getDownWordStart(y, x)
                      }
                  }
                  x = this.staticGrid[y].length-1;
+             }
+
+             // return last word if we can't find one above
+             let lastRow = this.staticGrid.length-1;
+             for (let iX = this.staticGrid[lastRow].length-1; iX >= 0; iX--) {
+                 if (this.staticGrid[lastRow][iX].downNum === prevDownNum) {
+                     return this.getDownWordStart(lastRow, iX);
+                 }
              }
              return null
          },
@@ -864,9 +870,7 @@
                  targetWordStart = this.getNextDownWord();
                  targetEmpty = this.getNextEmptyDown(targetWordStart.y, targetWordStart.x);
              } else if (direction === "left") {
-                 targetWordStart = this.getPreviousDownWord();
-                 targetEmpty = this.getPreviousEmptyDown(targetWordStart.y, targetWordStart.x);
-                 targetEmpty = this.getDownWordStart(targetEmpty.y, targetEmpty.x);
+                 targetEmpty = this.getPreviousEmptyDown();
              }
              if (!targetEmpty) {
                  console.log("moveDownWord: no target empty");
@@ -950,6 +954,26 @@
                  }
              }
              return {y: iY, x: iX}
+         },
+
+         getPreviousEmptyDown(y=this.currentPoint.y, x=this.currentPoint.x) {
+             let prevDownStart = this.getPreviousDownWord(y, x);
+             let prevDownEnd = this.getDownWordEnd(prevDownStart.y, prevDownStart.x);
+             let iY;
+             let found = false;
+             while (!found) {
+                 for (iY = prevDownStart.y; iY <= prevDownEnd.y; iY++) {
+                     if (this.dynamicGrid[iY][prevDownStart.x].isBlock !== true && this.dynamicGrid[iY][prevDownStart.x].currentLetter === "") {
+                         found = true;
+                         return {y: iY, x: prevDownStart.x};
+                     }
+                 }
+                 iY -= 1;
+                 prevDownStart = this.getPreviousDownWord(iY, prevDownStart.x);
+                 prevDownEnd = this.getDownWordEnd(prevDownStart.y, prevDownStart.x);
+             }
+             console.log("getPreviousEmptyDown: can't find previous empty square");
+             return null
          },
 
          moveNextEmpty() {
