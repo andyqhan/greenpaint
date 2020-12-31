@@ -183,20 +183,8 @@
              }
          }
      },
+     
      methods: {
-         // setPuzzle(event) {
-         //     //console.log(event);
-         //     this.puzzle = event;
-         //     this.puzzleGrid = event.Grid;
-         //     this.rebusObj = event.IsRebus;
-         //     this.cluesAcross = event.Across;
-         //     this.cluesDown = event.Down;
-         //     this.gridKey += 1;  // force update grid
-         //     this.acrossClueContKey += 2;
-         //     this.downClueContKey += 2;
-         //     //this.$forceUpdate();
-         // },
-         
          squareFocusToAppEar(event) {
              // console.log(event)
              if (event.primaryDirection === 'across') {

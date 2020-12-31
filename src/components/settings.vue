@@ -58,16 +58,6 @@
             </select>
         </div>
         
-        <!-- <div>
-             Upload json
-             </div>
-             <div>
-             {{ // uploadJson }}
-             </div>
-             <div>
-             <input type="file" id="uploaded">
-             </div> -->
-        
         <div>
             Move right by square
         </div>
@@ -582,26 +572,7 @@
              return;
          },
 
-         // processFile() {
-         //     let input = document.getElementById('uploaded');
-         //     if (!input.files[0]) {
-         //         // case when there's no file selected. maybe default to my own cw
-         //         console.log("no file selected")
-         //         return;
-         //     } else {
-         //         let fileReader = new FileReader();
-         //         let puzzleObj;
-         //         let parent = this;
-         //         fileReader.readAsText(input.files[0]);
-         //         fileReader.onload = function(e) {
-         //             puzzleObj = JSON.parse(e.target.result);
-         //             parent.$emit('puzzle-send', puzzleObj);
-         //         }
-         //     }
-         // },
-
          createSettingsObject() {
-             // this.processFile();
              this.getThemeObject(this.selectTheme);
              return {
                  selectedTheme: this.selectedTheme,
