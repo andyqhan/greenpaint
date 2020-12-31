@@ -1,5 +1,5 @@
 <template>
-    <div v-if="currentSquaresFilled === squareCount">
+    <div v-if="isGridFull">
         {{ gridFullCheck() }}
     </div>
     <div class="gridContainer" :style="cssGridVars">
@@ -58,6 +58,7 @@
          'gridFull',
          'grid-full'
      ],
+     
      data() {
          return {
              currentDirection: "across",
@@ -72,11 +73,17 @@
              currentSquaresFilled: 0,
          }
      },
+     
      created() {
          // need to wait until methods load, which is why this is in created()
          this.dynamicGrid = this.createDynamicGrid();
      },
+     
      computed: {
+         isGridFull() {
+             return this.currentSquaresFilled === this.squareCount;
+         },
+         
          cssGridVars() {
              return {
                  //'grid-template-columns': 'repeat(' + this.gridObject.length + ', 1fr)',
@@ -741,24 +748,34 @@
          },
 
          moveAcrossWord(direction) {
-             let nextWordStart;
-             let nextEmpty;
+             let targetWordStart;
+             let targetEmpty;
              if (direction === "right") {
-                 nextWordStart = this.getNextAcrossWord();
-                 nextEmpty = this.getNextEmptyAcross(nextWordStart.y, nextWordStart.x);
+                 targetWordStart = this.getNextAcrossWord();
+                 if (this.isGridFull) {
+                     // if grid is full, just go to the start of next word
+                     targetEmpty = targetWordStart;
+                 } else {
+                     // else, be smart about emptiness
+                     targetEmpty = this.getNextEmptyAcross(targetWordStart.y, targetWordStart.x);
+                 }
              } else if (direction === "left") {
-                 nextEmpty = this.getPreviousEmptyAcross();
+                 if (this.isGridFull) {
+                     targetEmpty = this.getPreviousAcrossWord();
+                 } else {
+                     targetEmpty = this.getPreviousEmptyAcross();
+                 }
              }
-             if (!nextEmpty) {
-                 console.log("moveAcrossWord: no nextEmpty!")
+             if (!targetEmpty) {
+                 console.log("moveAcrossWord: no targetEmpty!")
                  return
              }
              this.focusEar({
-                 y: nextEmpty.y,
-                 x: nextEmpty.x,
+                 y: targetEmpty.y,
+                 x: targetEmpty.x,
                  direction: this.currentDirection,
-                 acrossNum: this.staticGrid[nextEmpty.y][nextEmpty.x]['acrossNum'],
-                 downNum: this.staticGrid[nextEmpty.y][nextEmpty.x]['downNum']
+                 acrossNum: this.staticGrid[targetEmpty.y][targetEmpty.x]['acrossNum'],
+                 downNum: this.staticGrid[targetEmpty.y][targetEmpty.x]['downNum']
              })
          },
 
@@ -868,12 +885,20 @@
              let targetEmpty;
              if (direction === "right") {
                  targetWordStart = this.getNextDownWord();
-                 targetEmpty = this.getNextEmptyDown(targetWordStart.y, targetWordStart.x);
+                 if (this.isGridFull) {
+                     targetEmpty = targetWordStart;
+                 } else {
+                     targetEmpty = this.getNextEmptyDown(targetWordStart.y, targetWordStart.x);
+                 }
              } else if (direction === "left") {
-                 targetEmpty = this.getPreviousEmptyDown();
+                 if (this.isGridFull) {
+                     targetEmpty = this.getPreviousDownWord();
+                 } else {
+                     targetEmpty = this.getPreviousEmptyDown();
+                 }
              }
              if (!targetEmpty) {
-                 console.log("moveDownWord: no target empty");
+                 console.log("moveDownWord: no targetEmpty!");
                  return;
              }
              this.focusEar({
