@@ -6,11 +6,11 @@ module.exports = {
             entry: 'src/main.js',
             template: 'public/index.html'
         },
-        demo: {
+        demo_puzzle: {
             entry: 'src/main.js',
             template: 'public/demo_puzzle.html'
         },
-        custom: {
+        custom_puzzle: {
             entry: 'src/main.js',
             template: 'public/custom_puzzle.html'
         }

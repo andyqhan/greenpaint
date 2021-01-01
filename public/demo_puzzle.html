@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2021-01-01 Fri 09:18 -->
+<!-- 2021-01-01 Fri 11:00 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Demo puzzle</title>
@@ -224,21 +224,28 @@ You can make greenpaint automatically load one of your puzzles. The syntax goes 
 <div class="org-src-container">
 <pre class="src src-html">&lt;<span style="color: #EB64B9;">script</span> <span style="color: #FFFFFF;">id</span>=<span style="color: #B4DCE7;">"puzzlepath"</span>&gt;"path/to/json"&lt;/<span style="color: #EB64B9;">script</span>&gt;
 &lt;<span style="color: #EB64B9;">div</span> <span style="color: #FFFFFF;">id</span>=<span style="color: #B4DCE7;">"app"</span>&gt;&lt;/<span style="color: #EB64B9;">div</span>&gt;
+&lt;<span style="color: #EB64B9;">script</span> <span style="color: #FFFFFF;">type</span>=<span style="color: #B4DCE7;">"text/javascript"</span> <span style="color: #FFFFFF;">src</span>=<span style="color: #B4DCE7;">"/path/to/chunk-vendors.js"</span>&gt;&lt;/<span style="color: #EB64B9;">script</span>&gt;
+&lt;<span style="color: #EB64B9;">script</span> <span style="color: #FFFFFF;">type</span>=<span style="color: #B4DCE7;">"text/javascript"</span> <span style="color: #FFFFFF;">src</span>=<span style="color: #B4DCE7;">"/path/to/app.js"</span>&gt;&lt;/<span style="color: #EB64B9;">script</span>&gt;
 </pre>
 </div>
 
 <p>
-Note the <code>&lt;script&gt;</code>  tag with <code>id = "puzzlepath"</code>. You have to specify the local or absolute path to the puzzle data that you want greenpaint to play in the body of the script tag, enclosed by quotes.
+Note the <code>&lt;script&gt;</code>  tag with an <code>id</code> of <code>"puzzlepath"</code>. You have to specify the local or absolute path to the puzzle data that you want greenpaint to play in the body of the script tag, enclosed by quotes.
+</p>
+
+<p>
+The other script tags reference the built <code>chunk-vendors.js</code> and <code>app.js</code>, which you can find on the <a href="https://github.com/andyqhan/greenpaint/releases">Releases</a> page. 
 </p>
 
 <script id="puzzlepath">"/greenpaint/static/circleex.json"</script>
 <div id="app"></div>
+<!-- for some reason i need these when serving from localhost -->
 <script type="text/javascript" src="/greenpaint/js/chunk-vendors.js"></script>
 <script type="text/javascript" src="/greenpaint/js/app.js"></script>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Andy Han</p>
-<p class="date">Created: 2021-01-01 Fri 09:18</p>
+<p class="date">Created: 2021-01-01 Fri 11:00</p>
 </div>
 </body>
 </html>

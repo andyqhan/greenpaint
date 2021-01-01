@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2021-01-01 Fri 09:16 -->
+<!-- 2021-01-01 Fri 11:02 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>greenpaint</title>
@@ -218,16 +218,228 @@
 <div id="content">
 <h1 class="title">greenpaint</h1>
 <p>
-greenpaint is an in-browser crossword solver. It&rsquo;s easy to integrate into your own website.
+greenpaint is an in-browser crossword solver, written in vue.js. It&rsquo;s easy to integrate into your own website.
 </p>
 
 <p>
-Try the <a href="demo_puzzle.html">demo puzzle</a> or an instance of greenpaint where you can upload your own puzzle. 
+Try the <a href="demo_puzzle.html">demo puzzle</a> or an instance of greenpaint where you can <a href="custom_puzzle.html">upload your own puzzle</a>. 
 </p>
+
+<div id="outline-container-org6a34e08" class="outline-2">
+<h2 id="org6a34e08">Features</h2>
+<div class="outline-text-2" id="text-org6a34e08">
+<ul class="org-ul">
+<li>Customizable keybinds</li>
+<li>37 built-in themes (courtesy of <a href="https://github.com/hlissner/emacs-doom-themes">emacs-doom-themes</a>)</li>
+<li>All the basic crossword features (checking square/word/grid, clearing, revealing square/word/grid, stopwatch, rebus, etc)</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge1b8e88" class="outline-2">
+<h2 id="orge1b8e88">Installation and setup</h2>
+<div class="outline-text-2" id="text-orge1b8e88">
+</div>
+<div id="outline-container-org260352a" class="outline-3">
+<h3 id="org260352a">Installing greenpaint</h3>
+<div class="outline-text-3" id="text-org260352a">
+<ol class="org-ol">
+<li>Download the latest build from the <a href="https://github.com/andyqhan/greenpaint/releases">Releases</a> page</li>
+<li><p>
+Add the following HTML to your website:
+</p>
+<div class="org-src-container">
+<pre class="src src-html"><span style="color: #91889B; font-style: italic;">&lt;!-- </span><span style="color: #91889B; font-style: italic;">import vue </span><span style="color: #91889B; font-style: italic;">--&gt;</span>
+&lt;<span style="color: #EB64B9;">script</span> <span style="color: #FFFFFF;">src</span>=<span style="color: #B4DCE7;">"https://unpkg.com/vue@3.0.5"</span>&gt;&lt;/<span style="color: #EB64B9;">script</span>&gt;
+<span style="color: #91889B; font-style: italic;">&lt;!-- </span><span style="color: #91889B; font-style: italic;">see "loading your puzzles" for how to get the json </span><span style="color: #91889B; font-style: italic;">--&gt;</span>
+&lt;<span style="color: #EB64B9;">script</span> <span style="color: #FFFFFF;">id</span>=<span style="color: #B4DCE7;">"puzzlepath"</span>&gt;"path/to/json"&lt;/<span style="color: #EB64B9;">script</span>&gt;
+<span style="color: #91889B; font-style: italic;">&lt;!-- </span><span style="color: #91889B; font-style: italic;">these are the files you get from releases </span><span style="color: #91889B; font-style: italic;">--&gt;</span>
+&lt;<span style="color: #EB64B9;">script</span> <span style="color: #FFFFFF;">type</span>=<span style="color: #B4DCE7;">"text/javascript"</span> <span style="color: #FFFFFF;">src</span>=<span style="color: #B4DCE7;">"/path/to/chunk-vendors.js"</span>&gt;&lt;/<span style="color: #EB64B9;">script</span>&gt;
+&lt;<span style="color: #EB64B9;">script</span> <span style="color: #FFFFFF;">type</span>=<span style="color: #B4DCE7;">"text/javascript"</span> <span style="color: #FFFFFF;">src</span>=<span style="color: #B4DCE7;">"/path/to/app.js"</span>&gt;&lt;/<span style="color: #EB64B9;">script</span>&gt;
+<span style="color: #91889B; font-style: italic;">&lt;!-- </span><span style="color: #91889B; font-style: italic;">finally, load the app </span><span style="color: #91889B; font-style: italic;">--&gt;</span>
+&lt;<span style="color: #EB64B9;">div</span> <span style="color: #FFFFFF;">id</span>=<span style="color: #B4DCE7;">"app"</span>&gt;&lt;/<span style="color: #EB64B9;">div</span>&gt;
+</pre>
+</div></li>
+</ol>
+<p>
+You can stop at this point if you don&rsquo;t want to specify a puzzle to play. If greenpaint can&rsquo;t find a JSON file, it loads in <a href="custom_puzzle.html">&ldquo;upload&rdquo; mode</a>, which means that the user can upload their own JSON puzzle to play. 
+</p>
+</div>
+</div>
+<div id="outline-container-orgc45f3ec" class="outline-3">
+<h3 id="orgc45f3ec">Converting your puzzles to JSON</h3>
+<div class="outline-text-3" id="text-orgc45f3ec">
+<p>
+greenpaint reads puzzle data from the JSONs produced by <a href="https://github.com/jahorne/AcrossLiteToText">AcrossLiteToText</a>. First, download the latest release of AcrossLiteToText and unzip it. 
+</p>
+
+<p>
+Mac instructions:
+</p>
+<ol class="org-ol">
+<li>Install <a href="https://brew.sh/">Homebrew</a> if you don&rsquo;t have it.</li>
+<li>Run <code>brew install dotnet</code> in the Terminal.</li>
+<li>Type <code>cd</code> in the terminal, then a space, then drag and drop the AcrossLiteToText folder you downloaded.</li>
+<li>Run <code>dotnet AcrossLiteToText.dll [from] [to] [filename]</code>. <code>[from]</code> is a required parameter; it&rsquo;s the path to your <code>puz</code> file or to a folder containing them. <code>[to]</code> is an optional parameter that specifies where to write the converted files (you can type a single period to export to the current folder). <code>[filename]</code> is another optional parameter that specifies the name that you want the converted files to have.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-org9064ceb" class="outline-3">
+<h3 id="org9064ceb">Loading your puzzles in greenpaint</h3>
+<div class="outline-text-3" id="text-org9064ceb">
+<p>
+Now that you have a JSON puzzle, all you need to do is let greenpaint find it. greenpaint looks for an element with the <code>"puzzlepath"</code> id, and looks at the body of the element to read where the JSON file is.
+</p>
+<ol class="org-ol">
+<li>Upload the JSON file to your server in whatever way your setup requires.</li>
+<li><p>
+Add the element to the page you&rsquo;re loading greenpaint in (I use <code>script</code> tags): 
+</p>
+<div class="org-src-container">
+<pre class="src src-html">&#8230;
+&lt;<span style="color: #EB64B9;">script</span> <span style="color: #FFFFFF;">id</span>=<span style="color: #B4DCE7;">"puzzlepath"</span>&gt;"path/to/json"&lt;/<span style="color: #EB64B9;">script</span>&gt;
+&#8230;
+</pre>
+</div>
+<p>
+Note that the path must be enclosed in quotes (otherwise, Javascript thinks it&rsquo;s a regular expression). I recommend using an absolute path (like <code>"https://yourwebsite.com/path/to/json"</code>), since then you avoid the headaches endemic to relative paths in websites.
+</p></li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-orge2f3e39" class="outline-2">
+<h2 id="orge2f3e39">Usage</h2>
+<div class="outline-text-2" id="text-orge2f3e39">
+</div>
+<div id="outline-container-org2f2faf8" class="outline-3">
+<h3 id="org2f2faf8">Setting keybinds</h3>
+<div class="outline-text-3" id="text-org2f2faf8">
+<p>
+My primary motivation for making greenpaint was so that I could have my own keybindings for grid movement. So, greenpaint allows you to define custom keybinds. Here&rsquo;s a table of the default bindings:
+</p>
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Function</th>
+<th scope="col" class="org-left">Intuitive bind</th>
+<th scope="col" class="org-left">Emacs-inspired bind</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">move right by square</td>
+<td class="org-left"><code>ArrowRight</code></td>
+<td class="org-left"><code>Ctrl-f</code></td>
+</tr>
+
+<tr>
+<td class="org-left">move left by square</td>
+<td class="org-left"><code>ArrowLeft</code></td>
+<td class="org-left"><code>Ctrl-b</code></td>
+</tr>
+
+<tr>
+<td class="org-left">move up by square</td>
+<td class="org-left"><code>ArrowUp</code></td>
+<td class="org-left"><code>Ctrl-p</code></td>
+</tr>
+
+<tr>
+<td class="org-left">move down by square</td>
+<td class="org-left"><code>ArrowDown</code></td>
+<td class="org-left"><code>Ctrl-n</code></td>
+</tr>
+
+<tr>
+<td class="org-left">delete square</td>
+<td class="org-left"><code>Backspace</code></td>
+<td class="org-left"><code>Ctrl-d</code></td>
+</tr>
+
+<tr>
+<td class="org-left">move right by word</td>
+<td class="org-left"><code>Tab</code>, <code>Enter</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">move left by word</td>
+<td class="org-left"><code>Shift-Tab</code>, <code>Shift-Enter</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left">move to start of word</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>Ctrl-a</code></td>
+</tr>
+
+<tr>
+<td class="org-left">move to end of word</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>Ctrl-e</code></td>
+</tr>
+
+<tr>
+<td class="org-left">delete rest of word</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left"><code>Ctrl-k</code></td>
+</tr>
+
+<tr>
+<td class="org-left">switch direction</td>
+<td class="org-left"><code>Space</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+You can change the keybinds by going to the Settings tab. Click on a keybind to delete it, or enter a new one in the box to add it. 
+</p>
+
+<p>
+You can bind the following keys by themselves: <code>Tab</code>, <code>Space</code>, <code>Backspace</code>, <code>ArrowRight</code>, <code>ArrowLeft</code>, <code>ArrowUp</code>, <code>ArrowDown</code>, and <code>Enter</code>. Additionally, you can prepend <code>Ctrl-</code> or <code>Shift-</code> to any of that list, as well as an alphanumeric (but you can&rsquo;t bind a letter by itself; sorry vimmers). You can bind multiple keys at a time by separating them with a comma (with no space), like this: <code>ArrowRight,Ctrl-f</code>.
+</p>
+
+<p>
+Hit enter to add the bind, and click apply to apply it.
+</p>
+</div>
+</div>
+<div id="outline-container-orgf2cc7e2" class="outline-3">
+<h3 id="orgf2cc7e2">Changing themes</h3>
+<div class="outline-text-3" id="text-orgf2cc7e2">
+<p>
+My other motivation was having dark themes. You can change to any of the 37 themes included in greenpaint. These themes are from the <a href="https://github.com/hlissner/emacs-doom-themes">emacs-doom-themes</a> project (MIT), maintained by the nonpareil Henrik Lissner. Caveat emptor: with some dark themes, it&rsquo;s hard to read the letter under point.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org50a3c28" class="outline-2">
+<h2 id="org50a3c28">Limitations and bugs</h2>
+<div class="outline-text-2" id="text-org50a3c28">
+<ul class="org-ul">
+<li>You have to input a JSON file, rather than a puz file. I&rsquo;m currently gathering the motivation to port <a href="https://github.com/jahorne/AcrossLiteToText">AcrossLiteToText</a> to Javascript to make uploading smoother</li>
+<li>Rebuses are weird. Hit enter after inputting a rebus instead of clicking the rebus button</li>
+<li>It&rsquo;s slower than the Internal Revenue Service. I&rsquo;m working on this, too</li>
+<li>It&rsquo;s not <a href="https://en.wikipedia.org/wiki/Responsive_web_design">responsive</a>, so Sundays might be a little hard to read</li>
+</ul>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Andy Han</p>
-<p class="date">Created: 2021-01-01 Fri 09:16</p>
+<p class="date">Created: 2021-01-01 Fri 11:02</p>
 </div>
 </body>
 </html>
