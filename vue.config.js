@@ -3,6 +3,7 @@ module.exports = {
     runtimeCompiler: true,
     pages: {
         index: {
+            entry: 'src/main.js',
             template: 'public/index.html'
         },
         demo: {
