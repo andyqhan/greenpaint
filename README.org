@@ -1,1 +1,3 @@
 A pretty, free, and customizable crossword interface.
+
+Please see the [[https://andyqhan.github.io/greenpaint/][website]] for more information.
