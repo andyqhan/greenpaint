@@ -28,9 +28,9 @@
                          A 13 13 0 1 1 2 15"/>
             </g>
         </svg>
-        <span class="current-letter"
+        <div class="current-letter"
               :style="currentLetterStyle"
-        > {{ currentLetter }} </span>
+        > {{ currentLetter }} </div>
         <span v-show="isRebusActive" class="square rebusContainer" ref="rebusCont">
             <input v-model="rebusInput"
                    class="rebus-input"
@@ -233,7 +233,7 @@
 <style scoped>
  .cluenum-square {
      position: absolute;
-     float: left;
+     /* float: left; */
      font-size: 10px;
      white-space: nowrap;
      margin-left: 1px;
@@ -277,10 +277,12 @@
      cursor: default;
      white-space: nowrap;
      overflow: hidden;
+     /* text-align: center; */
  }
  .current-letter {
      position: relative;
      top: 0.3em;
+     white-space: no-wrap;
      left: 0.4em;
      font-size: 20px;
  }

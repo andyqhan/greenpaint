@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2021-01-01 Fri 09:16 -->
+<!-- 2021-01-01 Fri 09:18 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>greenpaint</title>
+<title>Demo puzzle</title>
 <meta name="generator" content="Org mode">
 <meta name="author" content="Andy Han">
 <style type="text/css">
@@ -216,18 +216,29 @@
 </head>
 <body>
 <div id="content">
-<h1 class="title">greenpaint</h1>
+<h1 class="title">Demo puzzle</h1>
 <p>
-greenpaint is an in-browser crossword solver. It&rsquo;s easy to integrate into your own website.
+You can make greenpaint automatically load one of your puzzles. The syntax goes like this:
 </p>
 
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #EB64B9;">script</span> <span style="color: #FFFFFF;">id</span>=<span style="color: #B4DCE7;">"puzzlepath"</span>&gt;"path/to/json"&lt;/<span style="color: #EB64B9;">script</span>&gt;
+&lt;<span style="color: #EB64B9;">div</span> <span style="color: #FFFFFF;">id</span>=<span style="color: #B4DCE7;">"app"</span>&gt;&lt;/<span style="color: #EB64B9;">div</span>&gt;
+</pre>
+</div>
+
 <p>
-Try the <a href="demo_puzzle.html">demo puzzle</a> or an instance of greenpaint where you can upload your own puzzle. 
+Note the <code>&lt;script&gt;</code>  tag with <code>id = "puzzlepath"</code>. You have to specify the local or absolute path to the puzzle data that you want greenpaint to play in the body of the script tag, enclosed by quotes.
 </p>
+
+<script id="puzzlepath">"/greenpaint/static/circleex.json"</script>
+<div id="app"></div>
+<script type="text/javascript" src="/greenpaint/js/chunk-vendors.js"></script>
+<script type="text/javascript" src="/greenpaint/js/app.js"></script>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Andy Han</p>
-<p class="date">Created: 2021-01-01 Fri 09:16</p>
+<p class="date">Created: 2021-01-01 Fri 09:18</p>
 </div>
 </body>
 </html>
