@@ -1206,7 +1206,10 @@
          },
 
          revealSquare(y=this.currentPoint.y, x=this.currentPoint.x) {
-             this.dynamicGrid[y][x]['currentLetter'] = this.staticGrid[y][x]['correctLetter'];
+             if (this.dynamicGrid[y][x]['currentLetter'] === "") {
+                 this.currentSquaresFilled += 1;
+             }
+             this.dynamicGrid[y][x]['currentLetter'] = this.staticGrid[y][x]['correctLetter'].toUpperCase();
              this.dynamicGrid[y][x]['isIncorrect'] = false;
              this.dynamicGrid[y][x]['isCorrect'] = true;
          },
