@@ -1,7 +1,4 @@
 <template>
-    <div v-if="isGridFull">
-        {{ gridFullCheck() }}
-    </div>
     <div class="gridContainer" :style="cssGridVars">
         <div class="row" v-for="(row, row_index) in staticGrid" :key="row_index" :style="cssRowVars">
             <square v-for="(cell, cell_index) in row"
@@ -78,9 +75,19 @@
          // need to wait until methods load, which is why this is in created()
          this.dynamicGrid = this.createDynamicGrid();
      },
+
+     watch: {
+         isGridFull(val) {
+             if (val) {
+                 this.gridFullCheck();
+             }
+             return;
+         }
+     },
      
      computed: {
          isGridFull() {
+             //console.log(`${this.currentSquaresFilled} / ${this.squareCount} filled`);
              return this.currentSquaresFilled === this.squareCount;
          },
          
@@ -630,7 +637,10 @@
          },
 
          clearSquareLetter(y, x) {
-             this.dynamicGrid[y][x]['currentLetter'] = "";
+             if (this.dynamicGrid[y][x]['currentLetter'] !== "") {
+                 this.dynamicGrid[y][x]['currentLetter'] = "";
+                 this.currentSquaresFilled -= 1;
+             }
          },
 
          moveForwardCurrentDirection() {
@@ -1302,7 +1312,6 @@
                  if (this.dynamicGrid[this.currentPoint.y][this.currentPoint.x]['isCorrect']) {
                      // don't delete the letter if we know it's correct
                  } else {
-                     this.currentSquaresFilled -= 1;
                      this.clearSquareLetter(this.currentPoint.y, this.currentPoint.x);
                      this.clearCheckSquare(this.currentPoint.y, this.currentPoint.x);
                  }
@@ -1343,7 +1352,9 @@
          gridFullCheck() {
              for (let iY = 0; iY < this.staticGrid.length; iY++) {
                  for (let iX = 0; iX < this.staticGrid[iY].length; iX++) {
-                     if (this.dynamicGrid[iY][iX]['currentLetter'] !== this.staticGrid[iY][iX]['correctLetter']) {
+                     if (this.dynamicGrid[iY][iX].isBlock) {
+                         continue;
+                     } else if (this.dynamicGrid[iY][iX]['currentLetter'] !== this.staticGrid[iY][iX]['correctLetter'].toUpperCase()) {
                          this.$emit('grid-full', "incorrect"); 
                          return;
                      }

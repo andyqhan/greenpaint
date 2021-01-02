@@ -227,7 +227,7 @@
              this.isFinishedShow = true;
              this.$refs.toolbar.$refs.stopwatch.stopStopwatch();
              if (event === "correct") {
-                 this.gridFullMessage = `Congratulations! 🎉 You solved the puzzle in ${this.$refs.toolbar.$refs.stopwatch.formatedTime()}!`
+                 this.gridFullMessage = `Congratulations! 🎉 You solved the puzzle in ${this.$refs.toolbar.$refs.stopwatch.getFormattedTime()}!`
              } else if (event === "incorrect") {
                  this.gridFullMessage = "You've completed the puzzle, but one or more letters are incorrect 😟"
              }

@@ -53,6 +53,10 @@
 
          resetStopwatch() {
              this.countedTime = 0;
+         },
+
+         getFormattedTime() {
+             return this.formattedTime;
          }
      },
 
