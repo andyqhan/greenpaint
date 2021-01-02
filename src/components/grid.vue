@@ -1374,13 +1374,12 @@
      },
      mounted() {
          window.addEventListener('keydown', this.keyHandler);
-
          this.focusEar({
              y: 0,
-             x: 0,
+             x: this.firstSquareCoor.x,
              direction: this.currentDirection,
-             acrossNum: this.staticGrid[this.currentPoint.y][this.currentPoint.x]['acrossNum'],
-             downNum: this.staticGrid[this.currentPoint.y][this.currentPoint.x]['downNum'],
+             acrossNum: this.staticGrid[0][this.firstSquareCoor.x]['acrossNum'],
+             downNum: this.staticGrid[0][this.firstSquareCoor.x]['downNum'],
          })
      }
  }

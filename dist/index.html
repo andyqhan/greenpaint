@@ -1,1 +1,213 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>greenpaint</title><link href="/greenpaint/css/app.b4ad486e.css" rel="preload" as="style"><link href="/greenpaint/js/app.189381ec.js" rel="preload" as="script"><link href="/greenpaint/js/chunk-vendors.1bd0aa52.js" rel="preload" as="script"><link href="/greenpaint/css/app.b4ad486e.css" rel="stylesheet"></head><body><noscript><strong>We're sorry but greenpaint doesn't work properly without JavaScript enabled. Please enable it to continue.</strong></noscript><script id="puzzlescript" type="application/json" src="/greenpaint/static/circleex.json"></script><script>console.log(document.getElementById('puzzlescript'))</script><div id="app"><template></template></div><script src="/greenpaint/js/chunk-vendors.1bd0aa52.js"></script><script src="/greenpaint/js/app.189381ec.js"></script></body></html>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>greenpaint</title><meta name="generator" content="Org mode"><meta name="author" content="Andy Han"><style type="text/css"><!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/--></style><script>// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end</script><link href="/greenpaint/css/chunk-common.4c5f9752.css" rel="stylesheet"></head><body><div id="content"><h1 class="title">greenpaint</h1><p>greenpaint is an in-browser crossword solver, written in vue.js. It&rsquo;s easy to integrate into your own website.</p><p>Try the <a href="demo_puzzle.html">demo puzzle</a> or an instance of greenpaint where you can <a href="custom_puzzle.html">upload your own puzzle</a>.</p><div id="outline-container-org77e84a1" class="outline-2"><h2 id="org77e84a1">Features</h2><div class="outline-text-2" id="text-org77e84a1"><ul class="org-ul"><li>Customizable keybinds</li><li>37 built-in themes (courtesy of <a href="https://github.com/hlissner/emacs-doom-themes">emacs-doom-themes</a>)</li><li>All the basic crossword features (checking square/word/grid, clearing, revealing square/word/grid, stopwatch, rebus, etc)</li></ul></div></div><div id="outline-container-org7d0da74" class="outline-2"><h2 id="org7d0da74">Installation and setup</h2><div class="outline-text-2" id="text-org7d0da74"></div><div id="outline-container-org516760d" class="outline-3"><h3 id="org516760d">Installing greenpaint</h3><div class="outline-text-3" id="text-org516760d"><ol class="org-ol"><li>Download the latest build from the <a href="https://github.com/andyqhan/greenpaint/releases">Releases</a> page</li><li><p>Add the following HTML to your website:</p><div class="org-src-container"><pre class="src src-html"><span style="color: #91889B; font-style: italic;">&lt;!-- </span><span style="color: #91889B; font-style: italic;">import vue </span><span style="color: #91889B; font-style: italic;">--&gt;</span>
+&lt;<span style="color: #EB64B9;">script</span> <span style="color: #FFFFFF;">src</span>=<span style="color: #B4DCE7;">"https://unpkg.com/vue@3.0.5"</span>&gt;&lt;/<span style="color: #EB64B9;">script</span>&gt;
+<span style="color: #91889B; font-style: italic;">&lt;!-- </span><span style="color: #91889B; font-style: italic;">see "loading your puzzles" for how to get the json </span><span style="color: #91889B; font-style: italic;">--&gt;</span>
+&lt;<span style="color: #EB64B9;">script</span> <span style="color: #FFFFFF;">id</span>=<span style="color: #B4DCE7;">"puzzlepath"</span>&gt;"path/to/json"&lt;/<span style="color: #EB64B9;">script</span>&gt;
+<span style="color: #91889B; font-style: italic;">&lt;!-- </span><span style="color: #91889B; font-style: italic;">these are the files you get from releases </span><span style="color: #91889B; font-style: italic;">--&gt;</span>
+&lt;<span style="color: #EB64B9;">script</span> <span style="color: #FFFFFF;">type</span>=<span style="color: #B4DCE7;">"text/javascript"</span> <span style="color: #FFFFFF;">src</span>=<span style="color: #B4DCE7;">"/path/to/chunk-vendors.js"</span>&gt;&lt;/<span style="color: #EB64B9;">script</span>&gt;
+&lt;<span style="color: #EB64B9;">script</span> <span style="color: #FFFFFF;">type</span>=<span style="color: #B4DCE7;">"text/javascript"</span> <span style="color: #FFFFFF;">src</span>=<span style="color: #B4DCE7;">"/path/to/app.js"</span>&gt;&lt;/<span style="color: #EB64B9;">script</span>&gt;
+<span style="color: #91889B; font-style: italic;">&lt;!-- </span><span style="color: #91889B; font-style: italic;">finally, load the app </span><span style="color: #91889B; font-style: italic;">--&gt;</span>
+&lt;<span style="color: #EB64B9;">div</span> <span style="color: #FFFFFF;">id</span>=<span style="color: #B4DCE7;">"app"</span>&gt;&lt;/<span style="color: #EB64B9;">div</span>&gt;
+</pre></div></li></ol><p>You can stop at this point if you don&rsquo;t want to specify a puzzle to play. If greenpaint can&rsquo;t find a JSON file, it loads in <a href="custom_puzzle.html">&ldquo;upload&rdquo; mode</a>, which means that the user can upload their own JSON puzzle to play.</p></div></div><div id="outline-container-orgc78e6a3" class="outline-3"><h3 id="orgc78e6a3">Converting your puzzles to JSON</h3><div class="outline-text-3" id="text-orgc78e6a3"><p>greenpaint reads puzzle data from the JSONs produced by <a href="https://github.com/jahorne/AcrossLiteToText">AcrossLiteToText</a>. First, download the latest release of AcrossLiteToText and unzip it.</p><p>Mac instructions:</p><ol class="org-ol"><li>Install <a href="https://brew.sh/">Homebrew</a> if you don&rsquo;t have it.</li><li>Run <code>brew install dotnet</code> in the Terminal.</li><li>Type <code>cd</code> in the terminal, then a space, then drag and drop the AcrossLiteToText folder you downloaded.</li><li>Run <code>dotnet AcrossLiteToText.dll [from] [to] [filename]</code>. <code>[from]</code> is a required parameter; it&rsquo;s the path to your <code>puz</code> file or to a folder containing them. <code>[to]</code> is an optional parameter that specifies where to write the converted files (you can type a single period to export to the current folder). <code>[filename]</code> is another optional parameter that specifies the name that you want the converted files to have.</li></ol></div></div><div id="outline-container-org81dd2c0" class="outline-3"><h3 id="org81dd2c0">Loading your puzzles in greenpaint</h3><div class="outline-text-3" id="text-org81dd2c0"><p>Now that you have a JSON puzzle, all you need to do is let greenpaint find it. greenpaint looks for an element with the <code>"puzzlepath"</code> id, and looks at the body of the element to read where the JSON file is.</p><ol class="org-ol"><li>Upload the JSON file to your server in whatever way your setup requires.</li><li><p>Add the element to the page you&rsquo;re loading greenpaint in (I use <code>script</code> tags):</p><div class="org-src-container"><pre class="src src-html">&#8230;
+&lt;<span style="color: #EB64B9;">script</span> <span style="color: #FFFFFF;">id</span>=<span style="color: #B4DCE7;">"puzzlepath"</span>&gt;"path/to/json"&lt;/<span style="color: #EB64B9;">script</span>&gt;
+&#8230;
+</pre></div><p>Note that the path must be enclosed in quotes (otherwise, Javascript thinks it&rsquo;s a regular expression). I recommend using an absolute path (like <code>"https://yourwebsite.com/path/to/json"</code>), since then you avoid the headaches endemic to relative paths in websites.</p></li></ol></div></div></div><div id="outline-container-orgc0b7116" class="outline-2"><h2 id="orgc0b7116">Usage</h2><div class="outline-text-2" id="text-orgc0b7116"></div><div id="outline-container-org028191a" class="outline-3"><h3 id="org028191a">Setting keybinds</h3><div class="outline-text-3" id="text-org028191a"><p>My primary motivation for making greenpaint was so that I could have my own keybindings for grid movement. So, greenpaint allows you to define custom keybinds. Here&rsquo;s a table of the default bindings:</p><table><colgroup><col class="org-left"><col class="org-left"><col class="org-left"></colgroup><thead><tr><th scope="col" class="org-left">Function</th><th scope="col" class="org-left">Intuitive bind</th><th scope="col" class="org-left">Emacs-inspired bind</th></tr></thead><tbody><tr><td class="org-left">move right by square</td><td class="org-left"><code>ArrowRight</code></td><td class="org-left"><code>Ctrl-f</code></td></tr><tr><td class="org-left">move left by square</td><td class="org-left"><code>ArrowLeft</code></td><td class="org-left"><code>Ctrl-b</code></td></tr><tr><td class="org-left">move up by square</td><td class="org-left"><code>ArrowUp</code></td><td class="org-left"><code>Ctrl-p</code></td></tr><tr><td class="org-left">move down by square</td><td class="org-left"><code>ArrowDown</code></td><td class="org-left"><code>Ctrl-n</code></td></tr><tr><td class="org-left">delete square</td><td class="org-left"><code>Backspace</code></td><td class="org-left"><code>Ctrl-d</code></td></tr><tr><td class="org-left">move right by word</td><td class="org-left"><code>Tab</code>, <code>Enter</code></td><td class="org-left">&#xa0;</td></tr><tr><td class="org-left">move left by word</td><td class="org-left"><code>Shift-Tab</code>, <code>Shift-Enter</code></td><td class="org-left">&#xa0;</td></tr><tr><td class="org-left">move to start of word</td><td class="org-left">&#xa0;</td><td class="org-left"><code>Ctrl-a</code></td></tr><tr><td class="org-left">move to end of word</td><td class="org-left">&#xa0;</td><td class="org-left"><code>Ctrl-e</code></td></tr><tr><td class="org-left">delete rest of word</td><td class="org-left">&#xa0;</td><td class="org-left"><code>Ctrl-k</code></td></tr><tr><td class="org-left">switch direction</td><td class="org-left"><code>Space</code></td><td class="org-left">&#xa0;</td></tr></tbody></table><p>You can change the keybinds by going to the Settings tab. Click on a keybind to delete it, or enter a new one in the box to add it.</p><p>You can bind the following keys by themselves: <code>Tab</code>, <code>Space</code>, <code>Backspace</code>, <code>ArrowRight</code>, <code>ArrowLeft</code>, <code>ArrowUp</code>, <code>ArrowDown</code>, and <code>Enter</code>. Additionally, you can prepend <code>Ctrl-</code> or <code>Shift-</code> to any of that list, as well as an alphanumeric (but you can&rsquo;t bind a letter by itself; sorry vimmers). You can bind multiple keys at a time by separating them with a comma (with no space), like this: <code>ArrowRight,Ctrl-f</code>.</p><p>Hit enter to add the bind, and click apply to apply it.</p></div></div><div id="outline-container-org3566622" class="outline-3"><h3 id="org3566622">Changing themes</h3><div class="outline-text-3" id="text-org3566622"><p>My other motivation was having dark themes. You can change to any of the 37 themes included in greenpaint. These themes are from the <a href="https://github.com/hlissner/emacs-doom-themes">emacs-doom-themes</a> project (MIT), maintained by the nonpareil Henrik Lissner. Caveat emptor: with some dark themes, it&rsquo;s hard to read the letter under point.</p></div></div></div><div id="outline-container-org2c13495" class="outline-2"><h2 id="org2c13495">Limitations and bugs</h2><div class="outline-text-2" id="text-org2c13495"><ul class="org-ul"><li>You have to input a JSON file, rather than a puz file. I&rsquo;m currently gathering the motivation to port <a href="https://github.com/jahorne/AcrossLiteToText">AcrossLiteToText</a> to Javascript to make uploading smoother</li><li>Rebuses are weird. Hit enter after inputting a rebus instead of clicking the rebus button</li><li>It&rsquo;s slower than the Internal Revenue Service. I&rsquo;m working on this, too</li><li>It&rsquo;s not <a href="https://en.wikipedia.org/wiki/Responsive_web_design">responsive</a>, so Sundays might be a little hard to read</li></ul></div></div><div id="outline-container-org150497d" class="outline-2"><h2 id="org150497d">Licensing 🥱</h2><div class="outline-text-2" id="text-org150497d"><p>greenpaint is released under the <a href="https://mit-license.org/">MIT License</a>. Use it for whatever you want.</p></div></div></div><div id="postamble" class="status"><p class="author">Author: Andy Han</p><p class="date">Created: 2021-01-02 Sat 08:52</p></div><script src="/greenpaint/js/chunk-vendors.b4a56fc2.js"></script><script src="/greenpaint/js/chunk-common.7ba83d44.js"></script><script src="/greenpaint/js/index.271fe8f5.js"></script></body></html>
