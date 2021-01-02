@@ -337,7 +337,7 @@
 
      data() {
          return {
-             selectTheme: "doom_peacock",
+             selectTheme: "doom_ephemeral",
              selectedTheme: {
                  // this is here so that app doesn't throw an error. but
                  // you just have to change "selectTheme" to change the

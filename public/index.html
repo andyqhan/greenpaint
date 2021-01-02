@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2021-01-02 Sat 08:52 -->
+<!-- 2021-01-02 Sat 11:03 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>greenpaint</title>
@@ -225,9 +225,9 @@ greenpaint is an in-browser crossword solver, written in vue.js. It&rsquo;s easy
 Try the <a href="demo_puzzle.html">demo puzzle</a> or an instance of greenpaint where you can <a href="custom_puzzle.html">upload your own puzzle</a>. 
 </p>
 
-<div id="outline-container-org77e84a1" class="outline-2">
-<h2 id="org77e84a1">Features</h2>
-<div class="outline-text-2" id="text-org77e84a1">
+<div id="outline-container-org3cc6aea" class="outline-2">
+<h2 id="org3cc6aea">Features</h2>
+<div class="outline-text-2" id="text-org3cc6aea">
 <ul class="org-ul">
 <li>Customizable keybinds</li>
 <li>37 built-in themes (courtesy of <a href="https://github.com/hlissner/emacs-doom-themes">emacs-doom-themes</a>)</li>
@@ -235,13 +235,13 @@ Try the <a href="demo_puzzle.html">demo puzzle</a> or an instance of greenpaint 
 </ul>
 </div>
 </div>
-<div id="outline-container-org7d0da74" class="outline-2">
-<h2 id="org7d0da74">Installation and setup</h2>
-<div class="outline-text-2" id="text-org7d0da74">
+<div id="outline-container-org6ea9a07" class="outline-2">
+<h2 id="org6ea9a07">Installation and setup</h2>
+<div class="outline-text-2" id="text-org6ea9a07">
 </div>
-<div id="outline-container-org516760d" class="outline-3">
-<h3 id="org516760d">Installing greenpaint</h3>
-<div class="outline-text-3" id="text-org516760d">
+<div id="outline-container-org09a818e" class="outline-3">
+<h3 id="org09a818e">Installing greenpaint</h3>
+<div class="outline-text-3" id="text-org09a818e">
 <ol class="org-ol">
 <li>Download the latest build from the <a href="https://github.com/andyqhan/greenpaint/releases">Releases</a> page</li>
 <li><p>
@@ -265,9 +265,9 @@ You can stop at this point if you don&rsquo;t want to specify a puzzle to play. 
 </p>
 </div>
 </div>
-<div id="outline-container-orgc78e6a3" class="outline-3">
-<h3 id="orgc78e6a3">Converting your puzzles to JSON</h3>
-<div class="outline-text-3" id="text-orgc78e6a3">
+<div id="outline-container-org1f7f29f" class="outline-3">
+<h3 id="org1f7f29f">Converting your puzzles to JSON</h3>
+<div class="outline-text-3" id="text-org1f7f29f">
 <p>
 greenpaint reads puzzle data from the JSONs produced by <a href="https://github.com/jahorne/AcrossLiteToText">AcrossLiteToText</a>. First, download the latest release of AcrossLiteToText and unzip it. 
 </p>
@@ -283,9 +283,9 @@ Mac instructions:
 </ol>
 </div>
 </div>
-<div id="outline-container-org81dd2c0" class="outline-3">
-<h3 id="org81dd2c0">Loading your puzzles in greenpaint</h3>
-<div class="outline-text-3" id="text-org81dd2c0">
+<div id="outline-container-org60d9e73" class="outline-3">
+<h3 id="org60d9e73">Loading your puzzles in greenpaint</h3>
+<div class="outline-text-3" id="text-org60d9e73">
 <p>
 Now that you have a JSON puzzle, all you need to do is let greenpaint find it. greenpaint looks for an element with the <code>"puzzlepath"</code> id, and looks at the body of the element to read where the JSON file is.
 </p>
@@ -307,13 +307,13 @@ Note that the path must be enclosed in quotes (otherwise, Javascript thinks it&r
 </div>
 </div>
 </div>
-<div id="outline-container-orgc0b7116" class="outline-2">
-<h2 id="orgc0b7116">Usage</h2>
-<div class="outline-text-2" id="text-orgc0b7116">
+<div id="outline-container-orge210f0b" class="outline-2">
+<h2 id="orge210f0b">Usage</h2>
+<div class="outline-text-2" id="text-orge210f0b">
 </div>
-<div id="outline-container-org028191a" class="outline-3">
-<h3 id="org028191a">Setting keybinds</h3>
-<div class="outline-text-3" id="text-org028191a">
+<div id="outline-container-org51601f8" class="outline-3">
+<h3 id="org51601f8">Setting keybinds</h3>
+<div class="outline-text-3" id="text-org51601f8">
 <p>
 My primary motivation for making greenpaint was so that I could have my own keybindings for grid movement. So, greenpaint allows you to define custom keybinds. Here&rsquo;s a table of the default bindings:
 </p>
@@ -416,18 +416,22 @@ Hit enter to add the bind, and click apply to apply it.
 </p>
 </div>
 </div>
-<div id="outline-container-org3566622" class="outline-3">
-<h3 id="org3566622">Changing themes</h3>
-<div class="outline-text-3" id="text-org3566622">
+<div id="outline-container-org4e6b908" class="outline-3">
+<h3 id="org4e6b908">Changing themes</h3>
+<div class="outline-text-3" id="text-org4e6b908">
 <p>
 My other motivation was having dark themes. You can change to any of the 37 themes included in greenpaint. These themes are from the <a href="https://github.com/hlissner/emacs-doom-themes">emacs-doom-themes</a> project (MIT), maintained by the nonpareil Henrik Lissner. Caveat emptor: with some dark themes, it&rsquo;s hard to read the letter under point.
+</p>
+
+<p>
+Some dark themes that work particularly well are: oceanic next, ephemeral (defualt), dracula, challenger dark, and fairy floss. 
 </p>
 </div>
 </div>
 </div>
-<div id="outline-container-org2c13495" class="outline-2">
-<h2 id="org2c13495">Limitations and bugs</h2>
-<div class="outline-text-2" id="text-org2c13495">
+<div id="outline-container-orge2d956c" class="outline-2">
+<h2 id="orge2d956c">Limitations and bugs</h2>
+<div class="outline-text-2" id="text-orge2d956c">
 <ul class="org-ul">
 <li>You have to input a JSON file, rather than a puz file. I&rsquo;m currently gathering the motivation to port <a href="https://github.com/jahorne/AcrossLiteToText">AcrossLiteToText</a> to Javascript to make uploading smoother</li>
 <li>Rebuses are weird. Hit enter after inputting a rebus instead of clicking the rebus button</li>
@@ -436,9 +440,9 @@ My other motivation was having dark themes. You can change to any of the 37 them
 </ul>
 </div>
 </div>
-<div id="outline-container-org150497d" class="outline-2">
-<h2 id="org150497d">Licensing 🥱</h2>
-<div class="outline-text-2" id="text-org150497d">
+<div id="outline-container-orgab44284" class="outline-2">
+<h2 id="orgab44284">Licensing 🥱</h2>
+<div class="outline-text-2" id="text-orgab44284">
 <p>
 greenpaint is released under the <a href="https://mit-license.org/">MIT License</a>. Use it for whatever you want.
 </p>
@@ -447,7 +451,7 @@ greenpaint is released under the <a href="https://mit-license.org/">MIT License<
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Andy Han</p>
-<p class="date">Created: 2021-01-02 Sat 08:52</p>
+<p class="date">Created: 2021-01-02 Sat 11:03</p>
 </div>
 </body>
 </html>
