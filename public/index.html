@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2021-01-02 Sat 11:03 -->
+<!-- 2021-01-02 Sat 11:21 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>greenpaint</title>
@@ -225,9 +225,9 @@ greenpaint is an in-browser crossword solver, written in vue.js. It&rsquo;s easy
 Try the <a href="demo_puzzle.html">demo puzzle</a> or an instance of greenpaint where you can <a href="custom_puzzle.html">upload your own puzzle</a>. 
 </p>
 
-<div id="outline-container-org3cc6aea" class="outline-2">
-<h2 id="org3cc6aea">Features</h2>
-<div class="outline-text-2" id="text-org3cc6aea">
+<div id="outline-container-org9b28a95" class="outline-2">
+<h2 id="org9b28a95">Features</h2>
+<div class="outline-text-2" id="text-org9b28a95">
 <ul class="org-ul">
 <li>Customizable keybinds</li>
 <li>37 built-in themes (courtesy of <a href="https://github.com/hlissner/emacs-doom-themes">emacs-doom-themes</a>)</li>
@@ -235,13 +235,13 @@ Try the <a href="demo_puzzle.html">demo puzzle</a> or an instance of greenpaint 
 </ul>
 </div>
 </div>
-<div id="outline-container-org6ea9a07" class="outline-2">
-<h2 id="org6ea9a07">Installation and setup</h2>
-<div class="outline-text-2" id="text-org6ea9a07">
+<div id="outline-container-orgcc27ebc" class="outline-2">
+<h2 id="orgcc27ebc">Installation and setup</h2>
+<div class="outline-text-2" id="text-orgcc27ebc">
 </div>
-<div id="outline-container-org09a818e" class="outline-3">
-<h3 id="org09a818e">Installing greenpaint</h3>
-<div class="outline-text-3" id="text-org09a818e">
+<div id="outline-container-org978491f" class="outline-3">
+<h3 id="org978491f">Installing greenpaint</h3>
+<div class="outline-text-3" id="text-org978491f">
 <ol class="org-ol">
 <li>Download the latest build from the <a href="https://github.com/andyqhan/greenpaint/releases">Releases</a> page</li>
 <li><p>
@@ -265,27 +265,42 @@ You can stop at this point if you don&rsquo;t want to specify a puzzle to play. 
 </p>
 </div>
 </div>
-<div id="outline-container-org1f7f29f" class="outline-3">
-<h3 id="org1f7f29f">Converting your puzzles to JSON</h3>
-<div class="outline-text-3" id="text-org1f7f29f">
+<div id="outline-container-org18ff942" class="outline-3">
+<h3 id="org18ff942">Converting your puzzles to JSON</h3>
+<div class="outline-text-3" id="text-org18ff942">
 <p>
 greenpaint reads puzzle data from the JSONs produced by <a href="https://github.com/jahorne/AcrossLiteToText">AcrossLiteToText</a>. First, download the latest release of AcrossLiteToText and unzip it. 
 </p>
 
 <p>
-Mac instructions:
+Converting a single .puz on Mac:
 </p>
 <ol class="org-ol">
-<li>Install <a href="https://brew.sh/">Homebrew</a> if you don&rsquo;t have it.</li>
-<li>Run <code>brew install dotnet</code> in the Terminal.</li>
-<li>Type <code>cd</code> in the terminal, then a space, then drag and drop the AcrossLiteToText folder you downloaded.</li>
-<li>Run <code>dotnet AcrossLiteToText.dll [from] [to] [filename]</code>. <code>[from]</code> is a required parameter; it&rsquo;s the path to your <code>puz</code> file or to a folder containing them. <code>[to]</code> is an optional parameter that specifies where to write the converted files (you can type a single period to export to the current folder). <code>[filename]</code> is another optional parameter that specifies the name that you want the converted files to have.</li>
+<li>Install <a href="https://brew.sh/">Homebrew</a> if you don&rsquo;t have it</li>
+<li>Run <code>brew install dotnet</code> in the Terminal</li>
+<li>Type <code>cd</code> in the terminal, then a space, then drag and drop the AcrossLiteToText folder you downloaded</li>
+<li>Run <code>dotnet AcrossLiteToText.dll [from] [to] [filename]</code>. All three seem to be required for JSON export. <code>[from]</code> is the path to your .puz file, <code>[to]</code> is the location where you want your JSON file to go, and <code>[filename]</code> is what  you want the converted file to be named. The instructions for AcrossLiteToText claim that <code>[to]</code> and <code>[filename]</code>  are optional, but it seems to be required for JSON export. So, for example, if I have a file called <code>puzzle.puz</code> in the same directory as my <code>AcrossLiteToText.dll</code>, and I want to save the JSON in the same directory, and I want the JSON to be called <code>puzzle.json</code>, I run the following command: <code>dotnet AcrossLiteToText.dll puzzle.puz . puzzle</code>. The period in the middle means &ldquo;the current directory&rdquo;.</li>
+<li>Delete the vestigial .txt and .xml files</li>
 </ol>
+
+<p>
+This is annoying if you have a whole folder of puz files you want to convert. I wrote a <a href="https://gist.github.com/andyqhan/b0c1d72cd479fe16fb0f96ee4b680a28">script</a> to convert a whole folder to JSON automatically. To use it (on Mac or Linux):
+</p>
+<ol class="org-ol">
+<li>Download the script</li>
+<li>Move it to the same folder as your <code>AcrossLiteToText.dll</code></li>
+<li>In the Terminal, navigate to that folder (<code>cd /path/to/your/acrosslitetotext/folder</code>)</li>
+<li>In the Terminal, run <code>chmod +x convertjson.sh</code></li>
+<li>In the Terminal, run <code>zsh convertjson.sh [from] [to]</code></li>
+</ol>
+<p>
+<code>[from]</code> is the folder containing your puz files. <code>[to]</code> is the folder where you want the JSONs to go. 
+</p>
 </div>
 </div>
-<div id="outline-container-org60d9e73" class="outline-3">
-<h3 id="org60d9e73">Loading your puzzles in greenpaint</h3>
-<div class="outline-text-3" id="text-org60d9e73">
+<div id="outline-container-orge8445ce" class="outline-3">
+<h3 id="orge8445ce">Loading your puzzles in greenpaint</h3>
+<div class="outline-text-3" id="text-orge8445ce">
 <p>
 Now that you have a JSON puzzle, all you need to do is let greenpaint find it. greenpaint looks for an element with the <code>"puzzlepath"</code> id, and looks at the body of the element to read where the JSON file is.
 </p>
@@ -307,13 +322,13 @@ Note that the path must be enclosed in quotes (otherwise, Javascript thinks it&r
 </div>
 </div>
 </div>
-<div id="outline-container-orge210f0b" class="outline-2">
-<h2 id="orge210f0b">Usage</h2>
-<div class="outline-text-2" id="text-orge210f0b">
+<div id="outline-container-org1677112" class="outline-2">
+<h2 id="org1677112">Usage</h2>
+<div class="outline-text-2" id="text-org1677112">
 </div>
-<div id="outline-container-org51601f8" class="outline-3">
-<h3 id="org51601f8">Setting keybinds</h3>
-<div class="outline-text-3" id="text-org51601f8">
+<div id="outline-container-org1c1ddb5" class="outline-3">
+<h3 id="org1c1ddb5">Setting keybinds</h3>
+<div class="outline-text-3" id="text-org1c1ddb5">
 <p>
 My primary motivation for making greenpaint was so that I could have my own keybindings for grid movement. So, greenpaint allows you to define custom keybinds. Here&rsquo;s a table of the default bindings:
 </p>
@@ -416,9 +431,9 @@ Hit enter to add the bind, and click apply to apply it.
 </p>
 </div>
 </div>
-<div id="outline-container-org4e6b908" class="outline-3">
-<h3 id="org4e6b908">Changing themes</h3>
-<div class="outline-text-3" id="text-org4e6b908">
+<div id="outline-container-org8fd23ef" class="outline-3">
+<h3 id="org8fd23ef">Changing themes</h3>
+<div class="outline-text-3" id="text-org8fd23ef">
 <p>
 My other motivation was having dark themes. You can change to any of the 37 themes included in greenpaint. These themes are from the <a href="https://github.com/hlissner/emacs-doom-themes">emacs-doom-themes</a> project (MIT), maintained by the nonpareil Henrik Lissner. Caveat emptor: with some dark themes, it&rsquo;s hard to read the letter under point.
 </p>
@@ -429,9 +444,9 @@ Some dark themes that work particularly well are: oceanic next, ephemeral (defua
 </div>
 </div>
 </div>
-<div id="outline-container-orge2d956c" class="outline-2">
-<h2 id="orge2d956c">Limitations and bugs</h2>
-<div class="outline-text-2" id="text-orge2d956c">
+<div id="outline-container-org51ed563" class="outline-2">
+<h2 id="org51ed563">Limitations and bugs</h2>
+<div class="outline-text-2" id="text-org51ed563">
 <ul class="org-ul">
 <li>You have to input a JSON file, rather than a puz file. I&rsquo;m currently gathering the motivation to port <a href="https://github.com/jahorne/AcrossLiteToText">AcrossLiteToText</a> to Javascript to make uploading smoother</li>
 <li>Rebuses are weird. Hit enter after inputting a rebus instead of clicking the rebus button</li>
@@ -440,9 +455,9 @@ Some dark themes that work particularly well are: oceanic next, ephemeral (defua
 </ul>
 </div>
 </div>
-<div id="outline-container-orgab44284" class="outline-2">
-<h2 id="orgab44284">Licensing 🥱</h2>
-<div class="outline-text-2" id="text-orgab44284">
+<div id="outline-container-org1f8a068" class="outline-2">
+<h2 id="org1f8a068">Licensing 🥱</h2>
+<div class="outline-text-2" id="text-org1f8a068">
 <p>
 greenpaint is released under the <a href="https://mit-license.org/">MIT License</a>. Use it for whatever you want.
 </p>
@@ -451,7 +466,7 @@ greenpaint is released under the <a href="https://mit-license.org/">MIT License<
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Andy Han</p>
-<p class="date">Created: 2021-01-02 Sat 11:03</p>
+<p class="date">Created: 2021-01-02 Sat 11:21</p>
 </div>
 </body>
 </html>
