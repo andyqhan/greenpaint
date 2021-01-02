@@ -68,7 +68,7 @@
         </button>
     </div>
     
-    <div>
+    <div class="overlay-cont">
         <transition name="modal">
             <div v-show="isSettingsShow">
                 <div class="overlay" @click.self="hideSettings">
@@ -300,7 +300,7 @@
      cursor: pointer;
  }
  .modal {
-     width: 500px;
+     width: 600px;
      margin: 0px auto;
      padding: 20px;
      border-radius: 5px;
@@ -321,17 +321,17 @@
  .fadeIn-leave-active.modal {
      transform: scale(1.1);
  }
+ 
+ .overlay-cont {
+     position: absolute;
+ }
 
  .overlay {
-     position: fixed;
-     top: 0;
-     left: 0;
+     position: absolute;
+     margin-top: -2.5em;
      display: flex;
      justify-content: center;
      align-items: center;
-     left: 0.5em;
-     top: 0.5em;
-     padding: 1em;
      border-radius: 5px;
      max-width: 870px;
      max-height: 600px;

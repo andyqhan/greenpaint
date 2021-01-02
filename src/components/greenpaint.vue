@@ -1,16 +1,5 @@
 <template>
     <div class="app-container" :style="appStyle">
-        <div>
-            <transition name="modal">
-                <div v-if="isFinishedShow">
-                    <div class="overlay" @click.self="isFinishedShow = false;">
-                        <div class="modal" :style="modalStyle">
-                            <p> {{ gridFullMessage }} </p>
-                        </div>
-                    </div>
-                </div>
-            </transition>
-        </div>
         <div class="toolbar" :style="toolbarCSS">
             <toolbar ref="toolbar"
                      :currentPoint="currentPoint"
@@ -80,6 +69,17 @@
             <span class="copyright">
                 {{ puzzle.Copyright  }}
             </span>
+        </div>
+        <div class="overlay-cont">
+            <transition name="modal">
+                <div v-if="isFinishedShow">
+                    <div class="overlay" @click.self="isFinishedShow = false;">
+                        <div class="modal" :style="modalStyle">
+                            <p> {{ gridFullMessage }} </p>
+                        </div>
+                    </div>
+                </div>
+            </transition>
         </div>
     </div>
 </template>
@@ -173,6 +173,7 @@
 
          modalStyle() {
              return {
+                 color: this.settingsObject.selectedTheme.fg,
                  backgroundColor: this.settingsObject.selectedTheme.bg
              }
          },
@@ -228,7 +229,7 @@
              if (event === "correct") {
                  this.gridFullMessage = `Congratulations! 🎉 You solved the puzzle in ${this.$refs.toolbar.$refs.stopwatch.formatedTime()}!`
              } else if (event === "incorrect") {
-                 this.gridFullMessage = "One or more letters are incorrect 😟"
+                 this.gridFullMessage = "You've completed the puzzle, but one or more letters are incorrect 😟"
              }
          },
 
@@ -310,9 +311,10 @@
      z-index: 2;
  }
  .modal {
-     width: 500px;
+     width: 300px;
      margin: 0px auto;
      padding: 20px;
+     text-align: center;
      border-radius: 5px;
      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
      transition: all 0.2s ease-in;
@@ -330,14 +332,14 @@
  .fadeIn-leave-active.modal {
      transform: scale(1.1);
  }
+ .overlay-cont {
+     position: absolute;
+ }
  .overlay {
-     position: fixed;
-     top: 0.5em;
-     left: 0.5em;
+     position: absolute;
      border-radius: 5px;
      width: 870px;
      height: 600px;
-     padding: 1em;
      display: flex;
      justify-content: center;
      align-items: center;
