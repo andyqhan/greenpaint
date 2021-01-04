@@ -61,13 +61,13 @@
             ></clueContainer>
         </div>
         <div class="bylineCont" :style="bylineStyle">
-            <span class="title">
+            <span class="puz-title">
                 {{ puzzle.Title }}
             </span>
-            <span class="author">
+            <span class="puz-author">
                 {{ puzzle.Author }}
             </span>
-            <span class="copyright">
+            <span class="puz-copyright">
                 {{ puzzle.Copyright  }}
             </span>
         </div>
@@ -360,14 +360,14 @@
      padding-right: 0.1em;
      display: inline-block;
  }
- .title {
+ .puz-title {
      float: left;
      margin-right: 2em;
  }
- .author {
+ .puz-author {
      float: left;
  }
- .copyright {
+ .puz-copyright {
      float: right;
  }
 </style>
