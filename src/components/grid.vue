@@ -29,6 +29,7 @@
                     :isRight="cell.isRight"
                     :isTop="cell.isTop"
                     :isBot="cell.isBot"
+                    :computedFontSize="computedFontSize"
                     ></square>
         </div>
     </div>
@@ -47,7 +48,8 @@
          cluesDown: Array,
          cluesAcross: Array,
          rebusObj: Object,
-         settingsObject: Object
+         settingsObject: Object,
+         gridSizeObj: Object,
      },
      emits: [
          'square-focus-to-app',
@@ -86,6 +88,13 @@
      },
      
      computed: {
+         computedFontSize() {
+             return {
+                 currentLetter: `${300 / this.gridSizeObj.Cols}px`,
+                 cluenum: `${Math.max(150 / this.gridSizeObj.Cols), 9}px`
+             };
+         },
+         
          isGridFull() {
              //console.log(`${this.currentSquaresFilled} / ${this.squareCount} filled`);
              return this.currentSquaresFilled === this.squareCount;
@@ -402,7 +411,8 @@
                                      direction: "across",
                                      acrossNum: this.staticGrid[iY][iX]['acrossNum'],
                                      downNum: this.staticGrid[iY][iX]['downNum']
-                                 })
+                                 });
+                                 this.currentDirection = "across";
                                  return
                              }
                          } else if (event.direction === "D") {
@@ -413,7 +423,8 @@
                                      direction: "down",
                                      acrossNum: this.staticGrid[iY][iX]['acrossNum'],
                                      downNum: this.staticGrid[iY][iX]['downNum']
-                                 })
+                                 });
+                                 this.currentDirection = "down";
                                  return
                              }
                          }

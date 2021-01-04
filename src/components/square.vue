@@ -76,6 +76,7 @@
          isRebusActive: Boolean,
 
          settingsObject: Object,
+         computedFontSize: Object,
      },
      
      emits: ['square-focus', 'rebus-enter', 'rebus-blur'],
@@ -122,6 +123,7 @@
 
          cluenumStyle() {
              return {
+                 fontSize: this.computedFontSize.cluenum,
                  color: this.settingsObject.selectedTheme.fg
              }
          },
@@ -131,16 +133,19 @@
                  return {
                      color: this.settingsObject.selectedTheme.blue,
                      borderColor: this.settingsObject.selectedTheme.fg,
+                     fontSize: this.computedFontSize.currentLetter,
                  }
              }
              if (this.isIncorrect) {
                  return {
                      color: this.settingsObject.selectedTheme.red,
                      borderColor: this.settingsObject.selectedTheme.fg,
+                     fontSize: this.computedFontSize.currentLetter,
                  }
              } else {
                  return {
-                     color: this.settingsObject.selectedTheme.fg
+                     color: this.settingsObject.selectedTheme.fg,
+                     fontSize: this.computedFontSize.currentLetter,
                  }
              }
          },
@@ -284,7 +289,7 @@
      top: 0.3em;
      white-space: no-wrap;
      left: 0.4em;
-     font-size: 20px;
+     /* font-size: 20px; */
  }
  .block {
      /* border: 1px solid; */

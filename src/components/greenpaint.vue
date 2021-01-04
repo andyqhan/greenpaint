@@ -33,6 +33,7 @@
                 :rebusObj="puzzle.IsRebus"
                 ref="grid"
                 :key="gridKey"
+                :gridSizeObj="puzzle.Size"
             ></grid>
         </div>
         <p class="direction-label" :style="clueContStyle">Across</p>
