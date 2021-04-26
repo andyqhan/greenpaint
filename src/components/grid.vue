@@ -159,7 +159,7 @@
                              // the (numerical) code in thisRowArray
                              thisCell['correctLetter'] = this.createRebusObj[thisRowArray[char].toString()];
                          }
-                         thisCell['isCircled'] = thisRowArray[char] === thisRowArray[char].toLowerCase()
+                         thisCell['isCircled'] = thisRowArray[char] !== thisRowArray[char].toUpperCase();
                          thisCell['isRebus'] = !isNaN(parseInt(thisRowArray[char]), 10)
                          thisCell['isBlock'] = false
                          

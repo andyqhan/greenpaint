@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Demo puzzle</title>
-<meta name="generator" content="Org mode">
+<meta name="generator" content="Org Mode" />
 <link rel="stylesheet" type="text/css" href="style.css"/>
 <script type="text/javascript">
 // @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
@@ -37,10 +37,10 @@ You can make greenpaint automatically load one of your puzzles. The syntax goes 
 </p>
 
 <div class="org-src-container">
-<pre class="src src-html">&lt;<span style="color: #3e999f;">script</span> <span style="color: #c82829;">id</span>=<span style="color: #718c00;">"puzzlepath"</span>&gt;"path/to/json"&lt;/<span style="color: #3e999f;">script</span>&gt;
-&lt;<span style="color: #3e999f;">div</span> <span style="color: #c82829;">id</span>=<span style="color: #718c00;">"app"</span>&gt;&lt;/<span style="color: #3e999f;">div</span>&gt;
-&lt;<span style="color: #3e999f;">script</span> <span style="color: #c82829;">type</span>=<span style="color: #718c00;">"text/javascript"</span> <span style="color: #c82829;">src</span>=<span style="color: #718c00;">"/path/to/chunk-vendors.js"</span>&gt;&lt;/<span style="color: #3e999f;">script</span>&gt;
-&lt;<span style="color: #3e999f;">script</span> <span style="color: #c82829;">type</span>=<span style="color: #718c00;">"text/javascript"</span> <span style="color: #c82829;">src</span>=<span style="color: #718c00;">"/path/to/app.js"</span>&gt;&lt;/<span style="color: #3e999f;">script</span>&gt;
+<pre class="src src-html">&lt;<span style="color: #F9B5AC;">script</span> <span style="color: #c6797e;">id</span>=<span style="color: #A3B09A;">"puzzlepath"</span>&gt;"path/to/json/or/puz"&lt;/<span style="color: #F9B5AC;">script</span>&gt;
+&lt;<span style="color: #F9B5AC;">div</span> <span style="color: #c6797e;">id</span>=<span style="color: #A3B09A;">"app"</span>&gt;&lt;/<span style="color: #F9B5AC;">div</span>&gt;
+&lt;<span style="color: #F9B5AC;">script</span> <span style="color: #c6797e;">type</span>=<span style="color: #A3B09A;">"text/javascript"</span> <span style="color: #c6797e;">src</span>=<span style="color: #A3B09A;">"/path/to/chunk-vendors.js"</span>&gt;&lt;/<span style="color: #F9B5AC;">script</span>&gt;
+&lt;<span style="color: #F9B5AC;">script</span> <span style="color: #c6797e;">type</span>=<span style="color: #A3B09A;">"text/javascript"</span> <span style="color: #c6797e;">src</span>=<span style="color: #A3B09A;">"/path/to/app.js"</span>&gt;&lt;/<span style="color: #F9B5AC;">script</span>&gt;
 </pre>
 </div>
 
@@ -52,7 +52,7 @@ Note the <code>&lt;script&gt;</code>  tag with an <code>id</code> of <code>"puzz
 The other script tags reference the built <code>chunk-vendors.js</code> and <code>app.js</code>, which you can find on the <a href="https://github.com/andyqhan/greenpaint/releases">Releases</a> page. 
 </p>
 
-<script id="puzzlepath">"/greenpaint/static/circleex.json"</script>
+<script id="puzzlepath">"/greenpaint/static/greenpaint.puz"</script>
 <div id="app"></div>
 <!-- for some reason i need these when serving from localhost -->
 <script type="text/javascript" src="/greenpaint/js/chunk-vendors.js"></script>
