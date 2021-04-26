@@ -1,0 +1,91 @@
+#+TITLE: greenpaint
+#+OPTIONS: toc:nil num:nil html-style:nil
+#+HTML_HEAD_EXTRA: <link rel="stylesheet" type="text/css" href="style.css"/>
+[[https://www.github.com/andyqhan/greenpaint][greenpaint]] is an in-browser crossword solver, written in vue.js. It's easy to integrate into your own website.
+
+Try the [[file:demo_puzzle.html][demo puzzle]] or an instance of greenpaint where you can [[file:custom_puzzle.html][upload your own puzzle]]. 
+
+* Features
+- Customizable keybinds
+- 37 built-in themes (courtesy of [[https://github.com/hlissner/emacs-doom-themes][emacs-doom-themes]])
+- All the basic crossword features (checking square/word/grid, clearing, revealing square/word/grid, stopwatch, rebus, etc)
+- JSON or puz input
+* Installation and setup
+** Installing greenpaint
+1. Download the latest build from the [[https://github.com/andyqhan/greenpaint/releases][Releases]] page
+2. Add the following HTML to your website:
+   #+begin_src html
+<!-- import vue -->
+<script src="https://unpkg.com/vue@3.0.5"></script>
+<!-- see "loading your puzzles" for how to get the json -->
+<script id="puzzlepath">"path/to/json/or/puz"</script>
+<!-- these are the files you get from releases -->
+<script type="text/javascript" src="/path/to/chunk-vendors.js"></script>
+<script type="text/javascript" src="/path/to/app.js"></script>
+<!-- finally, load the app -->
+<div id="app"></div>
+   #+end_src
+You can stop at this point if you don't want to specify a puzzle to play. If greenpaint can't find a valid JSON or puz file, it loads in [[file:custom_puzzle.html]["upload" mode]], which means that the user can upload their own puzzle to play. 
+** Using puz files
+greenpaint can read puzzle data from puz binaries. I have implemented puz parsing with the help of the source code from AcrossLiteToText and [[https://github.com/keiranking/Phil][Phil]]. If you want to use a puz, simply put its path where the code snippet says ="path/to/json/or/puz"=. Users can also upload their own puz files in upload mode.
+
+The puz parser has not been rigorously tested. If your puzzle doesn't work, especially if it contains rebuses or circles or other fancy things, try the JSON method.
+** Using JSON files
+greenpaint can read puzzle data from the JSONs produced by [[https://github.com/jahorne/AcrossLiteToText][AcrossLiteToText]]. First, download the latest release of AcrossLiteToText and unzip it. 
+
+Converting a single .puz on Mac:
+1. Install [[https://brew.sh/][Homebrew]] if you don't have it
+2. Run =brew install dotnet= in Terminal
+3. Type =cd= in Terminal, then a space, then drag and drop the AcrossLiteToText folder you downloaded
+4. Run =dotnet AcrossLiteToText.dll [from] [to] [filename]=. All three seem to be required for JSON export. =[from]= is the path to your .puz file, =[to]= is the location where you want your JSON file to go, and =[filename]= is what  you want the converted file to be named. The instructions for AcrossLiteToText claim that =[to]= and =[filename]=  are optional, but it seems to be required for JSON export. So, for example, if I have a file called =puzzle.puz= in the same directory as my =AcrossLiteToText.dll=, and I want to save the JSON in the same directory, and I want the JSON to be called =puzzle.json=, I run the following command: =dotnet AcrossLiteToText.dll puzzle.puz . puzzle=. The period in the middle means "the current directory".
+5. Delete the vestigial .txt and .xml files
+   
+This is annoying if you have a whole folder of puz files you want to convert. I wrote a [[https://gist.github.com/andyqhan/b0c1d72cd479fe16fb0f96ee4b680a28][script]] to convert a whole folder to JSON automatically. To use it (on Mac or Linux):
+1. Download the script
+2. Move it to the same folder as your =AcrossLiteToText.dll=
+3. In the Terminal, navigate to that folder (=cd /path/to/your/acrosslitetotext/folder=)
+4. In the Terminal, run =chmod +x convertjson.sh=
+5. In the Terminal, run =zsh convertjson.sh [from] [to]=
+=[from]= is the folder containing your puz files. =[to]= is the folder where you want the JSONs to go. 
+** Loading your puzzles in greenpaint
+Now that you have a puzzle (either puz or JSON), all you need to do is let greenpaint find it. greenpaint looks for an element with the ="puzzlepath"= id, and looks at the body of the element to read where the file is.
+1. Upload the file to your server in whatever way your setup requires.
+2. Add the element to the page you're loading greenpaint in (I use =script= tags): 
+   #+begin_src html
+…
+<script id="puzzlepath">"path/to/json/or/puz"</script>
+…
+   #+end_src
+   Note that the path must be enclosed in quotes (otherwise, Javascript thinks it's a regular expression). I recommend using an absolute path (like ="https://yourwebsite.com/path/to/json"=), since then you avoid the headaches endemic to relative paths in websites.
+* Usage
+** Setting keybinds
+My primary motivation for making greenpaint was so that I could have my own keybindings for grid movement. So, greenpaint allows you to define custom keybinds. Here's a table of the default bindings:
+| Function              | Intuitive bind         | Emacs-inspired bind |
+|-----------------------+------------------------+---------------------|
+| move right by square  | =ArrowRight=             | =Ctrl-f=              |
+| move left by square   | =ArrowLeft=              | =Ctrl-b=              |
+| move up by square     | =ArrowUp=                | =Ctrl-p=              |
+| move down by square   | =ArrowDown=              | =Ctrl-n=              |
+| delete square         | =Backspace=              | =Ctrl-d=              |
+| move right by word    | =Tab=, =Enter=             |                     |
+| move left by word     | =Shift-Tab=, =Shift-Enter= |                     |
+| move to start of word |                        | =Ctrl-a=              |
+| move to end of word   |                        | =Ctrl-e=              |
+| delete rest of word   |                        | =Ctrl-k=              |
+| switch direction      | =Space=                  |                     |
+
+You can change the keybinds by going to the Settings tab. Click on a keybind to delete it, or enter a new one in the box to add it. 
+
+You can bind the following keys by themselves: =Tab=, =Space=, =Backspace=, =ArrowRight=, =ArrowLeft=, =ArrowUp=, =ArrowDown=, and =Enter=. Additionally, you can prepend =Ctrl-= or =Shift-= to any of that list, as well as an alphanumeric (but you can't bind a letter by itself; sorry vimmers). You can bind multiple keys at a time by separating them with a comma (with no space), like this: =ArrowRight,Ctrl-f=.
+
+Hit enter to add the bind, and click apply to apply it.
+** Changing themes
+My other motivation was having dark themes. You can change to any of the 37 themes included in greenpaint. These themes are from the [[https://github.com/hlissner/emacs-doom-themes][emacs-doom-themes]] project (MIT), maintained by the nonpareil Henrik Lissner. Caveat emptor: with some dark themes, it's hard to read the letter under point.
+
+Some dark themes that work particularly well are: oceanic next, ephemeral (defualt), dracula, challenger dark, and fairy floss. 
+* Limitations and bugs
+- Rebuses are weird. Hit enter after inputting a rebus instead of clicking the rebus button
+- It's not [[https://en.wikipedia.org/wiki/Responsive_web_design][responsive]], so Sundays might be a little hard to read
+- Doesn't work on mobile
+* Licensing 🥱
+greenpaint is released under the [[https://mit-license.org/][MIT License]]. Use it for whatever you want.

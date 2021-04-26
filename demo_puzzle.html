@@ -1,0 +1,24 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Demo puzzle</title><meta name="generator" content="Org Mode"><link rel="stylesheet" type="text/css" href="style.css"><script>// @license magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt Public Domain
+<!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.add("code-highlighted");
+         target.classList.add("code-highlighted");
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.classList.remove("code-highlighted");
+         target.classList.remove("code-highlighted");
+       }
+     }
+    /*]]>*///-->
+// @license-end</script><link href="/greenpaint/css/chunk-common.22f3fc02.css" rel="stylesheet"></head><body><div id="content"><h1 class="title">Demo puzzle</h1><p>You can make greenpaint automatically load one of your puzzles. The syntax goes like this:</p><div class="org-src-container"><pre class="src src-html">&lt;<span style="color: #F9B5AC;">script</span> <span style="color: #c6797e;">id</span>=<span style="color: #A3B09A;">"puzzlepath"</span>&gt;"path/to/json/or/puz"&lt;/<span style="color: #F9B5AC;">script</span>&gt;
+&lt;<span style="color: #F9B5AC;">div</span> <span style="color: #c6797e;">id</span>=<span style="color: #A3B09A;">"app"</span>&gt;&lt;/<span style="color: #F9B5AC;">div</span>&gt;
+&lt;<span style="color: #F9B5AC;">script</span> <span style="color: #c6797e;">type</span>=<span style="color: #A3B09A;">"text/javascript"</span> <span style="color: #c6797e;">src</span>=<span style="color: #A3B09A;">"/path/to/chunk-vendors.js"</span>&gt;&lt;/<span style="color: #F9B5AC;">script</span>&gt;
+&lt;<span style="color: #F9B5AC;">script</span> <span style="color: #c6797e;">type</span>=<span style="color: #A3B09A;">"text/javascript"</span> <span style="color: #c6797e;">src</span>=<span style="color: #A3B09A;">"/path/to/app.js"</span>&gt;&lt;/<span style="color: #F9B5AC;">script</span>&gt;
+</pre></div><p>Note the <code>&lt;script&gt;</code> tag with an <code>id</code> of <code>"puzzlepath"</code>. You have to specify the local or absolute path to the puzzle data that you want greenpaint to play in the body of the script tag, enclosed by quotes.</p><p>The other script tags reference the built <code>chunk-vendors.js</code> and <code>app.js</code>, which you can find on the <a href="https://github.com/andyqhan/greenpaint/releases">Releases</a> page.</p><script id="puzzlepath">"/greenpaint/static/greenpaint.puz"</script><div id="app"></div><script src="/greenpaint/js/chunk-vendors.js"></script><script src="/greenpaint/js/app.js"></script></div><script src="/greenpaint/js/chunk-vendors.37d1fb69.js"></script><script src="/greenpaint/js/chunk-common.7bdd027f.js"></script><script src="/greenpaint/js/demo_puzzle.c915ece1.js"></script></body></html>

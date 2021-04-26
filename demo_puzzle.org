@@ -1,0 +1,24 @@
+#+TITLE: Demo puzzle
+#+OPTIONS: toc:nil num:nil html-style:nil author:nil timestamp:nil
+#+HTML_HEAD_EXTRA: <link rel="stylesheet" type="text/css" href="style.css"/>
+
+You can make greenpaint automatically load one of your puzzles. The syntax goes like this:
+
+#+begin_src html
+<script id="puzzlepath">"path/to/json/or/puz"</script>
+<div id="app"></div>
+<script type="text/javascript" src="/path/to/chunk-vendors.js"></script>
+<script type="text/javascript" src="/path/to/app.js"></script>
+#+end_src
+
+Note the =<script>=  tag with an =id= of ="puzzlepath"=. You have to specify the local or absolute path to the puzzle data that you want greenpaint to play in the body of the script tag, enclosed by quotes.
+
+The other script tags reference the built =chunk-vendors.js= and =app.js=, which you can find on the [[https://github.com/andyqhan/greenpaint/releases][Releases]] page. 
+
+#+begin_export html
+<script id="puzzlepath">"/greenpaint/static/greenpaint.puz"</script>
+<div id="app"></div>
+<!-- for some reason i need these when serving from localhost -->
+<script type="text/javascript" src="/greenpaint/js/chunk-vendors.js"></script>
+<script type="text/javascript" src="/greenpaint/js/app.js"></script>
+#+end_export

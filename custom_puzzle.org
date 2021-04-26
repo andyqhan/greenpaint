@@ -1,0 +1,10 @@
+#+TITLE: Custom puzzle
+#+OPTIONS: toc:nil num:nil html-style:nil author:nil timestamp:nil
+#+HTML_HEAD_EXTRA: <link rel="stylesheet" type="text/css" href="style.css"/>
+This page is primarily for testing, but you can enable uploading mode by omitting a =<script>= tag with the ="puzzlepath"= id.
+
+#+begin_export html
+<div id="app"></div>
+<script type="text/javascript" src="/greenpaint/js/chunk-vendors.js"></script>
+<script type="text/javascript" src="/greenpaint/js/app.js"></script>
+#+end_export
